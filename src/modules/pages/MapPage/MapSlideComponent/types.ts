@@ -1,5 +1,7 @@
 export interface MapSlideComponentProps {
     unit: Unit;
+    onNextSlide?: () => void;
+    onPreviousSlide?: () => void;
 };
 
 export interface Unit {
