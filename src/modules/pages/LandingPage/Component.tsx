@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { Row, Button, Typography } from "antd";
+import { Layout, Button, Typography } from "antd";
 import "./landing.css";
 
 const { Title } = Typography;
@@ -13,7 +13,7 @@ function LandingPage(): React.ReactElement {
   }
 
   return (
-      <div className="SignIn-Container">
+      <Layout className="SignIn-Container">
         <Typography className="header">
           <Title>
             Enter Your Saga
@@ -22,7 +22,7 @@ function LandingPage(): React.ReactElement {
       <Button className="buttons" type="primary" shape="round" size="large" onClick={( )=> NavigateToRoute("signin")} > Sign In </Button>
       <Button className="buttons" type="primary" shape="round" size="large" onClick={( )=> NavigateToRoute("signup")}> Sign Up </Button>
       <Button className="buttons" type="primary" shape="round" size="large" onClick={( )=> NavigateToRoute("about")}> About Saga </Button>
-      </div>
+      </Layout>
   )
 }
 

@@ -2,18 +2,12 @@ import React, { useState, useCallback } from "react";
 import { Menu, Layout } from "antd";
 import {
   BookOutlined,
-  RightOutlined,
-  LeftOutlined,
   CalendarOutlined,
-  DesktopOutlined,
-  ContainerOutlined,
   MailOutlined,
   UserOutlined,
   SettingOutlined,
   HomeOutlined,
   QuestionCircleOutlined,
-  InsertRowAboveOutlined,
-  MehTwoTone
 } from '@ant-design/icons';
 import "./sidenav.css";
 
@@ -44,6 +38,7 @@ function SideNav(): React.ReactElement {
           mode="inline"
           theme="dark"    
           selectable={false}
+          onClick={handleOnClick}
         >
           
           <div className="logo"> 

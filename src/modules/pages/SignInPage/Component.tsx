@@ -1,16 +1,8 @@
-import React, { useState } from 'react';
-import { useNavigate } from "react-router-dom";
-import { Form, Input, Button, Radio } from 'antd';
-import { InfoCircleOutlined } from '@ant-design/icons';
-import { NavigateToRoute } from "../../root/utils";
+import React from 'react';
+import { Form, Input, Button } from 'antd';
 
 
 function SignInPage(): React.ReactElement {
-    const navigate = useNavigate();
-
-    function NavigateToRoute(path: string) {
-        navigate(path);
-    }
 
     const [form] = Form.useForm();
 

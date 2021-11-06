@@ -1,10 +1,6 @@
 import React, { useCallback } from 'react';
-import { useNavigate } from "react-router-dom";
-import { Form, Input, Button, Radio, Carousel, Image } from 'antd';
-import { LeftOutlined, RightOutlined } from '@ant-design/icons';
-import { NavigateToRoute } from "../../root/utils";
-import { nextTick } from 'process';
-import { Unit, MapSlideComponentProps } from './MapSlideComponent/types'
+import { Carousel } from 'antd';
+import { Unit } from './MapSlideComponent/types'
 import MapSlide from './MapSlideComponent/Component'
 import "./map.css";
 
@@ -33,9 +29,6 @@ const units: Unit[] = [
 ];
 
 function MapPage(): React.ReactElement {
-
-    {/* <Button type="text" icon={<LeftOutlined />} onClick={() => carouselRef.current.prev()} />
-<Button type="text" icon={<RightOutlined />} onClick={() => carouselRef.current.next()} /> */}
 
     const carouselRef = React.createRef<any>();;
 

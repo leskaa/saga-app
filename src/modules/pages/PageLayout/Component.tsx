@@ -3,7 +3,7 @@ import SideNav from "./SideNav";
 import { Layout } from "antd";
 import { PageLayoutProps } from "./types";
 
-const {Header, Content, Footer} = Layout;
+const { Content } = Layout;
 
 function PageLayout(props: PageLayoutProps) {
   const { children } = props;
