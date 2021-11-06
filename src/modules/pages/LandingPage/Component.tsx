@@ -19,12 +19,11 @@ function LandingPage(): React.ReactElement {
             Enter Your Saga
           </Title>
         </Typography>
-      <Button className="buttons" type="primary" shape="round" size="large"onClick={( )=> NavigateToRoute("signin")} > Sign In </Button>
+      <Button className="buttons" type="primary" shape="round" size="large" onClick={( )=> NavigateToRoute("signin")} > Sign In </Button>
       <Button className="buttons" type="primary" shape="round" size="large" onClick={( )=> NavigateToRoute("signup")}> Sign Up </Button>
       <Button className="buttons" type="primary" shape="round" size="large" onClick={( )=> NavigateToRoute("about")}> About Saga </Button>
       </div>
   )
-
 }
 
 export default LandingPage;
