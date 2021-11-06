@@ -13,16 +13,16 @@ function LandingPage(): React.ReactElement {
   }
 
   return (
-      <Layout className="SignIn-Container">
-        <Typography className="header">
-          <Title>
-            Enter Your Saga
-          </Title>
-        </Typography>
-      <Button className="buttons" type="primary" shape="round" size="large" onClick={( )=> NavigateToRoute("signin")} > Sign In </Button>
-      <Button className="buttons" type="primary" shape="round" size="large" onClick={( )=> NavigateToRoute("signup")}> Sign Up </Button>
-      <Button className="buttons" type="primary" shape="round" size="large" onClick={( )=> NavigateToRoute("about")}> About Saga </Button>
-      </Layout>
+    <Layout className="SignIn-Container">
+      <Typography className="header">
+        <Title>
+          Enter Your Saga
+        </Title>
+      </Typography>
+      <Button className="buttons" type="primary" shape="round" size="large" onClick={() => NavigateToRoute("signin")} > Sign In </Button>
+      <Button className="buttons" type="primary" shape="round" size="large" onClick={() => NavigateToRoute("instructorsignup")}> Instructor Sign Up </Button>
+      <Button className="buttons" type="primary" shape="round" size="large" onClick={() => NavigateToRoute("about")}> About Saga </Button>
+    </Layout>
   )
 }
 

@@ -6,6 +6,8 @@ import {
 
 import LandingPage from "../pages/LandingPage";
 import SignInPage from "../pages/SignInPage";
+import InstructorSignUpPage from "../pages/InstructorSignUpPage";
+import StudentSignUpPage from "../pages/StudentSignUpPage";
 import PageLayout from "../pages/PageLayout";
 import MapPage from "../pages/MapPage";
 
@@ -34,7 +36,8 @@ function NotAuthenticatedUserRoutes(): React.ReactFragment {
     <React.Fragment>
       <Route path="/" element={<LandingPage />} />
       <Route path="/signin" element={<SignInPage />} />
-      <Route path="/signup" />
+      <Route path="/instructorsignup" element={<InstructorSignUpPage />} />
+      <Route path="/studentsignup" element={<StudentSignUpPage />} />
       <Route path="/about" />
     </React.Fragment>
   )

@@ -1,5 +1,8 @@
-import React from 'react';
-import { Form, Input, Button } from 'antd';
+import React, { useState } from 'react';
+import { useNavigate } from "react-router-dom";
+import { Form, Input, Button, Checkbox } from 'antd';
+import { InfoCircleOutlined } from '@ant-design/icons';
+import { NavigateToRoute } from "../../root/utils";
 
 
 function SignInPage(): React.ReactElement {
@@ -18,14 +21,30 @@ function SignInPage(): React.ReactElement {
                     layout="vertical"
                     requiredMark={false}
                 >
-                    <Form.Item>
+
+                    <Form.Item
+                        name="email"
+                        label="Email"
+                        rules={[{ required: true, message: 'Please enter your email!' }]}
+                    >
                         <Input placeholder="Email" />
                     </Form.Item>
-                    <Form.Item>
-                        <Input placeholder="Password" />
+
+                    <Form.Item
+                        name="password"
+                        label="Password"
+                        rules={[{ required: true, message: 'Please input your password!' }]}
+                        hasFeedback
+                    >
+                        <Input.Password />
                     </Form.Item>
+
                     <Form.Item>
-                        <Button type="primary">Submit</Button>
+                        <Checkbox name="remember">Remember Me</Checkbox>
+                    </Form.Item>
+
+                    <Form.Item>
+                        <Button type="primary" htmlType="submit">Sign In</Button>
                     </Form.Item>
                 </Form>
             </header>
@@ -34,5 +53,3 @@ function SignInPage(): React.ReactElement {
 };
 
 export default SignInPage;
-
-//ReactDOM.render(<FormLayoutDemo />, mountNode);
