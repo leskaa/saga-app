@@ -6,17 +6,18 @@ import {
 } from "react-router-dom";
 
 import LandingPage from "../pages/LandingPage/index";
+import SignInPage from "../pages/SignInPage/index";
 
 function BrowserRoutes() {
 
   return (
     <Routes>
-      <Route path="/" element={<LandingPage/>} />
-      <Route path="/signin" />
+      <Route path="/" element={<LandingPage />} />
+      <Route path="/signin" element={<SignInPage />} />
       <Route path="/signup" />
 
 
-      <Route path="/about"/>
+      <Route path="/about" />
 
     </Routes>
   )

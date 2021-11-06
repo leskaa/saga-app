@@ -20,9 +20,9 @@ function LandingPage(): React.ReactElement {
         <h1>
           Enter Your Saga
         </h1>
-      <Button type="primary"> Sign In </Button>
-      <Button type="primary"> Sign Up </Button>
-      <Button type="primary" onClick={() => NavigateToRoute("about")}> About Saga </Button>
+        <Button type="primary" onClick={() => NavigateToRoute("signin")}> Sign In </Button>
+        <Button type="primary"> Sign Up </Button>
+        <Button type="primary" onClick={() => NavigateToRoute("about")}> About Saga </Button>
       </header>
 
 
