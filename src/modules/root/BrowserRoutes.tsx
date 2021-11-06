@@ -1,4 +1,3 @@
-import { render } from '@testing-library/react';
 import React from 'react';
 import {
   Routes,
@@ -6,25 +5,16 @@ import {
   Link,
 } from "react-router-dom";
 
+import LandingPage from "../pages/LandingPage/index";
 
-const renderLandingPage = () => {
-  return (
-    <React.Fragment>
-      <div>
-        <header className="App-header">
-          <h1>
-            Enter Your Saga
-          </h1>
-        </header>
-      </div>
-    </React.Fragment>
-  )
-}
 function BrowserRoutes() {
 
   return (
     <Routes>
-      <Route path="/" element={renderLandingPage()} />
+      <Route path="/" element={<LandingPage/>} />
+      <Route path="/signin" />
+      <Route path="/signup" />
+
 
       <Route path="/about"/>
 
