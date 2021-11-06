@@ -1,10 +1,7 @@
-
-
-
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { Button } from 'antd';
-import { NavigateToRoute } from "../../root/utils";
+import { Row, Button } from "antd";
+import "./landing.css";
 
 function LandingPage(): React.ReactElement {
   const navigate = useNavigate();
@@ -14,23 +11,14 @@ function LandingPage(): React.ReactElement {
   }
 
   return (
-    <React.Fragment>
-
-      <header className="App-header">
-        <h1>
+      <div className="SignIn-Container">
+        <h1 className="header">
           Enter Your Saga
         </h1>
-        <Button type="primary" onClick={() => NavigateToRoute("signin")}> Sign In </Button>
-        <Button type="primary"> Sign Up </Button>
-        <Button type="primary" onClick={() => NavigateToRoute("about")}> About Saga </Button>
-      </header>
-
-
-
-
-    </React.Fragment>
-
-
+      <Button className="buttons" type="primary" shape="round" size="large"onClick={( )=> NavigateToRoute("signin")} > Sign In </Button>
+      <Button className="buttons" type="primary" shape="round" size="large" onClick={( )=> NavigateToRoute("signup")}> Sign Up </Button>
+      <Button className="buttons" type="primary" shape="round" size="large" onClick={( )=> NavigateToRoute("about")}> About Saga </Button>
+      </div>
   )
 
 }

@@ -15,10 +15,7 @@ function BrowserRoutes() {
       <Route path="/" element={<LandingPage />} />
       <Route path="/signin" element={<SignInPage />} />
       <Route path="/signup" />
-
-
       <Route path="/about" />
-
     </Routes>
   )
 }
