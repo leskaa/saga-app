@@ -52,7 +52,11 @@ export const StudentInfoTableColumns: TableColumn[] = [
     dataIndex: "name",
     key: "name"
   },
-  
+  {
+    title: "Pronouns",
+    dataIndex: "pronouns",
+    key: "pronouns"
+  },
   {
     title: "Max Possible Score",
     dataIndex: "maxScore",
@@ -63,4 +67,4 @@ export const StudentInfoTableColumns: TableColumn[] = [
     dataIndex: "dueDate",
     key: "dueDate"
   }
-]
+];
