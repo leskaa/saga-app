@@ -8,6 +8,7 @@ import {
 import LandingPage from "../pages/LandingPage";
 import SignInPage from "../pages/SignInPage";
 import PageLayout from "../pages/PageLayout";
+import MapPage from "../pages/MapPage";
 function BrowserRoutes() {
 
   return (
@@ -16,7 +17,8 @@ function BrowserRoutes() {
       <Route path="/signin" element={<SignInPage />} />
       <Route path="/signup" />
       <Route path="/about" />
-      <Route path="/page" element={<PageLayout/>}/>
+      <Route path="/page" element={<PageLayout />} />
+      <Route path="/map" element={<MapPage />} />
     </Routes>
   )
 }
