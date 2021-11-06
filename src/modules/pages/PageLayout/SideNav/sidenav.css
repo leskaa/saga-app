@@ -1,0 +1,14 @@
+.sideNav-menu {
+  height: 100vh;
+}
+
+.bottom-item {
+  /*
+  bottom: 0px;
+  position: absolute;*/
+}
+
+.logo {
+  height: 32px;
+  margin: 16px;
+}

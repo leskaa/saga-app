@@ -5,9 +5,9 @@ import {
   Link,
 } from "react-router-dom";
 
-import LandingPage from "../pages/LandingPage/index";
-import SignInPage from "../pages/SignInPage/index";
-
+import LandingPage from "../pages/LandingPage";
+import SignInPage from "../pages/SignInPage";
+import PageLayout from "../pages/PageLayout";
 function BrowserRoutes() {
 
   return (
@@ -16,6 +16,7 @@ function BrowserRoutes() {
       <Route path="/signin" element={<SignInPage />} />
       <Route path="/signup" />
       <Route path="/about" />
+      <Route path="/page" element={<PageLayout/>}/>
     </Routes>
   )
 }
