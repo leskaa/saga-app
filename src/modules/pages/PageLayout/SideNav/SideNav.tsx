@@ -45,8 +45,9 @@ function SideNav(): React.ReactElement {
           theme="dark"    
           selectable={false}
         >
+          
           <div className="logo"> 
-            <img alt="saga logo"/>
+            {/* <img alt="saga logo"/> */}
           </div>
           <Menu.Item key="home" icon={<HomeOutlined />}>
             Home

@@ -1,22 +1,21 @@
 import React from "react";
 import SideNav from "./SideNav";
 import { Layout } from "antd";
+import { PageLayoutProps } from "./types";
 
 const {Header, Content, Footer} = Layout;
 
-function PageLayout() {
+function PageLayout(props: PageLayoutProps) {
+  const { children } = props;
 
   return (
-    <Layout style={{minHeight: "100vh"}}>
+    <Layout style={{minHeight: '100vh'}}>
       <SideNav/>
       <Layout className="container-layout">
-        <Content>
-
+        <Content style={{height: '100vh'}} >
+          {children}
         </Content>
-        <Footer style={{textAlign: "center"}}> SAGA ©2021 Created for Liquid Hacks 2.0 </Footer>
       </Layout>
-
-
     </Layout>
   )
 }
