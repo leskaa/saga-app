@@ -47,12 +47,12 @@ function SideNav(): React.ReactElement {
           <Menu.Item key="home" icon={<HomeOutlined />}>
             Home
           </Menu.Item>
-          <SubMenu icon={<BookOutlined/>} title="My Adventures">
+          <SubMenu key="math" icon={<BookOutlined/>} title="My Adventures">
             <Menu.Item key="view all"> View All Adventures </Menu.Item>
-            <Menu.Item> Math </Menu.Item>
-            <Menu.Item> Science </Menu.Item>
-            <Menu.Item> Geography </Menu.Item>
-            <Menu.Item> History </Menu.Item>
+            <Menu.Item key="math"> Math </Menu.Item>
+            <Menu.Item key="science"> Science </Menu.Item>
+            <Menu.Item key="geography"> Geography </Menu.Item>
+            <Menu.Item key="history"> History </Menu.Item>
           </SubMenu>
           <Menu.Item key="calendar" icon={<CalendarOutlined />}>
             Quest Board
@@ -64,8 +64,8 @@ function SideNav(): React.ReactElement {
             My Character
           </Menu.Item>
           <SubMenu key="settings" icon={<SettingOutlined/>} title="Options">
-            <Menu.Item> Sign out </Menu.Item>
-            <Menu.Item> Settings </Menu.Item>
+            <Menu.Item key="sign out"> Sign out </Menu.Item>
+            <Menu.Item key="settings"> Settings </Menu.Item>
           </SubMenu>
           <Menu.Item key="support" icon={<QuestionCircleOutlined />}>
             Request Support
