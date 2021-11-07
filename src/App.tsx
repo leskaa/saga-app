@@ -2,15 +2,15 @@ import React from 'react';
 import './App.css';
 import { BrowserRouter as Router } from "react-router-dom";
 import BrowserRoutes from "./modules/root/BrowserRoutes";
+import { GlobalStore } from "./modules/root/GlobalStore";
 
-
-function App() {
+function App(): React.ReactElement {
   return (
-    <React.Fragment>
+    <GlobalStore>
       <Router>
         <BrowserRoutes/>
       </Router>
-    </React.Fragment>
+    </GlobalStore>
   );
 
 }
