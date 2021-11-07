@@ -1,7 +1,6 @@
 import React, { createContext, useEffect, useReducer, useRef } from 'react';
 import Reducer from './reducer';
 import { ContextType, GlobalStateInterface } from './types';
-
 export const GlobalContext = createContext({} as ContextType);
 
 export const initialState: GlobalStateInterface = {
