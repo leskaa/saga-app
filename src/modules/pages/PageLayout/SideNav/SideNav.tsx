@@ -10,6 +10,7 @@ import {
   QuestionCircleOutlined,
 } from '@ant-design/icons';
 import { useNavigate } from "react-router-dom";
+import { SideNavProps } from "./types";
 import "./sidenav.css";
 
 // TOOD: 
@@ -21,8 +22,8 @@ import "./sidenav.css";
 const { SubMenu } = Menu;
 const { Sider } = Layout;
 
-function SideNav(): React.ReactElement {
-
+function SideNav(props: SideNavProps): React.ReactElement {
+  const { onRequestSupportClick } = props;
   const navigate = useNavigate();
 
   const [collapsed, setCollapsed] = useState<boolean>(true);
@@ -37,10 +38,14 @@ function SideNav(): React.ReactElement {
         navigate(event.key);
         break;
       default: break;
+      case "_":
+        if (event.key === "_support") {
+          onRequestSupportClick();
+        }
+        break;
     }
     
-
-  }, [navigate]);
+  }, [navigate, onRequestSupportClick]);
 
   const onCollapse = useCallback(() => {
     setCollapsed(!collapsed);
@@ -60,7 +65,7 @@ function SideNav(): React.ReactElement {
           <Menu.Item key="/mycourses" icon={<HomeOutlined />}>
             Home
           </Menu.Item>
-          <SubMenu key="math" icon={<BookOutlined/>} title="My Adventures">
+          <SubMenu key="my adventures" icon={<BookOutlined/>} title="My Adventures">
             <Menu.Item key="view all"> View All Adventures </Menu.Item>
             <Menu.Item key="math"> Math </Menu.Item>
             <Menu.Item key="science"> Science </Menu.Item>
@@ -80,7 +85,7 @@ function SideNav(): React.ReactElement {
             <Menu.Item key="sign out"> Sign out </Menu.Item>
             <Menu.Item key="settings"> Settings </Menu.Item>
           </SubMenu>
-          <Menu.Item key="support" icon={<QuestionCircleOutlined />}>
+          <Menu.Item key="_support" icon={<QuestionCircleOutlined/>}>
             Request Support
           </Menu.Item>
         </Menu>

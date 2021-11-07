@@ -55,6 +55,7 @@ function NotAuthenticatedUserRoutes(): React.ReactFragment {
 function BrowserRoutes() {
   const { globalState } = useContext(GlobalContext);
 
+  console.log("globalState: ", globalState);
   return (
     <Routes>
       {/** TODO: Only render Authenticated User Routes if User is Logged In */}
