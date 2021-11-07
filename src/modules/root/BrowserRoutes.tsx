@@ -23,10 +23,10 @@ function renderAuthRoute(children: React.ReactElement): React.ReactElement {
 
 // Add routes where user should only be able to access when they are authenticated
 function AuthenticatedUserRoutes(isUserAuthenticated: boolean): React.ReactElement {
-
   return isUserAuthenticated ? (
     <React.Fragment>
       <Route path="/map" element={renderAuthRoute(<MapPage/>)} />
+      <Route path="/*" element={<Navigate replace to="/" />}/>
     </React.Fragment>
   ) : <Route path="/*" element={<Navigate replace to="/signin" />}/>
 }
