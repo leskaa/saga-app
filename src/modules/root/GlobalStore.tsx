@@ -1,12 +1,14 @@
 import React, { createContext, useEffect, useReducer, useRef } from 'react';
 import Reducer from './reducer';
 import { ContextType, GlobalStateInterface } from './types';
+import { dummyStudent, dummyTeacher } from "../general/dummyData";
+
 export const GlobalContext = createContext({} as ContextType);
 
 export const initialState: GlobalStateInterface = {
   isUserAuthenticated: true, //TODO CHANGE TO FALSE - THEY SHOULD NOT BE ABLE TO GO TO AUTH PAGES IF NOT LOGGED IN
   loggedInCookie: "",
-  loggedInUser: null,
+  loggedInUser: dummyStudent,
   persistenceType: "sessionStorage"
 };
 
@@ -67,9 +69,9 @@ export function GlobalStore({ children }: { children: React.ReactNode}): React.R
 
 
   return (
-  <GlobalContext.Provider value={{globalState, dispatch}}>
-    {children}
-  </GlobalContext.Provider>
+    <GlobalContext.Provider value={{globalState, dispatch}}>
+      {children}
+    </GlobalContext.Provider>
   );
 
 }

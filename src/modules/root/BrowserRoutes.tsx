@@ -13,6 +13,7 @@ import SignUpConfirmationPage from "../pages/SignUpConfirmationPage";
 import PageLayout from "../pages/PageLayout";
 import MapPage from "../pages/MapPage";
 import AddAssignmentPage from "../pages/AddAssignmentPage";
+import CharacterContentPage from "../pages/CharacterContent";
 import { GlobalContext } from "../root/GlobalStore";
 
 // Render Layout with Sidenav and stuff because user is authenticated
@@ -28,10 +29,12 @@ function renderAuthRoute(children: React.ReactElement): React.ReactElement {
 function AuthenticatedUserRoutes(isUserAuthenticated: boolean): React.ReactElement {
   return isUserAuthenticated ? (
     <React.Fragment>
-      <Route path="/map" element={renderAuthRoute(<MapPage />)} />
+      <Route path="/map" element={renderAuthRoute(<MapPage/>)} />
+      <Route path="/mycharacter" element={renderAuthRoute(<CharacterContentPage/>)} />
       <Route path="/addassignment" element={renderAuthRoute(<AddAssignmentPage />)} />
-    </React.Fragment >
-  ) : <Route path="/*" element={<Navigate replace to="/signin" />} />
+      <Route path="/*" element={<Navigate replace to="/" />}/>
+    </React.Fragment>
+  ) : <Route path="/*" element={<Navigate replace to="/signin" />}/>
 }
 
 function NotAuthenticatedUserRoutes(): React.ReactFragment {

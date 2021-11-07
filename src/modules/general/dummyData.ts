@@ -1,10 +1,9 @@
 // DUMMY DATA FOR TESTING
-import { User, Student, Teacher, Course, Map, Assignment, Unit, Submission } from "./types";
-
+import { Student, Teacher, Course, Map, Assignment, Unit, Submission } from "./types";
 
 export const dummyMap: Map = { 
   id: 1,
-  name: "bee map",
+  name: "Bee Map",
   url: "https://drive.google.com/uc?export=view&id=1Ly46o2fj5OQxf8-BtqPzDwSTyFUKJ-RD",
   createdAt: new Date("11-05-2021"),
   updatedAt: new Date("11-06-2021")
