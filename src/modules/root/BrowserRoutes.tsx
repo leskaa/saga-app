@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import {
   Routes,
   Route,
+  Navigate
 } from "react-router-dom";
 
 import LandingPage from "../pages/LandingPage";
@@ -12,8 +13,8 @@ import SignUpConfirmationPage from "../pages/SignUpConfirmationPage";
 import PageLayout from "../pages/PageLayout";
 import MapPage from "../pages/MapPage";
 import AddAssignmentPage from "../pages/AddAssignmentPage";
+import { GlobalContext } from "../root/GlobalStore";
 
-const isAuthenticated: boolean = true; //HARD CODED TRUE FOR DEVELOPMENT -- To change when user can login
 // Render Layout with Sidenav and stuff because user is authenticated
 function renderAuthRoute(children: React.ReactElement): React.ReactElement {
   return (
@@ -24,14 +25,13 @@ function renderAuthRoute(children: React.ReactElement): React.ReactElement {
 }
 
 // Add routes where user should only be able to access when they are authenticated
-function AuthenticatedUserRoutes(): React.ReactElement {
-
-  return (
+function AuthenticatedUserRoutes(isUserAuthenticated: boolean): React.ReactElement {
+  return isUserAuthenticated ? (
     <React.Fragment>
       <Route path="/map" element={renderAuthRoute(<MapPage />)} />
       <Route path="/addassignment" element={renderAuthRoute(<AddAssignmentPage />)} />
-    </React.Fragment>
-  )
+    </React.Fragment >
+  ) : <Route path="/*" element={<Navigate replace to="/signin" />} />
 }
 
 function NotAuthenticatedUserRoutes(): React.ReactFragment {
@@ -48,10 +48,12 @@ function NotAuthenticatedUserRoutes(): React.ReactFragment {
 }
 
 function BrowserRoutes() {
+  const { globalState } = useContext(GlobalContext);
+
   return (
     <Routes>
       {/** TODO: Only render Authenticated User Routes if User is Logged In */}
-      {isAuthenticated && AuthenticatedUserRoutes()}
+      {AuthenticatedUserRoutes(globalState?.isUserAuthenticated)}
       {NotAuthenticatedUserRoutes()}
     </Routes>
   )
