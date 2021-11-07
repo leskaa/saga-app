@@ -3,11 +3,11 @@ import { Descriptions } from "antd";
 import { CharacterInfoProps } from "./types";
 import { GlobalContext } from "../../../root/GlobalStore";
 import { User } from "../../../general/types";
-
+import { dummyStudent } from "../../../general/dummyData";
 function CharacterInfo(): React.ReactElement {
   const { globalState } = useContext(GlobalContext);
-  const user = globalState.loggedInUser;
-
+  //const user = globalState.loggedInUser;
+  const user = dummyStudent;
 
   return user ? 
   (

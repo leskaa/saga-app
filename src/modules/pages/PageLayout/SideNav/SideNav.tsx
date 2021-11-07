@@ -9,6 +9,7 @@ import {
   HomeOutlined,
   QuestionCircleOutlined,
 } from '@ant-design/icons';
+import { useNavigate } from "react-router-dom";
 import "./sidenav.css";
 
 // TOOD: 
@@ -22,12 +23,24 @@ const { Sider } = Layout;
 
 function SideNav(): React.ReactElement {
 
+  const navigate = useNavigate();
+
   const [collapsed, setCollapsed] = useState<boolean>(true);
 
   const handleOnClick = useCallback((event) => {
-    //DO SOME PATH Stuff
 
-  }, []);
+    const itemType = event?.key?.[0];
+
+
+    switch (itemType) {
+      case "/":
+        navigate(event.key);
+        break;
+      default: break;
+    }
+    
+
+  }, [navigate]);
 
   const onCollapse = useCallback(() => {
     setCollapsed(!collapsed);
@@ -44,7 +57,7 @@ function SideNav(): React.ReactElement {
           <div className="logo"> 
             {/* <img alt="saga logo"/> */}
           </div>
-          <Menu.Item key="home" icon={<HomeOutlined />}>
+          <Menu.Item key="/mycourses" icon={<HomeOutlined />}>
             Home
           </Menu.Item>
           <SubMenu key="math" icon={<BookOutlined/>} title="My Adventures">
@@ -60,7 +73,7 @@ function SideNav(): React.ReactElement {
           <Menu.Item key="notifications" icon={<MailOutlined />}>
             Notifications
           </Menu.Item>
-          <Menu.Item key="profile" icon={<UserOutlined /> }>
+          <Menu.Item key="/mycharacter" icon={<UserOutlined /> }>
             My Character
           </Menu.Item>
           <SubMenu key="settings" icon={<SettingOutlined/>} title="Options">
