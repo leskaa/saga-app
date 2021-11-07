@@ -5,7 +5,7 @@ import { InfoCircleOutlined } from '@ant-design/icons';
 import { NavigateToRoute } from "../../root/utils";
 
 
-function StudentSignInPage(): React.ReactElement {
+function AddAssignmentPage(): React.ReactElement {
     const navigate = useNavigate();
 
     function NavigateToRoute(path: string) {
@@ -29,7 +29,7 @@ function StudentSignInPage(): React.ReactElement {
                 <h1>
                     Enter Your Saga
                 </h1>
-                <Form form={form} layout="vertical" requiredMark={false}>
+                <Form form={form} layout="vertical" requiredMark={true}>
                     <Form.Item
                         label="First Name"
                         name="firstName"
@@ -63,7 +63,6 @@ function StudentSignInPage(): React.ReactElement {
                     <Form.Item
                         label="Email"
                         name="email"
-                        rules={[{ required: true, message: 'Please input your email!' }]}
                     >
                         <Input defaultValue="testemail@something.edu" disabled />
                     </Form.Item>
@@ -104,4 +103,4 @@ function StudentSignInPage(): React.ReactElement {
     );
 };
 
-export default StudentSignInPage;
+export default AddAssignmentPage;

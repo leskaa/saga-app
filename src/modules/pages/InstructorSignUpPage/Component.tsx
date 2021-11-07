@@ -29,7 +29,7 @@ function InstructorSignInPage(): React.ReactElement {
                 <h1>
                     Enter Your Saga
                 </h1>
-                <Form form={form} layout="vertical" requiredMark={false}>
+                <Form form={form} layout="vertical" requiredMark={true}>
                     <Form.Item
                         label="First Name"
                         name="firstName"
