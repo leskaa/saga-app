@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from "react";
 import { Menu, Layout } from "antd";
-import {
+import Icon, {
   BookOutlined,
   CalendarOutlined,
   MailOutlined,
@@ -10,7 +10,9 @@ import {
   QuestionCircleOutlined,
 } from '@ant-design/icons';
 import { useNavigate } from "react-router-dom";
-import { SideNavProps } from "./types";
+import { ReactComponent as LogoSvg } from '../../../../../Logos/SagaBlack3Svg.svg';
+
+import { SideNavProps, SIDENAV_PATH_MAP } from "./types";
 import "./sidenav.css";
 
 // TOOD: 
@@ -20,7 +22,7 @@ import "./sidenav.css";
 // Give Each Course a logo property?  
 
 const { SubMenu } = Menu;
-const { Sider } = Layout;
+const { Sider, Content } = Layout;
 
 function SideNav(props: SideNavProps): React.ReactElement {
   const { onRequestSupportClick } = props;
@@ -30,19 +32,19 @@ function SideNav(props: SideNavProps): React.ReactElement {
 
   const handleOnClick = useCallback((event) => {
 
-    const itemType = event?.key?.[0];
 
+    if (event?.key) {
+      if(SIDENAV_PATH_MAP.has(event.key)) {
+        const path = String(SIDENAV_PATH_MAP.get(event.key));
+        navigate(path);
+        return;
+      }
 
-    switch (itemType) {
-      case "/":
-        navigate(event.key);
-        break;
-      default: break;
-      case "_":
-        if (event.key === "_support") {
-          onRequestSupportClick();
-        }
-        break;
+      if (event.key === "_support") {
+        onRequestSupportClick();
+        return;
+      }
+
     }
     
   }, [navigate, onRequestSupportClick]);
@@ -57,15 +59,14 @@ function SideNav(props: SideNavProps): React.ReactElement {
           selectable={false}
           onClick={handleOnClick}
         >
-          
-          <div className="logo"> 
-            {/* <img alt="saga logo"/> */}
-          </div>
-          <Menu.Item key="/mycourses" icon={<HomeOutlined />}>
+          <Content className="logo"> 
+            <Icon component= {LogoSvg} style= {{fontSize: "50px"}}/>
+          </Content>
+          <Menu.Item key="_mycourses" icon={<HomeOutlined />}>
             Home
           </Menu.Item>
-          <SubMenu key="my adventures" icon={<BookOutlined/>} title="My Adventures">
-            <Menu.Item key="view all"> View All Adventures </Menu.Item>
+          <SubMenu key="my adventires" icon={<BookOutlined/>} title="My Adventures">
+            <Menu.Item key="_viewalladventures"> View All Adventures </Menu.Item>
             <Menu.Item key="math"> Math </Menu.Item>
             <Menu.Item key="science"> Science </Menu.Item>
             <Menu.Item key="geography"> Geography </Menu.Item>
@@ -77,7 +78,7 @@ function SideNav(props: SideNavProps): React.ReactElement {
           <Menu.Item key="notifications" icon={<MailOutlined />}>
             Notifications
           </Menu.Item>
-          <Menu.Item key="/mycharacter" icon={<UserOutlined /> }>
+          <Menu.Item key="_mycharacter" icon={<UserOutlined /> }>
             My Character
           </Menu.Item>
           <SubMenu key="settings" icon={<SettingOutlined/>} title="Options">

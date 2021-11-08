@@ -11,7 +11,7 @@ function MyCoursesPage(): React.ReactElement {
   const [courses, setCourses] = useState<Course[]>([dummyCourse, dummyCourse, dummyCourse, dummyCourse, dummyCourse, dummyCourse, dummyCourse])
 
   return (
-    <Content style={{height: "100%", overflow:"scroll"}}>
+    <Content style={{height: "100%", overflow:"scroll", padding:"4em"}}>
       { courses.map(course => 
         <Book course={course}/>
       )}

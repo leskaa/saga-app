@@ -9,8 +9,11 @@
 }
 
 .logo {
-  height: 32px;
-  margin: 16px;
+  align-items: center;
+  align-content: center;
+  text-align: center;
+  margin-top: 1.5em;
+  margin-bottom: 1.5em;
 }
 
 .sideNav {
