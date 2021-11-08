@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { Modal, Form, Input, Button } from "antd";
 import { SupportModalProps } from "./types";
 import { GlobalContext } from "../../../../root/GlobalStore";
-
+import "./supportmodal.css";
 /* eslint-disable no-template-curly-in-string */
 const validateMessages = {
   required: '${label} is required!',
@@ -30,8 +30,8 @@ function SupportModal(props: SupportModalProps): React.ReactElement {
   };
 
   return (
-    <Modal footer={null} {...rest} width={600}>
-      <Form {...layout} name="nest-messages" onFinish={onFinish} validateMessages={validateMessages} style={{margin:"1em"}}>
+    <Modal footer={null} className="support-modal" {...rest}>
+      <Form {...layout} name="nest-messages" onFinish={onFinish} validateMessages={validateMessages} className="support-form">
         <Form.Item name={['user', 'name']} label="Name" rules={[{ required: true }]}>
           <Input disabled defaultValue={user?.name} />
         </Form.Item>

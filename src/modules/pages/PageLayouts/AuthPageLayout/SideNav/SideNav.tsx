@@ -51,10 +51,9 @@ function SideNav(props: SideNavProps): React.ReactElement {
     setCollapsed(!collapsed);
   }, [collapsed]);
   return (
-      <Sider className="sideNav" collapsible collapsed={collapsed} onCollapse={onCollapse}>
+      <Sider className="sideNav"  theme="light" collapsible collapsed={collapsed} onCollapse={onCollapse}>
         <Menu
           mode="inline"
-          theme="dark"    
           selectable={false}
           onClick={handleOnClick}
         >
@@ -89,7 +88,7 @@ function SideNav(props: SideNavProps): React.ReactElement {
             Request Support
           </Menu.Item>
         </Menu>
-      </Sider>
+      </Sider >
   );
 }
 

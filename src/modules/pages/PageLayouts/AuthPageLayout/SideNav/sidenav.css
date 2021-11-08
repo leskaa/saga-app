@@ -12,3 +12,10 @@
   height: 32px;
   margin: 16px;
 }
+
+.sideNav {
+  overflow: "auto";
+  height: "100vh";
+  position: "fixed";
+  left: 0,
+}
