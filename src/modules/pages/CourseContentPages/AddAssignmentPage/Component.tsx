@@ -1,9 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import ReactQuill from 'react-quill';
-import { useNavigate } from "react-router-dom";
-import { Form, Input, Button, Checkbox, DatePicker, TimePicker } from 'antd';
-import { InfoCircleOutlined } from '@ant-design/icons';
-import { NavigateToRoute } from "../../../root/utils";
+import { Form, Input, Button, DatePicker, TimePicker } from 'antd';
 import 'react-quill/dist/quill.snow.css';
 import moment from 'moment';
 

@@ -3,20 +3,21 @@ import SideNav from "./SideNav";
 import SupportModal from "./SupportModal";
 import { Layout } from "antd";
 import { PageLayoutProps } from "../types";
+import "./authpagelayout.css";
 
 const { Content } = Layout;
 
-function AuthPageLayout(props: PageLayoutProps) {
+function AuthPageLayout(props: PageLayoutProps): React.ReactElement {
   const { children } = props;
   const [isSupportModalVisible, setIsSupportModalVisible] = useState(false);
 
   const handleShowSupportModal = useCallback(() => {
     setIsSupportModalVisible(true);
-  }, [isSupportModalVisible]);
+  }, []);
 
   const handleHideSupportModal = useCallback(() => {
     setIsSupportModalVisible(false);
-  }, [isSupportModalVisible]);
+  }, []);
 
   return (
     <Layout style={{minHeight: '100vh'}}>

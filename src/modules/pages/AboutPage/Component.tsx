@@ -1,22 +1,11 @@
-import React, { useState } from 'react';
-import { useNavigate } from "react-router-dom";
-import { Form, Input, Button, Select } from 'antd';
-import Icon from '@ant-design/icons';
-import { ReactComponent as LogoSvg } from '../../../Logos/SagaWhiteSvg.svg';
-import { InfoCircleOutlined } from '@ant-design/icons';
-import { NavigateToRoute } from "../../root/utils";
+import React from 'react';
+import { Typography } from 'antd';
 
+const { Text, Title } = Typography;
 
 function AboutPage(): React.ReactElement {
-    const navigate = useNavigate();
-
-    function NavigateToRoute(path: string) {
-        navigate(path);
-    }
-
     return (
         <React.Fragment>
-            <header className="App-header">
                     We are bringing discovery and excitement into education with Saga. 
                     It's not about making a platform where students can succeed, It's about making a platform that makes students want to succeed. 
                     Our goal with Saga is to excite students about their learning and reward them for their hard work through a gamified online learning platform.
@@ -53,7 +42,6 @@ function AboutPage(): React.ReactElement {
                     Back End
                     Languages + Libraries: Typescript, Node.js, AdonisJS, MySQL
                     Infrastructure: Fly.io (Paas), PlanetScale (Serverless SQL), Google Cloud (GMail API), AWS (S3 File Storage)
-            </header>
         </React.Fragment>
     );
 };

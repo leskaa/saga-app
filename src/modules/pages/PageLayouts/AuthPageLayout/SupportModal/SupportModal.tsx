@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Modal, Form, Input, InputNumber, Button } from "antd";
+import { Modal, Form, Input, Button } from "antd";
 import { SupportModalProps } from "./types";
 import { GlobalContext } from "../../../../root/GlobalStore";
 

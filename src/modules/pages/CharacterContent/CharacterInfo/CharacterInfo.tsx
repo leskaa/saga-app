@@ -2,12 +2,11 @@ import React, {useContext} from "react";
 import { Descriptions } from "antd";
 import { CharacterInfoProps } from "./types";
 import { GlobalContext } from "../../../root/GlobalStore";
-import { User } from "../../../general/types";
 import { dummyStudent } from "../../../general/dummyData";
-function CharacterInfo(): React.ReactElement {
+function CharacterInfo(props: CharacterInfoProps): React.ReactElement {
   const { globalState } = useContext(GlobalContext);
-  //const user = globalState.loggedInUser;
-  const user = dummyStudent;
+  const user = globalState.loggedInUser ?? dummyStudent;
+  //const user = dummyStudent;
 
   return user ? 
   (

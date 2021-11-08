@@ -25,8 +25,6 @@ function InstructorSignInPage(): React.ReactElement {
 
     return (
         <React.Fragment>
-
-            <header className="App-header">
             <Icon component={LogoSvg} style={{ fontSize: '350px' }} />
                 <Form form={form} 
                     layout="vertical" 
@@ -106,7 +104,6 @@ function InstructorSignInPage(): React.ReactElement {
                         <Button type="primary" htmlType="submit">Submit</Button>
                     </Form.Item>
                 </Form>
-            </header>
         </React.Fragment>
     );
 };

@@ -1,10 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useNavigate } from "react-router-dom";
 import { Form, Input, Button, Select } from 'antd';
 import Icon from '@ant-design/icons';
 import { ReactComponent as LogoSvg } from '../../../../Logos/SagaWhiteSvg.svg';
-import { InfoCircleOutlined } from '@ant-design/icons';
-import { NavigateToRoute } from "../../../root/utils";
 
 
 function AddAssignmentPage(): React.ReactElement {
@@ -27,8 +25,6 @@ function AddAssignmentPage(): React.ReactElement {
 
     return (
         <React.Fragment>
-
-            <header className="App-header">
             <Icon component={LogoSvg} style={{ fontSize: '350px' }} />
                 <Form form={form} 
                     layout="vertical" 
@@ -107,7 +103,6 @@ function AddAssignmentPage(): React.ReactElement {
                         <Button type="primary" htmlType="submit">Submit</Button>
                     </Form.Item>
                 </Form>
-            </header>
         </React.Fragment>
     );
 };
