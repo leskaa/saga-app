@@ -15,7 +15,7 @@ function LandingPage(): React.ReactElement {
   }
 
   return (
-    <Layout className="SignIn-Container">
+    <React.Fragment>
       <Typography className="App-header">
         <Icon component={LogoSvg} style={{ fontSize: '350px' }} />
         <Title>
@@ -24,7 +24,7 @@ function LandingPage(): React.ReactElement {
       <Button className="buttons" type="primary" shape="round" size="large" onClick={() => NavigateToRoute("signin")} > Sign In </Button>
       <Button className="buttons" type="primary" shape="round" size="large" onClick={() => NavigateToRoute("instructorsignup")}> Instructor Sign Up </Button>
       <Button className="buttons" type="primary" shape="round" size="large" onClick={() => NavigateToRoute("about")}> About Saga </Button>
-    </Layout>
+    </React.Fragment>
   )
 }
 

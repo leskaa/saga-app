@@ -23,7 +23,7 @@ function AuthPageLayout(props: PageLayoutProps): React.ReactElement {
     <Layout style={{minHeight: '100vh'}}>
       <SideNav onRequestSupportClick={handleShowSupportModal}/>
       <Layout className="container-layout">
-        <Content style={{height: '100vh'}} >
+        <Content className="auth-layout" >
           {children}
           { isSupportModalVisible && <SupportModal visible={isSupportModalVisible} onOk={handleHideSupportModal} onCancel={handleHideSupportModal}/> }
         </Content>
