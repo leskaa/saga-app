@@ -1,19 +1,17 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useNavigate } from "react-router-dom";
 import { Form, Input, Button, Select } from 'antd';
 import Icon from '@ant-design/icons';
-import { ReactComponent as LogoSvg } from '../../../Logos/SagaWhiteSvg.svg';
-import { InfoCircleOutlined } from '@ant-design/icons';
-import { NavigateToRoute } from "../../root/utils";
+import { ReactComponent as LogoSvg } from '../../../../Logos/SagaWhiteSvg.svg';
 
 
-function AddAssignmentPage(): React.ReactElement {
+function InstructorSignInPage(): React.ReactElement {
     const navigate = useNavigate();
 
     function NavigateToRoute(path: string) {
         navigate(path);
     }
-
+    
     const onFinish = (values: any) => {
         console.log('Success:', values);
         NavigateToRoute("/confirmation");
@@ -32,7 +30,7 @@ function AddAssignmentPage(): React.ReactElement {
             <Icon component={LogoSvg} style={{ fontSize: '350px' }} />
                 <Form form={form} 
                     layout="vertical" 
-                    requiredMark={true}
+                    requiredMark={true} 
                     initialValues={{ pronouns:'' }}
                     onFinish={onFinish}
                     onFinishFailed={onFinishFailed}
@@ -59,7 +57,7 @@ function AddAssignmentPage(): React.ReactElement {
                         label="Pronouns"
                         name="pronouns"
                     >
-                        <Select defaultValue="">
+                        <Select>
                             <Select.Option value="">None</Select.Option>
                             <Select.Option value="They/Them">They/Them</Select.Option>
                             <Select.Option value="She/Her">She/Her</Select.Option>
@@ -72,8 +70,9 @@ function AddAssignmentPage(): React.ReactElement {
                     <Form.Item
                         label="Email"
                         name="email"
+                        rules={[{ required: true, message: 'Please input your email!' }]}
                     >
-                        <Input defaultValue="testemail@something.edu" disabled />
+                        <Input />
                     </Form.Item>
 
                     <Form.Item
@@ -112,4 +111,4 @@ function AddAssignmentPage(): React.ReactElement {
     );
 };
 
-export default AddAssignmentPage;
+export default InstructorSignInPage;

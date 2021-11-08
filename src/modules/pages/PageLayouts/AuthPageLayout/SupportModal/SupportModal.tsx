@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { Modal, Form, Input, InputNumber, Button } from "antd";
 import { SupportModalProps } from "./types";
-import { GlobalContext } from "../../../root/GlobalStore";
+import { GlobalContext } from "../../../../root/GlobalStore";
 
 /* eslint-disable no-template-curly-in-string */
 const validateMessages = {

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import { Form, Button, Result } from 'antd';
 import { SmileOutlined } from '@ant-design/icons';
-import { NavigateToRoute } from "../../root/utils";
+import { NavigateToRoute } from "../../../root/utils";
 
 
 function SignUpConfirmationPage(): React.ReactElement {

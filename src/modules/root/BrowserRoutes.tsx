@@ -6,16 +6,16 @@ import {
 } from "react-router-dom";
 
 import LandingPage from "../pages/LandingPage";
-import SignInPage from "../pages/SignInPage";
-import InstructorSignUpPage from "../pages/InstructorSignUpPage";
-import StudentSignUpPage from "../pages/StudentSignUpPage";
-import SignUpConfirmationPage from "../pages/SignUpConfirmationPage";
+import SignInPage from "../pages/SignPages/SignInPage";
+import InstructorSignUpPage from "../pages/SignPages/InstructorSignUpPage";
+import StudentSignUpPage from "../pages/SignPages/StudentSignUpPage";
+import SignUpConfirmationPage from "../pages/SignPages/SignUpConfirmationPage";
 import AboutPage from "../pages/AboutPage";
-import PageLayout from "../pages/PageLayout";
-import MapPage from "../pages/MapPage";
-import AddAssignmentPage from "../pages/AddAssignmentPage";
+import PageLayout from "../pages/PageLayouts/AuthPageLayout";
+import MapPage from "../pages/CourseContentPages/MapPage";
+import AddAssignmentPage from "../pages/CourseContentPages/AddAssignmentPage";
 import CharacterContentPage from "../pages/CharacterContent";
-import CourseContentPage from '../pages/CourseContent/Component';
+import MyCoursesPage from '../pages/CourseContentPages/MyCoursesPage/Component';
 import { GlobalContext } from "../root/GlobalStore";
 
 // Render Layout with Sidenav and stuff because user is authenticated
@@ -34,7 +34,7 @@ function AuthenticatedUserRoutes(isUserAuthenticated: boolean): React.ReactEleme
       <Route path="/map" element={renderAuthRoute(<MapPage/>)} />
       <Route path="/mycharacter" element={renderAuthRoute(<CharacterContentPage/>)} />
       <Route path="/addassignment" element={renderAuthRoute(<AddAssignmentPage />)} />
-      <Route path="/mycourses" element={renderAuthRoute(<CourseContentPage />)} />
+      <Route path="/mycourses" element={renderAuthRoute(<MyCoursesPage />)} />
       <Route path="/*" element={<Navigate replace to="/" />}/>
     </React.Fragment>
   ) : <Route path="/*" element={<Navigate replace to="/signin" />}/>
@@ -56,7 +56,6 @@ function NotAuthenticatedUserRoutes(): React.ReactFragment {
 function BrowserRoutes() {
   const { globalState } = useContext(GlobalContext);
 
-  console.log("globalState: ", globalState);
   return (
     <Routes>
       {/** TODO: Only render Authenticated User Routes if User is Logged In */}

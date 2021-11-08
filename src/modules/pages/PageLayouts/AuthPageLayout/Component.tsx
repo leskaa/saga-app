@@ -2,11 +2,11 @@ import React, { useState, useCallback } from "react";
 import SideNav from "./SideNav";
 import SupportModal from "./SupportModal";
 import { Layout } from "antd";
-import { PageLayoutProps } from "./types";
+import { PageLayoutProps } from "../types";
 
 const { Content } = Layout;
 
-function PageLayout(props: PageLayoutProps) {
+function AuthPageLayout(props: PageLayoutProps) {
   const { children } = props;
   const [isSupportModalVisible, setIsSupportModalVisible] = useState(false);
 
@@ -31,4 +31,4 @@ function PageLayout(props: PageLayoutProps) {
   )
 }
 
-export default PageLayout;
+export default AuthPageLayout;

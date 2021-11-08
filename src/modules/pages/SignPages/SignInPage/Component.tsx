@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import { Form, Input, Button, Checkbox } from 'antd';
 import Icon from '@ant-design/icons';
-import { ReactComponent as LogoSvg } from '../../../Logos/SagaWhite2Svg.svg';
+import { ReactComponent as LogoSvg } from '../../../../Logos/SagaWhite2Svg.svg';
 import { InfoCircleOutlined } from '@ant-design/icons';
-import { NavigateToRoute } from "../../root/utils";
+import { NavigateToRoute } from "../../../root/utils";
 
 
 function SignInPage(): React.ReactElement {
@@ -13,8 +13,7 @@ function SignInPage(): React.ReactElement {
 
     return (
         <React.Fragment>
-
-            <header className="App-header">
+        <header className="App-header">
             <Icon component={LogoSvg} style={{ fontSize: '350px' }} />
                 <Form
                     form={form}
