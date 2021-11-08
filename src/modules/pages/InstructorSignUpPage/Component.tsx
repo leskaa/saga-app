@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useNavigate } from "react-router-dom";
 import { Form, Input, Button, Select } from 'antd';
-import { InfoCircleOutlined } from '@ant-design/icons';
-import { NavigateToRoute } from "../../root/utils";
+import Icon from '@ant-design/icons';
+import { ReactComponent as LogoSvg } from '../../../Logos/SagaWhiteSvg.svg';
 
 
 function InstructorSignInPage(): React.ReactElement {
@@ -11,9 +11,10 @@ function InstructorSignInPage(): React.ReactElement {
     function NavigateToRoute(path: string) {
         navigate(path);
     }
-
+    
     const onFinish = (values: any) => {
         console.log('Success:', values);
+        NavigateToRoute("/confirmation");
     };
 
     const onFinishFailed = (errorInfo: any) => {
@@ -26,10 +27,15 @@ function InstructorSignInPage(): React.ReactElement {
         <React.Fragment>
 
             <header className="App-header">
-                <h1>
-                    Enter Your Saga
-                </h1>
-                <Form form={form} layout="vertical" requiredMark={true}>
+            <Icon component={LogoSvg} style={{ fontSize: '350px' }} />
+                <Form form={form} 
+                    layout="vertical" 
+                    requiredMark={true} 
+                    initialValues={{ pronouns:'' }}
+                    onFinish={onFinish}
+                    onFinishFailed={onFinishFailed}
+                >
+                    <Input.Group compact>
                     <Form.Item
                         label="First Name"
                         name="firstName"
@@ -45,12 +51,13 @@ function InstructorSignInPage(): React.ReactElement {
                     >
                         <Input />
                     </Form.Item>
+                    </Input.Group>
 
                     <Form.Item
                         label="Pronouns"
                         name="pronouns"
                     >
-                        <Select defaultValue="">
+                        <Select>
                             <Select.Option value="">None</Select.Option>
                             <Select.Option value="They/Them">They/Them</Select.Option>
                             <Select.Option value="She/Her">She/Her</Select.Option>

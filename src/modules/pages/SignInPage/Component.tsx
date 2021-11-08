@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import { Form, Input, Button, Checkbox } from 'antd';
+import Icon from '@ant-design/icons';
+import { ReactComponent as LogoSvg } from '../../../Logos/SagaWhite2Svg.svg';
 import { InfoCircleOutlined } from '@ant-design/icons';
 import { NavigateToRoute } from "../../root/utils";
 
@@ -13,9 +15,7 @@ function SignInPage(): React.ReactElement {
         <React.Fragment>
 
             <header className="App-header">
-                <h1>
-                    Enter Your Saga
-                </h1>
+            <Icon component={LogoSvg} style={{ fontSize: '350px' }} />
                 <Form
                     form={form}
                     layout="vertical"

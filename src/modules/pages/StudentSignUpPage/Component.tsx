@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import { Form, Input, Button, Select } from 'antd';
+import Icon from '@ant-design/icons';
+import { ReactComponent as LogoSvg } from '../../../Logos/SagaWhiteSvg.svg';
 import { InfoCircleOutlined } from '@ant-design/icons';
 import { NavigateToRoute } from "../../root/utils";
 
@@ -14,6 +16,7 @@ function AddAssignmentPage(): React.ReactElement {
 
     const onFinish = (values: any) => {
         console.log('Success:', values);
+        NavigateToRoute("/confirmation");
     };
 
     const onFinishFailed = (errorInfo: any) => {
@@ -26,10 +29,15 @@ function AddAssignmentPage(): React.ReactElement {
         <React.Fragment>
 
             <header className="App-header">
-                <h1>
-                    Enter Your Saga
-                </h1>
-                <Form form={form} layout="vertical" requiredMark={true}>
+            <Icon component={LogoSvg} style={{ fontSize: '350px' }} />
+                <Form form={form} 
+                    layout="vertical" 
+                    requiredMark={true}
+                    initialValues={{ pronouns:'' }}
+                    onFinish={onFinish}
+                    onFinishFailed={onFinishFailed}
+                >
+                    <Input.Group compact>
                     <Form.Item
                         label="First Name"
                         name="firstName"
@@ -45,6 +53,7 @@ function AddAssignmentPage(): React.ReactElement {
                     >
                         <Input />
                     </Form.Item>
+                    </Input.Group>
 
                     <Form.Item
                         label="Pronouns"

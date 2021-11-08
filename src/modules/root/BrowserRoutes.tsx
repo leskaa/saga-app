@@ -10,6 +10,7 @@ import SignInPage from "../pages/SignInPage";
 import InstructorSignUpPage from "../pages/InstructorSignUpPage";
 import StudentSignUpPage from "../pages/StudentSignUpPage";
 import SignUpConfirmationPage from "../pages/SignUpConfirmationPage";
+import AboutPage from "../pages/AboutPage";
 import PageLayout from "../pages/PageLayout";
 import MapPage from "../pages/MapPage";
 import AddAssignmentPage from "../pages/AddAssignmentPage";
@@ -47,7 +48,7 @@ function NotAuthenticatedUserRoutes(): React.ReactFragment {
       <Route path="/instructorsignup" element={<InstructorSignUpPage />} />
       <Route path="/studentsignup" element={<StudentSignUpPage />} />
       <Route path="/confirmation" element={<SignUpConfirmationPage />} />
-      <Route path="/about" />
+      <Route path="/about" element={<AboutPage />}/>
     </React.Fragment>
   )
 }

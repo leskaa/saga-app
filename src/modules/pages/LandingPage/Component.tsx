@@ -16,10 +16,9 @@ function LandingPage(): React.ReactElement {
 
   return (
     <Layout className="SignIn-Container">
-      <Typography className="header">
+      <Typography className="App-header">
         <Icon component={LogoSvg} style={{ fontSize: '350px' }} />
         <Title>
-          Begin Your Saga
         </Title>
       </Typography>
       <Button className="buttons" type="primary" shape="round" size="large" onClick={() => NavigateToRoute("signin")} > Sign In </Button>
