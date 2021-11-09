@@ -2,7 +2,9 @@ import React from 'react';
 import { useNavigate } from "react-router-dom";
 import { Form, Input, Button, Select } from 'antd';
 import Icon from '@ant-design/icons';
-import { ReactComponent as LogoSvg } from '../../../../Logos/SagaWhiteSvg.svg';
+import { ReactComponent as LogoSvg } from '../../../../Logos/SagaBlackSvg.svg';
+import "../signin.css";
+
 
 
 function AddAssignmentPage(): React.ReactElement {
@@ -25,7 +27,7 @@ function AddAssignmentPage(): React.ReactElement {
 
     return (
         <React.Fragment>
-            <Icon component={LogoSvg} style={{ fontSize: '350px' }} />
+            <LogoSvg style={{width:"18em"}}/>
                 <Form form={form} 
                     layout="vertical" 
                     requiredMark={true}
@@ -75,7 +77,9 @@ function AddAssignmentPage(): React.ReactElement {
                     <Form.Item
                         name="password"
                         label="Password"
-                        rules={[{ required: true, message: 'Please input your password!' }]}
+                        rules={[{ required: true, message: 'Please input your password!' },
+                        { type: 'string', min: 8 },
+                        ]}
                         hasFeedback
                     >
                         <Input.Password />
@@ -100,7 +104,7 @@ function AddAssignmentPage(): React.ReactElement {
                         <Input.Password />
                     </Form.Item>
                     <Form.Item>
-                        <Button type="primary" htmlType="submit">Submit</Button>
+                        <Button className="buttons" type="primary" size="large" htmlType="submit">Submit</Button>
                     </Form.Item>
                 </Form>
         </React.Fragment>

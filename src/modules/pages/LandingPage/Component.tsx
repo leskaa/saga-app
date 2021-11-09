@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { Layout, Button, Typography } from "antd";
 import Icon from '@ant-design/icons';
-import { ReactComponent as LogoSvg } from '../../../Logos/SagaWhite2Svg.svg';
+import { ReactComponent as LogoSvg } from '../../../Logos/SagaBlack2Svg.svg';
 import "./landing.css";
 
 const { Title } = Typography;
@@ -21,9 +21,9 @@ function LandingPage(): React.ReactElement {
         <Title>
         </Title>
       </Typography>
-      <Button className="buttons" type="primary" shape="round" size="large" onClick={() => NavigateToRoute("signin")} > Sign In </Button>
-      <Button className="buttons" type="primary" shape="round" size="large" onClick={() => NavigateToRoute("instructorsignup")}> Instructor Sign Up </Button>
-      <Button className="buttons" type="primary" shape="round" size="large" onClick={() => NavigateToRoute("about")}> About Saga </Button>
+      <Button className="buttons" type="primary"  size="large" onClick={() => NavigateToRoute("signin")} > Sign In </Button>
+      <Button className="buttons" type="primary"  size="large" onClick={() => NavigateToRoute("instructorsignup")}> Instructor Sign Up </Button>
+      <Button className="buttons" type="primary"  size="large" onClick={() => NavigateToRoute("about")}> About Saga </Button>
     </React.Fragment>
   )
 }

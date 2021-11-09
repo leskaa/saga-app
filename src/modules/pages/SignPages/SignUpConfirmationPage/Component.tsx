@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigate } from "react-router-dom";
 import { Form, Button, Result } from 'antd';
 import { SmileOutlined } from '@ant-design/icons';
+import "../signin.css";
 
 function SignUpConfirmationPage(): React.ReactElement {
     const navigate = useNavigate();
@@ -17,7 +18,7 @@ function SignUpConfirmationPage(): React.ReactElement {
             <Result
                 icon={<SmileOutlined />}
                 title="Great, we have created your account!"
-                extra={<Button type="primary" onClick={() => NavigateToRoute("/signin")}>Log In</Button>}
+                extra={<Button className="buttons" type="primary" size="large" onClick={() => NavigateToRoute("/signin")}>Log In</Button>}
             />
         </React.Fragment>
     );

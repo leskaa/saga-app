@@ -32,10 +32,10 @@ function SupportModal(props: SupportModalProps): React.ReactElement {
   return (
     <Modal footer={null} {...rest} width={600}>
       <Form {...layout} name="nest-messages" onFinish={onFinish} validateMessages={validateMessages} style={{margin:"1em"}}>
-        <Form.Item name={['user', 'name']} label="Name" rules={[{ required: true }]}>
+        <Form.Item name={['user', 'name']} label="Name">
           <Input disabled defaultValue={user?.name} />
         </Form.Item>
-        <Form.Item name={['user', 'email']} label="Email" rules={[{ required: true, type: 'email' }]}>
+        <Form.Item name={['user', 'email']} label="Email">
           <Input disabled defaultValue={user?.email} />
         </Form.Item>
         <Form.Item name={['user', 'subject']} label="Issue Subject" rules={[{ required: true }]}>

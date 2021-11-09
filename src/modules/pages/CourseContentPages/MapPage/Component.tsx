@@ -1,7 +1,8 @@
 import React, { useCallback } from 'react';
-import { Carousel } from 'antd';
+import { Row, Col, Carousel, Layout, Typography, Progress, Statistic } from 'antd';
 import { Unit } from './MapSlideComponent/types'
 import MapSlide from './MapSlideComponent/Component'
+import { StarOutlined, StarFilled, StarTwoTone } from '@ant-design/icons';
 import "./map.css";
 
 const units: Unit[] = [
@@ -28,6 +29,10 @@ const units: Unit[] = [
     },
 ];
 
+const { Title, Text} = Typography;
+
+const { Content } = Layout;
+
 function MapPage(): React.ReactElement {
 
     const carouselRef = React.createRef<any>();;
@@ -42,13 +47,49 @@ function MapPage(): React.ReactElement {
     }, [carouselRef]);
 
     return (
-        <Carousel ref={carouselRef} draggable infinite={false} style={{ height: '100vh' }}>
-            {units.map((unit, index) => {
-                return (
-                    <MapSlide unit={unit} onPreviousSlide={index !== 0 ? goPreviousSlide : void 0} onNextSlide={index !== units.length-1 ? goNextSlide : void 0} />
-                );
-            })}
-        </Carousel>
+        <Content>
+            <Row>
+                <Col span = {1}/>
+                <Col span = {15}>
+                    <Text>
+                        <br/>Course Name<br />
+                        Unit Name <br />
+                        Unit Description.... bLah bLah bLah <br /> <br/>
+                    </Text>
+                </Col>
+                <Col span = {7}>
+                    <br/>
+                    <Row>
+                        <Col span = {8}>
+                            <Statistic title="My Stars" value={56} prefix={<StarOutlined/>}/>
+                        </Col>
+                        <Col span = {8}>
+                            <Statistic title="Class Stars" value={986} prefix={<StarOutlined/>}/>
+                        </Col>
+                        <Col span = {8}>
+                            <Statistic title="Class Goal" value={1500} prefix={<StarOutlined/>}/>
+                        </Col>
+                    </Row>
+                    <Row style={{paddingRight: "5%"}}>
+                        <Progress strokeColor={{'0%': '#FFF1B8','100%': '#FF7875'}} percent={65.7}/>  
+                    </Row>
+                </Col>
+                <Col span = {1}/>
+            </Row>
+            <Row>
+                <Col span = {1} />
+                <Col span = {22}>
+                    <Carousel ref={carouselRef} infinite={false} style={{ height: '100vh' }}>
+                    {units.map((unit, index) => {
+                        return (
+                            <MapSlide unit={unit} onPreviousSlide={index !== 0 ? goPreviousSlide : void 0} onNextSlide={index !== units.length-1 ? goNextSlide : void 0}/>
+                        );
+                    })}
+                    </Carousel>
+                </Col>
+                <Col span = {1} />
+            </Row>
+            </Content>
     );
 
 };

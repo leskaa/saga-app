@@ -1,9 +1,25 @@
 import React from 'react';
+import { useNavigate } from "react-router-dom";
 import { Form, Input, Button, Checkbox } from 'antd';
 import Icon from '@ant-design/icons';
-import { ReactComponent as LogoSvg } from '../../../../Logos/SagaWhite2Svg.svg';
+import { ReactComponent as LogoSvg } from '../../../../Logos/SagaBlack2Svg.svg';
+import "../signin.css";
 
 function SignInPage(): React.ReactElement {
+    const navigate = useNavigate();
+
+    function NavigateToRoute(path: string) {
+        navigate(path);
+    }
+
+    const onFinish = (values: any) => {
+        console.log('Success:', values);
+        NavigateToRoute("/mycourses");
+    };
+
+    const onFinishFailed = (errorInfo: any) => {
+        console.log('Failed:', errorInfo);
+    };
 
     const [form] = Form.useForm();
 
@@ -14,6 +30,9 @@ function SignInPage(): React.ReactElement {
                     form={form}
                     layout="vertical"
                     requiredMark={false}
+                    initialValues={{ pronouns:'' }}
+                    onFinish={onFinish}
+                    onFinishFailed={onFinishFailed}
                 >
 
                     <Form.Item
@@ -38,7 +57,7 @@ function SignInPage(): React.ReactElement {
                     </Form.Item>
 
                     <Form.Item>
-                        <Button type="primary" htmlType="submit">Sign In</Button>
+                        <Button className="buttons" type="primary" size="large" htmlType="submit">Sign In</Button>
                     </Form.Item>
                 </Form>
         </React.Fragment>
