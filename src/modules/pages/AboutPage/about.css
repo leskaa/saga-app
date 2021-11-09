@@ -1,0 +1,11 @@
+.about-page-container {
+  height: 100%;
+  overflow: scroll;
+}
+
+.paragraph-container {
+  text-align: center;
+  align-items: center;
+  margin: 0 auto;
+  width: 60%;
+}

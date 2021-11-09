@@ -57,21 +57,22 @@ function SideNav(props: SideNavProps): React.ReactElement {
           mode="inline"
           selectable={false}
           onClick={handleOnClick}
+          theme="light"
         >
           <Content className="logo"> 
             <Icon component= {LogoSvg} style= {{fontSize: "50px"}}/>
           </Content>
-          <Menu.Item key="_mycourses" icon={<HomeOutlined />}>
+          <Menu.Item key="_home" icon={<HomeOutlined />}>
             Home
           </Menu.Item>
-          <SubMenu key="my adventires" icon={<BookOutlined/>} title="My Adventures">
+          <SubMenu key="my adventures" icon={<BookOutlined/>} title="My Adventures">
             <Menu.Item key="_viewalladventures"> View All Adventures </Menu.Item>
             <Menu.Item key="math"> Math </Menu.Item>
             <Menu.Item key="science"> Science </Menu.Item>
             <Menu.Item key="geography"> Geography </Menu.Item>
             <Menu.Item key="history"> History </Menu.Item>
           </SubMenu>
-          <Menu.Item key="calendar" icon={<CalendarOutlined />}>
+          <Menu.Item key="_questboard" icon={<CalendarOutlined />}>
             Quest Board
           </Menu.Item>
           <Menu.Item key="notifications" icon={<MailOutlined />}>
@@ -80,7 +81,7 @@ function SideNav(props: SideNavProps): React.ReactElement {
           <Menu.Item key="_mycharacter" icon={<UserOutlined /> }>
             My Character
           </Menu.Item>
-          <SubMenu key="settings" icon={<SettingOutlined/>} title="Options">
+          <SubMenu key="settingsgroup" icon={<SettingOutlined/>} title="Options">
             <Menu.Item key="sign out"> Sign out </Menu.Item>
             <Menu.Item key="settings"> Settings </Menu.Item>
           </SubMenu>

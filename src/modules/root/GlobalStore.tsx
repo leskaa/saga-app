@@ -49,10 +49,11 @@ export function GlobalStore({ children }: { children: React.ReactNode}): React.R
     }
   }, [globalState]);
 
+  /*
   useEffect(() => {
-    /*
-      Purge SessionStorage or LocalStorage when one is chosen
-    */
+  
+    //  Purge SessionStorage or LocalStorage when one is chosen
+    
 
     if (initialRenderPersistenceType.current) {
       initialRenderPersistenceType.current = false;
@@ -66,6 +67,7 @@ export function GlobalStore({ children }: { children: React.ReactNode}): React.R
       sessionStorage.removeItem("globalState");
     }
   }, [globalState.persistenceType]);
+  */
 
 
   return (
