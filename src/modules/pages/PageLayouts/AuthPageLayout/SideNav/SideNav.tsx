@@ -14,7 +14,7 @@ import { ReactComponent as LogoSvg } from '../../../../../Logos/SagaBlack3Svg.sv
 import { SideNavProps, SIDENAV_PATH_MAP } from "./types";
 import "./sidenav.css";
 
-// TOOD: 
+// TODO: 
 // Will need to take Student/Teacher Object
 // Populate Submenus based on courses etc etc
 
