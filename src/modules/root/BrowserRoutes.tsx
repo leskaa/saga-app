@@ -15,6 +15,7 @@ import AuthPageLayout from "../pages/PageLayouts/AuthPageLayout";
 import NoAuthPageLayout from "../pages/PageLayouts/NoAuthPageLayout";
 import MapPage from "../pages/CourseContentPages/MapPage";
 import AddAssignmentPage from "../pages/CourseContentPages/AddAssignmentPage";
+import AddCoursePage from "../pages/CourseContentPages/AddCoursePage";
 import CharacterContentPage from "../pages/CharacterContent";
 import MyCoursesPage from '../pages/CourseContentPages/MyCoursesPage/Component';
 import { GlobalContext } from "../root/GlobalStore";
@@ -44,6 +45,7 @@ function AuthenticatedUserRoutes(isUserAuthenticated: boolean): React.ReactEleme
       <Route path="/map" element={renderAuthRoute(<MapPage/>)} />
       <Route path="/mycharacter" element={renderAuthRoute(<CharacterContentPage/>)} />
       <Route path="/addassignment" element={renderAuthRoute(<AddAssignmentPage />)} />
+      <Route path="/addcourse" element={renderAuthRoute(<AddCoursePage />)} />
       <Route path="/mycourses" element={renderAuthRoute(<MyCoursesPage />)} />
       <Route path="/*" element={<Navigate replace to="/" />}/>
     </React.Fragment>

@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactQuill from 'react-quill';
-import { Form, Input, Button, DatePicker, TimePicker } from 'antd';
+import { Form, Input, Button, DatePicker, TimePicker, Select } from 'antd';
 import 'react-quill/dist/quill.snow.css';
 import moment from 'moment';
 
@@ -27,12 +27,14 @@ function AddAssignmentPage(): React.ReactElement {
         'link', 'code block'
     ];
 
+    const { Option } = Select;
+
     return (
         <React.Fragment>
 
             <header className="App-header">
                 <h1>
-                    Enter Your Saga
+                    Add Assignment
                 </h1>
                 <Form
                     form={form}
@@ -45,6 +47,18 @@ function AddAssignmentPage(): React.ReactElement {
                         rules={[{ required: true, message: 'Please give your assignment a name!' }]}
                     >
                         <Input placeholder="New assignment" />
+                    </Form.Item>
+
+                    <Form.Item
+                        name="unit"
+                        label="Unit"
+                        rules={[{ required: true, message: 'Please assign it to a unit!' }]}
+                    >
+                        <Select>
+                            <Option value="Unit1">Unit1</Option>
+                            <Option value="Unit2">Unit2</Option>
+                            <Option value="Unit3">Unit3</Option>
+                        </Select>
                     </Form.Item>
 
                     <Input.Group compact>

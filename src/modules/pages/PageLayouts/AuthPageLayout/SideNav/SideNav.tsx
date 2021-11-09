@@ -11,7 +11,6 @@ import Icon, {
 } from '@ant-design/icons';
 import { useNavigate } from "react-router-dom";
 import { ReactComponent as LogoSvg } from '../../../../../Logos/SagaBlack3Svg.svg';
-
 import { SideNavProps, SIDENAV_PATH_MAP } from "./types";
 import "./sidenav.css";
 
