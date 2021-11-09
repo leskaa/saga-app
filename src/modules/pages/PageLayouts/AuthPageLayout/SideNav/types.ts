@@ -3,7 +3,8 @@ export interface SideNavProps {
 }
 
 export const SIDENAV_PATH_MAP = new Map([
-  ["_mycourses", "/mycourses"],
-  ["_viewalladventures", "/mycourses"],
+  ["_home", "/myadventures"],
+  ["_viewalladventures", "/myadventures"],
   ["_mycharacter", "/mycharacter"],
+  ["_questboard", "/myquestboard"]
 ])

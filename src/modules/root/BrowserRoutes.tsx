@@ -15,8 +15,9 @@ import AuthPageLayout from "../pages/PageLayouts/AuthPageLayout";
 import NoAuthPageLayout from "../pages/PageLayouts/NoAuthPageLayout";
 import MapPage from "../pages/CourseContentPages/MapPage";
 import AddAssignmentPage from "../pages/CourseContentPages/AddAssignmentPage";
-import CharacterContentPage from "../pages/CharacterContent";
+import CharacterContentPage from "../pages/CharacterContentPage";
 import MyCoursesPage from '../pages/CourseContentPages/MyCoursesPage/Component';
+import MyCalendarPage from '../pages/MyCalendarPage';
 import { GlobalContext } from "../root/GlobalStore";
 
 // Render Layout with Sidenav and stuff because user is authenticated
@@ -44,7 +45,8 @@ function AuthenticatedUserRoutes(isUserAuthenticated: boolean): React.ReactEleme
       <Route path="/map" element={renderAuthRoute(<MapPage/>)} />
       <Route path="/mycharacter" element={renderAuthRoute(<CharacterContentPage/>)} />
       <Route path="/addassignment" element={renderAuthRoute(<AddAssignmentPage />)} />
-      <Route path="/mycourses" element={renderAuthRoute(<MyCoursesPage />)} />
+      <Route path="/myadventures" element={renderAuthRoute(<MyCoursesPage />)} />
+      <Route path="myquestboard" element={renderAuthRoute(<MyCalendarPage />)} />
       <Route path="/*" element={<Navigate replace to="/" />}/>
     </React.Fragment>
   ) : <Route path="/*" element={<Navigate replace to="/signin" />}/>

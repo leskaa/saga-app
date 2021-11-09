@@ -2,6 +2,7 @@ export interface User {
   id: number;
   name: string;
   email: string;
+  pronouns: string | null;
   isTeacher: boolean;
   stars: number;
   selectedAvatar: string;
