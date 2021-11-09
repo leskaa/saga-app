@@ -1,12 +1,6 @@
-.book-title {
-  color: #91d5ff;
-  text-align: center;
-}
-
+.book-title,
 .page-title {
-  color: #ff7875;
   text-align: center;
-
 }
 
 .book {
@@ -40,7 +34,7 @@
 
 .front,
 .back {
-  background: #002766;
+  /*background: #002766;*/
 }
 
 .front,
