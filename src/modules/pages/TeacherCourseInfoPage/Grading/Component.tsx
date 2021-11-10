@@ -1,10 +1,12 @@
 import React from 'react';
 import ReactQuill from 'react-quill';
-import { Form, Input, Select, Table, InputNumber, Rate } from 'antd';
+import { Form, Input, Select, Table, InputNumber, Rate, Row, Col } from 'antd';
+import { GradingProps } from "./types";
 import 'react-quill/dist/quill.snow.css';
 import moment from 'moment';
 
-function GradingPage(): React.ReactElement {
+function Grading(props: GradingProps): React.ReactElement {
+    const { user } = props;
 
     const [form] = Form.useForm();
 
@@ -25,52 +27,52 @@ function GradingPage(): React.ReactElement {
             sorter: (a : any, b : any) => a.lastname.length - b.lastname.length,
         },
         {
-            title: 'Assignment 1',
+            title: 'Quest 1',
             dataIndex: 'assignment1',
             sorter: (a : any, b : any) => a.assignment1.length - b.assignment1.length,
         },
         {
-            title: 'Assignment 2',
+            title: 'Quest 2',
             dataIndex: 'assignment2',
             sorter: (a : any, b : any) => a.assignment2.length - b.assignment2.length,
         },
         {
-            title: 'Assignment 3',
+            title: 'Quest 3',
             dataIndex: 'assignment3',
             sorter: (a : any, b : any) => a.assignment3.length - b.assignment3.length,
         },
         {
-            title: 'Assignment 4',
+            title: 'Quest 4',
             dataIndex: 'assignment4',
             sorter: (a : any, b : any) => a.assignment4.length - b.assignment4.length,
         },
         {
-            title: 'Assignment 5',
+            title: 'Quest 5',
             dataIndex: 'assignment5',
             sorter: (a : any, b : any) => a.assignment5.length - b.assignment5.length,
         },
         {
-            title: 'Assignment 6',
+            title: 'Quest 6',
             dataIndex: 'assignment6',
             sorter: (a : any, b : any) => a.assignment6.length - b.assignment6.length,
         },
         {
-            title: 'Assignment 7',
+            title: 'Quest 7',
             dataIndex: 'assignment7',
             sorter: (a : any, b : any) => a.assignment7.length - b.assignment7.length,
         },
         {
-            title: 'Assignment 8',
+            title: 'Quest 8',
             dataIndex: 'assignment8',
             sorter: (a : any, b : any) => a.assignment8.length - b.assignment8.length,
         },
         {
-            title: 'Assignment 9',
+            title: 'Quest 9',
             dataIndex: 'assignment9',
             sorter: (a : any, b : any) => a.assignment9.length - b.assignment9.length,
         },
         {
-            title: 'Assignment 10',
+            title: 'Quest 10',
             dataIndex: 'assignment10',
             sorter: (a : any, b : any) => a.assignment10.length - b.assignment10.length,
         },
@@ -87,43 +89,43 @@ function GradingPage(): React.ReactElement {
             key: '1',
             firstname: 'Marguerite',
             lastname: 'Brugger',
-            assignment1: <InputNumber min={0} max={5} style={{ margin: '0 16px' }}/>
-        },
-        {
-            key: '2',
-            firstname: 'Harry',
-            lastname: 'Potter'
-        },
-        {
-            key: '3',
-            firstname: 'Frodo',
-            lastname: 'Baggins'
-        },
-        {
-            key: '4',
-            firstname: 'Bilbo',
-            lastname: 'Baggins'
+            assignment1: <InputNumber defaultValue={5} min={0} max={5} style={{ margin: '0 16px' }}/>,
+            assignment2: <InputNumber defaultValue={3} min={0} max={5} style={{ margin: '0 16px' }}/>,
+            assignment3: <InputNumber defaultValue={5} min={0} max={5} style={{ margin: '0 16px' }}/>,
+            assignment4: <InputNumber defaultValue={4} min={0} max={5} style={{ margin: '0 16px' }}/>,
+            assignment5: <InputNumber min={0} max={5} style={{ margin: '0 16px' }}/>,
+            assignment6: <InputNumber min={0} max={5} style={{ margin: '0 16px' }}/>,
+            assignment7: <InputNumber min={0} max={5} style={{ margin: '0 16px' }}/>,
+            assignment8: <InputNumber min={0} max={5} style={{ margin: '0 16px' }}/>,
+            assignment9: <InputNumber min={0} max={5} style={{ margin: '0 16px' }}/>,
+            assignment10: <InputNumber min={0} max={5} style={{ margin: '0 16px' }}/>,
+            overall: 'idk lol'
         },
       ];
 
     return (
         <React.Fragment>
-
-            <header className="App-header">
-                <h1>
-                    Grading
-                </h1>
-
-                <Select>
-                <Option value="course1" >Course 1</Option>
-                <Option value="course2" >Course 2</Option>
-                <Option value="course3" >Course 3</Option>
-            </Select>
-
-                <Table columns={columns} dataSource={data} pagination={{ pageSize: 50 }} scroll={{ x: 2000 }}/>
-            </header>
+            <Row style={{height: '10%'}}>
+                <Col span = {17}/>
+                <Col span = {6}>
+                    <Select defaultValue='unit1' style={{width: '100%'}}>
+                        <Option value='unit1'>Unit 1</Option>
+                        <Option value='unit2'>Unit 2</Option>
+                        <Option value='unit3'>Unit 3</Option>
+                    </Select>
+                </Col>
+                <Col span = {1}/>
+            </Row>
+            <Row style={{height: '10%'}}/>
+            <Row style={{height: '80%'}}>
+                <Col span = {1}/>
+                <Col span = {22}>
+                    <Table columns={columns} dataSource={data} pagination={{ pageSize: 50 }} scroll={{ x: 2000 }}/>
+                </Col>
+                <Col span = {1}/>
+            </Row>
         </React.Fragment>
     );
 };
 
-export default GradingPage;
+export default Grading;
