@@ -36,6 +36,7 @@ function InstructorSignInPage(): React.ReactElement {
                 display: 'block',
                 marginLeft: 'auto',
                 marginRight: 'auto',
+                height: '29%',
               }}
             />
             <Form
