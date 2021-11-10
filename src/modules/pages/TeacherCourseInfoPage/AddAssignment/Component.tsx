@@ -54,13 +54,13 @@ function AddAssignment(props: CourseInfoProps): React.ReactElement {
                         <Col span = {8}>
                             <Form.Item
                                 name="unit"
-                                label="Set"
-                                rules={[{ required: true, message: 'Please assign it to a set!' }]}
+                                label="Chapter"
+                                rules={[{ required: true, message: 'Please assign it to a Chapter!' }]}
                             >
                                 <Select>
-                                    <Option value="Unit1">Unit1</Option>
-                                    <Option value="Unit2">Unit2</Option>
-                                    <Option value="Unit3">Unit3</Option>
+                                    <Option value="Chapter1">Chapter1</Option>
+                                    <Option value="Chapter2">Chapter2</Option>
+                                    <Option value="Chapter3">Chapter3</Option>
                                 </Select>
                             </Form.Item>
                         </Col>
