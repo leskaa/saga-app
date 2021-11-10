@@ -7,6 +7,7 @@ import EditCourse from "./EditCourse";
 import StudentsList from "./StudentsList";
 import Grading from "./Grading";
 import AssignmentList from "./AssignmentList";
+import './teachercourseinfo.css'
 
 const { Content } = Layout;
 const { TabPane } = Tabs;
@@ -18,7 +19,7 @@ function TeacherCourseInfoPage(): React.ReactElement {
   const user = globalState.loggedInUser ?? dummyStudent;
   
   return (
-    <Content>
+    <Content className='container'>
         <Title style={{textAlign: 'center'}}>
             <br/> Course Name
         </Title>

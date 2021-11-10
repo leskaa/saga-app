@@ -108,7 +108,7 @@ function AddAssignment(props: CourseInfoProps): React.ReactElement {
                         name="description"
                         label="Description"
                     >
-                        <div className="text-editor">
+                        <div className="text-editor" style={{background: 'white'}}>
                             <ReactQuill
                                 theme="snow"
                                 modules={modules}
