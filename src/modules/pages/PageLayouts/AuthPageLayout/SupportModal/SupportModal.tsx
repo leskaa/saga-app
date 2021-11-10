@@ -1,8 +1,8 @@
-import React, { useContext } from "react";
-import { Modal, Form, Input, Button } from "antd";
-import { SupportModalProps } from "./types";
-import { GlobalContext } from "../../../../root/GlobalStore";
-import "./supportmodal.css";
+import React, { useContext } from 'react';
+import { Modal, Form, Input, Button } from 'antd';
+import { SupportModalProps } from './types';
+import { GlobalContext } from '../../../../root/GlobalStore';
+import './supportmodal.css';
 /* eslint-disable no-template-curly-in-string */
 const validateMessages = {
   required: '${label} is required!',
@@ -31,18 +31,31 @@ function SupportModal(props: SupportModalProps): React.ReactElement {
 
   return (
     <Modal footer={null} className="support-modal" {...rest}>
-      <Form {...layout} name="nest-messages" onFinish={onFinish} validateMessages={validateMessages} className="support-form">
+      <Form
+        {...layout}
+        name="nest-messages"
+        onFinish={onFinish}
+        validateMessages={validateMessages}
+        className="support-form"
+      >
         <Form.Item name={['user', 'name']} label="Name">
-
           <Input disabled defaultValue={user?.name} />
         </Form.Item>
         <Form.Item name={['user', 'email']} label="Email">
           <Input disabled defaultValue={user?.email} />
         </Form.Item>
-        <Form.Item name={['user', 'subject']} label="Issue Subject" rules={[{ required: true }]}>
+        <Form.Item
+          name={['user', 'subject']}
+          label="Issue Subject"
+          rules={[{ required: true }]}
+        >
           <Input />
         </Form.Item>
-        <Form.Item name={['user', 'description']} label="Description" rules={[{ required: true }]}>
+        <Form.Item
+          name={['user', 'description']}
+          label="Description"
+          rules={[{ required: true }]}
+        >
           <Input.TextArea />
         </Form.Item>
         <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
@@ -52,7 +65,7 @@ function SupportModal(props: SupportModalProps): React.ReactElement {
         </Form.Item>
       </Form>
     </Modal>
-  )
+  );
 }
 
 export default SupportModal;

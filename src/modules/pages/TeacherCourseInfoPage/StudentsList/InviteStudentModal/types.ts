@@ -1,5 +1,5 @@
-import { User } from "../../../../general/types";
-import { ModalProps } from "antd";
+import { ModalProps } from 'antd';
+import { User } from '../../../../general/types';
 
 export interface InviteStudentModalProps extends ModalProps {
   user: User;

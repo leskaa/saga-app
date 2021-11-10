@@ -1,4 +1,4 @@
-import { User } from "../../../general/types";
+import { User } from '../../../general/types';
 
 export interface CharacterInfoProps {
   user: User;

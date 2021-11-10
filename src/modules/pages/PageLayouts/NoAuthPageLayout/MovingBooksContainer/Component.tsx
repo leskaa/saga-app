@@ -1,47 +1,50 @@
-import React, { useState, useEffect, useRef } from "react";
-import BIRDS from '../../../../../Books/src/vanta.birds';
-import { PageLayoutProps } from "../../types";
-import { Layout }  from 'antd';
+import React, { useState, useEffect, useRef } from 'react';
+import { Layout } from 'antd';
+import BIRDS from '../../../../../Books/src/vanta.birds.js';
+import { PageLayoutProps } from '../../types';
 import './movingbookscontainer.css';
 // Make sure window.THREE is defined, e.g. by including three.min.js in the document head using a <script> tag
 
 const { Content } = Layout;
 
 const Books = () => {
-  const [vantaEffect, setVantaEffect] = useState(0)
-  const myRef = useRef(null)
+  const [vantaEffect, setVantaEffect] = useState(0);
+  const myRef = useRef(null);
   useEffect(() => {
     if (!vantaEffect) {
-      setVantaEffect(BIRDS({
-        el: myRef.current
-      }))
+      setVantaEffect(
+        BIRDS({
+          el: myRef.current,
+        })
+      );
     }
     // return () => {
     //   if (vantaEffect) vantaEffect.destroy()
     // }
-  }, [vantaEffect])
-  return <div ref={myRef} />
+  }, [vantaEffect]);
+  return <div ref={myRef} />;
 };
 
-function MovingBooksContainer(props : PageLayoutProps): React.ReactElement {
-
+function MovingBooksContainer(props: PageLayoutProps): React.ReactElement {
   const { children } = props;
 
-  const [vantaEffect, setVantaEffect] = useState(0)
-  const myRef = useRef(null)
+  const [vantaEffect, setVantaEffect] = useState(0);
+  const myRef = useRef(null);
   useEffect(() => {
     if (!vantaEffect) {
-      setVantaEffect(BIRDS({
-        el: myRef.current
-      }))
+      setVantaEffect(
+        BIRDS({
+          el: myRef.current,
+        })
+      );
     }
     // return () => {
     //   if (vantaEffect) vantaEffect.destroy()
     // }
-  }, [vantaEffect])
+  }, [vantaEffect]);
 
-  return(
-    <div className='moving-books-container' ref={myRef}>
+  return (
+    <div className="moving-books-container" ref={myRef}>
       {children}
     </div>
   );

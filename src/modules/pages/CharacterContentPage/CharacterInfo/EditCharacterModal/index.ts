@@ -1,1 +1,1 @@
-export { default } from "./EditCharacterModal";
+export { default } from './EditCharacterModal';

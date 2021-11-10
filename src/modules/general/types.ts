@@ -11,11 +11,11 @@ export interface User {
 }
 
 export interface Student extends User {
-  attendingCourses: Course[]
+  attendingCourses: Course[];
 }
 
 export interface Teacher extends User {
-  teachingCourses: Course[]
+  teachingCourses: Course[];
 }
 
 export interface Avatar {
@@ -33,18 +33,17 @@ export interface Course {
   maps: Map[];
   teachers: Teacher[];
   students: Student[];
-  assignments: Assignment[]
+  assignments: Assignment[];
   createdAt: Date;
   updatedAt: Date;
 }
-
 
 export interface Map {
   id: number;
   name: string;
   url: string;
   createdAt: Date;
-  updatedAt: Date
+  updatedAt: Date;
 }
 
 export interface Assignment {

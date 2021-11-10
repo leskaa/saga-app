@@ -1,1 +1,1 @@
-export { default } from "./SupportModal";
+export { default } from './SupportModal';

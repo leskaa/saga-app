@@ -1,7 +1,7 @@
-import React from "react";
-import { Modal, Form, Input, Button, Select } from "antd";
-import { EditCharacterModalProps } from "./types";
-import "./editcharactermodal.css";
+import React from 'react';
+import { Modal, Form, Input, Button, Select } from 'antd';
+import { EditCharacterModalProps } from './types';
+import './editcharactermodal.css';
 
 /* eslint-disable no-template-curly-in-string */
 const validateMessages = {
@@ -20,7 +20,9 @@ const layout = {
   wrapperCol: { span: 16 },
 };
 
-function EditCharacterModal(props: EditCharacterModalProps): React.ReactElement {
+function EditCharacterModal(
+  props: EditCharacterModalProps
+): React.ReactElement {
   const { user, ...rest } = props;
 
   const onFinish = (values: any) => {
@@ -29,15 +31,22 @@ function EditCharacterModal(props: EditCharacterModalProps): React.ReactElement 
 
   return (
     <Modal footer={null} className="edit-character-modal" {...rest}>
-      <Form {...layout} name="ed-character-form" onFinish={onFinish} validateMessages={validateMessages} className="edit-character-form">
-        <Form.Item name={['user', 'name']} label="Name" rules={[{ required: true }]}>
+      <Form
+        {...layout}
+        name="ed-character-form"
+        onFinish={onFinish}
+        validateMessages={validateMessages}
+        className="edit-character-form"
+      >
+        <Form.Item
+          name={['user', 'name']}
+          label="Name"
+          rules={[{ required: true }]}
+        >
           <Input disabled defaultValue={user?.name} />
         </Form.Item>
-        <Form.Item
-            label="Pronouns"
-            name="pronouns"
-        >
-          <Select defaultValue={user.pronouns ?? ""}>
+        <Form.Item label="Pronouns" name="pronouns">
+          <Select defaultValue={user.pronouns ?? ''}>
             <Select.Option value="">None</Select.Option>
             <Select.Option value="They/Them">They/Them</Select.Option>
             <Select.Option value="She/Her">She/Her</Select.Option>
@@ -46,10 +55,18 @@ function EditCharacterModal(props: EditCharacterModalProps): React.ReactElement 
             <Select.Option value="Name">Name</Select.Option>
           </Select>
         </Form.Item>
-        <Form.Item name={['user', 'email']} label="Email" rules={[{ required: true, type: 'email' }]}>
+        <Form.Item
+          name={['user', 'email']}
+          label="Email"
+          rules={[{ required: true, type: 'email' }]}
+        >
           <Input disabled defaultValue={user?.email} />
         </Form.Item>
-        <Form.Item name={['user', 'description']} label="Description" rules={[{ required: true }]}>
+        <Form.Item
+          name={['user', 'description']}
+          label="Description"
+          rules={[{ required: true }]}
+        >
           <Input.TextArea />
         </Form.Item>
         <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
@@ -59,7 +76,7 @@ function EditCharacterModal(props: EditCharacterModalProps): React.ReactElement 
         </Form.Item>
       </Form>
     </Modal>
-  )
+  );
 }
 
 export default EditCharacterModal;
