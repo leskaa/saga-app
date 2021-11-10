@@ -56,88 +56,63 @@ function EditCourse(props: EditCourseProps): React.ReactElement {
                         <Input placeholder="New Course" />
                     </Form.Item>
 
-                    <Row>
-                        <Col span = {6}>Chapter Name</Col>
-                        <Col span = {4}>Map</Col>
-                        <Col span = {13}>Description</Col>
-                        <Col span = {1}/>
-                    </Row>
-                    <Form.List
-                        name="names"
-                        rules={[
-                        {
-                            validator: async (_, names) => {
-                            if (!names || names.length < 1) {
-                                return Promise.reject(new Error('At least 1 set is required!s'));
-                            }
-                            },
-                        },
-                        ]}
-                    >
-                        {(fields, { add, remove }, { errors }) => (
-                        <>
-                            {fields.map((field, index) => (
-                            <Form.Item
-                                required={false}
-                                key={field.key}
-                            >
-                                <Form.Item
-                                {...field}
-                                validateTrigger={['onChange', 'onBlur']}
-                                rules={[
-                                    {
-                                    required: true,
-                                    whitespace: true,
-                                    message: "Please input chapter name or delete this field.",
-                                    },
-                                ]}
-                                noStyle
-                                >
-                                <Row>
-                                    <Col span = {6}>
-                                    <Form.Item>
-                                        <Input placeholder="New Chapter"/>
-                                    </Form.Item>
-                                    </Col>
-                                    <Col span = {4}>
-                                        <Form.Item>
+                    <Form.List 
+                    name="units">
+                        {(fields, { add, remove }) => (
+                            <>
+                                {fields.map(({ key, name, fieldKey, ...restField }) => (
+                                    <Space key={key} style={{ display: 'flex', marginBottom: 8 }} align="baseline">
+                                        <Row>
+                                            <Col span = {6}>Set Name</Col>
+                                            <Col span = {6}>Map</Col>
+                                            <Col span = {6}>Description</Col>
+                                            <Col span = {6}/>
+                                        </Row>
+                                        <Row>
+                                            <Col span = {6}>
+                                                <Form.Item
+                                                    {...restField}
+                                                    name={[name, 'unitname']}
+                                                    fieldKey={[fieldKey, 'unitname']}
+                                                    rules={[{ required: true, message: 'Missing chapter name' }]}
+                                                >
+                                                    <Input placeholder="New Unit" />
+                                                </Form.Item>
+                                            </Col>
+                                            <Col span = {6}>
+                                                <Form.Item
+                                                    {...restField}
+                                                    name={[name, 'map']}
+                                                    fieldKey={[fieldKey, 'map']}
+                                                >
                                                     <Select defaultValue="Liquid">
                                                         <Option value="BusyBee">Busy Bee</Option>
                                                         <Option value="AutumnRoad">Autumn Road</Option>
                                                         <Option value="Liquid">Liquid</Option>
                                                     </Select>
                                                 </Form.Item>
-                                    </Col>
-                                    <Col span = {13}>
-                                    <Form.Item>
-                                        <Input />
-                                    </Form.Item>
-                                    </Col>
-                                    <Col span = {1}>
-                                        {fields.length > 1 ? (
-                                            <MinusCircleOutlined
-                                                style={{ paddingLeft: '30%' }}
-                                                className="dynamic-delete-button"
-                                                onClick={() => remove(field.name)}
-                                            />
-                                        ) : null}
-                                    </Col>
-                                </Row>
+                                            </Col>
+                                            <Col span = {6}>
+                                                <Form.Item
+                                                    {...restField}
+                                                    name={[name, 'description']}
+                                                    fieldKey={[fieldKey, 'description']}
+                                                >
+                                                    <Input />
+                                                </Form.Item>
+                                            </Col>
+                                            <Col span = {6}>
+                                                <MinusCircleOutlined onClick={() => remove(name)} />
+                                            </Col>
+                                        </Row>
+                                    </Space>
+                                ))}
+                                <Form.Item>
+                                    <Button type="dashed" onClick={() => add()} block icon={<PlusOutlined />}>
+                                        Add Unit
+                                    </Button>
                                 </Form.Item>
-                            </Form.Item>
-                            ))}
-                            <Form.Item>
-                            <Button
-                                type="dashed"
-                                onClick={() => add()}
-                                style={{ width: '100%' }}
-                                icon={<PlusOutlined />}
-                            >
-                                Add Chapter
-                            </Button>
-                            <Form.ErrorList errors={errors} />
-                            </Form.Item>
-                        </>
+                            </>
                         )}
                     </Form.List>
                     <Row>
