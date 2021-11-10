@@ -80,15 +80,15 @@ function EditCourse(props: EditCourseProps): React.ReactElement {
           <Form form={form} layout="vertical" requiredMark={false}>
             <Form.Item
               name="coursename"
-              label="Course Name"
+              label="Adventure Name"
               rules={[
                 {
                   required: true,
-                  message: 'Please give your course a name!',
+                  message: 'Please name your adventure!',
                 },
               ]}
             >
-              <Input placeholder="New Course" />
+              <Input />
             </Form.Item>
             <Row>
               <Col span={6}>Chapter Name</Col>
@@ -97,13 +97,13 @@ function EditCourse(props: EditCourseProps): React.ReactElement {
               <Col span={1} />
             </Row>
             <Form.List
-              name="names"
+              name="units"
               rules={[
                 {
-                  validator: async (_, names) => {
-                    if (!names || names.length < 2) {
+                  validator: async (_, units) => {
+                    if (!units || units.length < 1) {
                       return Promise.reject(
-                        new Error('At least 1 set is required!')
+                        new Error('At least 1 chapter is required!')
                       );
                     }
                     return Promise.resolve();
@@ -113,7 +113,7 @@ function EditCourse(props: EditCourseProps): React.ReactElement {
             >
               {(fields, { add, remove }, { errors }) => (
                 <>
-                  {fields.map((field, index) => (
+                  {fields.map((field) => (
                     <Form.Item required={false} key={field.key}>
                       <Form.Item
                         {...field}

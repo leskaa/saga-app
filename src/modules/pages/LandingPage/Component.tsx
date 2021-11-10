@@ -20,7 +20,14 @@ function LandingPage(): React.ReactElement {
         <Col span={9} />
         <Col span={6}>
           <Typography className="App-header">
-            <Icon component={LogoSvg} style={{ fontSize: '350px' }} />
+            <LogoSvg
+              style={{
+                width: '25em',
+                display: 'block',
+                marginLeft: 'auto',
+                marginRight: 'auto',
+              }}
+            />
             <Title />
           </Typography>
           <Button

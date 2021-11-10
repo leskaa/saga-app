@@ -49,7 +49,15 @@ function SignInPage(): React.ReactElement {
         <Row>
           <Col span={8} />
           <Col span={8} className="center-container">
-            <Icon component={LogoSvg} style={{ fontSize: '350px' }} />
+            <LogoSvg
+              style={{
+                width: '25em',
+                display: 'block',
+                marginLeft: 'auto',
+                marginRight: 'auto',
+                height: '60%',
+              }}
+            />
             <Form
               form={form}
               layout="vertical"
@@ -84,12 +92,7 @@ function SignInPage(): React.ReactElement {
               </Form.Item>
 
               <Form.Item>
-                <Button
-                  className="buttons"
-                  type="primary"
-                  size="large"
-                  htmlType="submit"
-                >
+                <Button className="buttons" type="primary" htmlType="submit">
                   Sign In
                 </Button>
               </Form.Item>
