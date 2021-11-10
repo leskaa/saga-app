@@ -61,19 +61,21 @@ function MyCalendarPage(): React.ReactElement {
   }, []);
 
   return (
-    <Content className="calendar-page-container">
-      <Row className="name-row">
-        <Col span={24}>
-          <Typography>
-            <Title>{`${user.name}'s Quest Board`}</Title>
-          </Typography>
-        </Col>
-      </Row>
-      <Row className="calendar-row">
-        <Col span={24}>
-          <Calendar dateCellRender={dateCellRender} className="calendar" />
-        </Col>
-      </Row>
+    <Content>
+      <Content className="calendar-page-container">
+        <Row className="name-row">
+          <Col span={24}>
+            <Typography>
+              <Title>{`${user.name}'s Quest Board`}</Title>
+            </Typography>
+          </Col>
+        </Row>
+        <Row className="calendar-row">
+          <Col span={24}>
+            <Calendar dateCellRender={dateCellRender} className="calendar" />
+          </Col>
+        </Row>
+      </Content>
     </Content>
   );
 }
