@@ -1,5 +1,5 @@
-import { Layout } from "antd";
+import { Layout } from 'antd';
 
 export interface CharacterContentPageProps {
-  defaultTab?: string;  
-} 
+  defaultTab?: string;
+}

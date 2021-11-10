@@ -30,41 +30,41 @@ export interface StudentAssignmentInfoTableData extends TableData {
 
 export const AssignmentInfoTableColumns: TableColumn[] = [
   {
-    title: "Assignment Name",
-    dataIndex: "name",
-    key: "name"
+    title: 'Assignment Name',
+    dataIndex: 'name',
+    key: 'name',
   },
   {
-    title: "Max Possible Score",
-    dataIndex: "maxScore",
-    key: "maxScore"
+    title: 'Max Possible Score',
+    dataIndex: 'maxScore',
+    key: 'maxScore',
   },
   {
-    title: "Due Date",
-    dataIndex: "dueDate",
-    key: "dueDate"
-  }
+    title: 'Due Date',
+    dataIndex: 'dueDate',
+    key: 'dueDate',
+  },
 ];
 
 export const StudentInfoTableColumns: TableColumn[] = [
   {
-    title: "Student Name",
-    dataIndex: "name",
-    key: "name"
+    title: 'Student Name',
+    dataIndex: 'name',
+    key: 'name',
   },
   {
-    title: "Pronouns",
-    dataIndex: "pronouns",
-    key: "pronouns"
+    title: 'Pronouns',
+    dataIndex: 'pronouns',
+    key: 'pronouns',
   },
   {
-    title: "Max Possible Score",
-    dataIndex: "maxScore",
-    key: "maxScore"
+    title: 'Max Possible Score',
+    dataIndex: 'maxScore',
+    key: 'maxScore',
   },
   {
-    title: "Due Date",
-    dataIndex: "dueDate",
-    key: "dueDate"
-  }
+    title: 'Due Date',
+    dataIndex: 'dueDate',
+    key: 'dueDate',
+  },
 ];

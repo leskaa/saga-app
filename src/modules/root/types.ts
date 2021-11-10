@@ -1,5 +1,5 @@
-import { Dispatch } from "react";
-import { User } from "../general/types";
+import { Dispatch } from 'react';
+import { User } from '../general/types';
 
 export interface ContextWrapperProps {
   children: React.ReactElement;
@@ -15,9 +15,9 @@ export interface GlobalStateInterface {
 export type ActionType = {
   type: string;
   payload?: any;
-}
+};
 
 export type ContextType = {
   globalState: GlobalStateInterface;
   dispatch: Dispatch<ActionType>;
-}
+};

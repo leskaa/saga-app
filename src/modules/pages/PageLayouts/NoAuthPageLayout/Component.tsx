@@ -1,8 +1,8 @@
-import React from "react";
-import { Layout } from "antd";
-import { PageLayoutProps } from "../types";
-import "./noauthpagelayout.css";
-import MovingBooksContainer from "./MovingBooksContainer";
+import React from 'react';
+import { Layout } from 'antd';
+import { PageLayoutProps } from '../types';
+import './noauthpagelayout.css';
+import MovingBooksContainer from './MovingBooksContainer';
 
 const { Content } = Layout;
 function NoAuthPageLayout(props: PageLayoutProps): React.ReactElement {
@@ -10,11 +10,9 @@ function NoAuthPageLayout(props: PageLayoutProps): React.ReactElement {
 
   return (
     <Layout>
-      <Content className="no-auth-layout">
-        {children}
-      </Content>
+      <Content className="no-auth-layout">{children}</Content>
     </Layout>
-  )
+  );
 }
 
 export default NoAuthPageLayout;

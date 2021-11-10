@@ -1,1 +1,1 @@
-export { default } from "./invitestudentmodal";
+export { default } from './invitestudentmodal';

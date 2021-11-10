@@ -1,9 +1,9 @@
-import React, { useState, useCallback } from "react";
-import SideNav from "./SideNav";
-import SupportModal from "./SupportModal";
-import { Layout } from "antd";
-import { PageLayoutProps } from "../types";
-import "./authpagelayout.css";
+import React, { useState, useCallback } from 'react';
+import { Layout } from 'antd';
+import SideNav from './SideNav';
+import SupportModal from './SupportModal';
+import { PageLayoutProps } from '../types';
+import './authpagelayout.css';
 
 const { Content } = Layout;
 
@@ -20,16 +20,22 @@ function AuthPageLayout(props: PageLayoutProps): React.ReactElement {
   }, []);
 
   return (
-    <Layout style={{minHeight: '100vh'}}>
-      <SideNav onRequestSupportClick={handleShowSupportModal}/>
+    <Layout style={{ minHeight: '100vh' }}>
+      <SideNav onRequestSupportClick={handleShowSupportModal} />
       <Layout className="container-layout">
-        <Content className="auth-layout" >
+        <Content className="auth-layout">
           {children}
-          { isSupportModalVisible && <SupportModal visible={isSupportModalVisible} onOk={handleHideSupportModal} onCancel={handleHideSupportModal}/> }
+          {isSupportModalVisible && (
+            <SupportModal
+              visible={isSupportModalVisible}
+              onOk={handleHideSupportModal}
+              onCancel={handleHideSupportModal}
+            />
+          )}
         </Content>
       </Layout>
     </Layout>
-  )
+  );
 }
 
 export default AuthPageLayout;

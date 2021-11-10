@@ -1,8 +1,9 @@
-import React, { useState } from "react";
-import { Descriptions, Layout, Button } from "antd";
-import { CharacterInfoProps } from "./types";
-import EditCharacterModal from "./EditCharacterModal"
-import "./characterinfo.css";
+import React, { useState } from 'react';
+import { Descriptions, Layout, Button } from 'antd';
+import { CharacterInfoProps } from './types';
+import EditCharacterModal from './EditCharacterModal';
+import './characterinfo.css';
+
 const { Content } = Layout;
 function CharacterInfo(props: CharacterInfoProps): React.ReactElement {
   const { user } = props;
@@ -10,8 +11,20 @@ function CharacterInfo(props: CharacterInfoProps): React.ReactElement {
 
   return (
     <Content className="character-info-container">
-      <Descriptions title="Character Info" bordered extra={<Button type="primary" className="description-container"
-        onClick={() => setIsModalVisible(true)}> Edit </Button>}>
+      <Descriptions
+        title="Character Info"
+        bordered
+        extra={
+          <Button
+            type="primary"
+            className="description-container"
+            onClick={() => setIsModalVisible(true)}
+          >
+            {' '}
+            Edit{' '}
+          </Button>
+        }
+      >
         <Descriptions.Item span={5} label="Name">
           {user.name}
         </Descriptions.Item>
@@ -25,16 +38,16 @@ function CharacterInfo(props: CharacterInfoProps): React.ReactElement {
           {user.stars}
         </Descriptions.Item>
       </Descriptions>
-      { isModalVisible &&
-      (
-        <EditCharacterModal user={user} visible={isModalVisible} onOk={() => setIsModalVisible(false)} onCancel={() => setIsModalVisible(false)}/>
-
-      )
-    }
+      {isModalVisible && (
+        <EditCharacterModal
+          user={user}
+          visible={isModalVisible}
+          onOk={() => setIsModalVisible(false)}
+          onCancel={() => setIsModalVisible(false)}
+        />
+      )}
     </Content>
-
   );
 }
-
 
 export default CharacterInfo;
