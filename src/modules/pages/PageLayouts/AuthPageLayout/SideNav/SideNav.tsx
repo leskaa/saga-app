@@ -95,7 +95,7 @@ function SideNav(props: SideNavProps): React.ReactElement {
         <Menu.Item key="_questboard" icon={<CalendarOutlined />}>
           Quest Board
         </Menu.Item>
-        <Menu.Item key="notifications" icon={<MailOutlined />}>
+        <Menu.Item key="_myinbox" icon={<MailOutlined />}>
           Notifications
         </Menu.Item>
         <Menu.Item key="_mycharacter" icon={<UserOutlined />}>

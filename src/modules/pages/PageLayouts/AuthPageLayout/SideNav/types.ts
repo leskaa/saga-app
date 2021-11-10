@@ -3,8 +3,9 @@ export interface SideNavProps {
 }
 
 export const SIDENAV_PATH_MAP = new Map([
-  ['_home', '/adventures'],
-  ['_viewalladventures', '/adventures'],
-  ['_mycharacter', '/character'],
-  ['_questboard', '/questboard'],
+  ['_home', '/myadventures'],
+  ['_viewalladventures', '/myadventures'],
+  ['_mycharacter', '/mycharacter'],
+  ['_questboard', '/myquestboard'],
+  ['_myinbox', '/myinbox'],
 ]);

@@ -74,3 +74,12 @@ export interface Submission {
   createdAt: Date;
   updatedAt: Date;
 }
+
+export interface Message {
+  id: number;
+  subject: string;
+  content: string;
+  sender: string;
+  read: boolean;
+  createdAt: Date;
+}
