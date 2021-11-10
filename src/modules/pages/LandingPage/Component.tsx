@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { Layout, Button, Typography } from "antd";
+import { Layout, Button, Typography, Row, Col } from "antd";
 import Icon from '@ant-design/icons';
 import { ReactComponent as LogoSvg } from '../../../Logos/SagaBlack2Svg.svg';
-import "./landing.css";
+import MovingBooksContainer from "../PageLayouts/NoAuthPageLayout/MovingBooksContainer";
+
 
 const { Title } = Typography;
 
@@ -15,16 +16,22 @@ function LandingPage(): React.ReactElement {
   }
 
   return (
-    <React.Fragment>
-      <Typography className="App-header">
-        <Icon component={LogoSvg} style={{ fontSize: '350px' }} />
-        <Title>
-        </Title>
-      </Typography>
-      <Button className="buttons" type="primary"  size="large" onClick={() => NavigateToRoute("signin")} > Sign In </Button>
-      <Button className="buttons" type="primary"  size="large" onClick={() => NavigateToRoute("instructorsignup")}> Instructor Sign Up </Button>
-      <Button className="buttons" type="primary"  size="large" onClick={() => NavigateToRoute("about")}> About Saga </Button>
-    </React.Fragment>
+    <MovingBooksContainer>
+      <Row>
+        <Col span = {9} />
+        <Col span = {6}>
+          <Typography className="App-header">
+            <Icon component={LogoSvg} style={{ fontSize: '350px'}}/>
+            <Title>
+            </Title>
+          </Typography>
+          <Button className="buttons" type="primary"  size="large" onClick={() => NavigateToRoute("signin")} > Sign In </Button>
+          <Button className="buttons" type="primary"  size="large" onClick={() => NavigateToRoute("instructorsignup")}> Instructor Sign Up </Button>
+          <Button className="buttons" type="primary"  size="large" onClick={() => NavigateToRoute("about")}> About Saga </Button>
+        </Col>
+        <Col span = {9} />
+      </Row>
+    </MovingBooksContainer>
   )
 }
 

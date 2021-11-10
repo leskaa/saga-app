@@ -20,6 +20,7 @@ import CharacterContentPage from "../pages/CharacterContentPage";
 import MyCoursesPage from '../pages/CourseContentPages/MyCoursesPage/Component';
 import MyCalendarPage from '../pages/MyCalendarPage';
 import GradingPage from '../pages/GradingPage';
+import StudentGradesPage from '../pages/StudentGradesPage';
 import { GlobalContext } from "../root/GlobalStore";
 
 // Render Layout with Sidenav and stuff because user is authenticated
@@ -49,6 +50,7 @@ function AuthenticatedUserRoutes(isUserAuthenticated: boolean): React.ReactEleme
       <Route path="/addassignment" element={renderAuthRoute(<AddAssignmentPage />)} />
       <Route path="/addcourse" element={renderAuthRoute(<AddCoursePage />)} />
       <Route path="/grading" element={renderAuthRoute(<GradingPage />)} />
+      <Route path="/stars" element={renderAuthRoute(<StudentGradesPage />)} />
       <Route path="/myadventures" element={renderAuthRoute(<MyCoursesPage />)} />
       <Route path="myquestboard" element={renderAuthRoute(<MyCalendarPage />)} />
       <Route path="/*" element={<Navigate replace to="/" />}/>
