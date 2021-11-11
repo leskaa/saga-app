@@ -59,12 +59,8 @@ function AuthenticatedUserRoutes(
         element={renderAuthRoute(<StudentAssignmentPage />)}
       />
       <Route path="newletter" element={renderAuthRoute(<NewMessagePage />)} />
-      <Route
-        path="/myquestboard"
-        element={renderAuthRoute(<MyCalendarPage />)}
-      />
       <Route path="newmessage" element={renderAuthRoute(<NewMessagePage />)} />
-      <Route path="/myinbox" element={renderAuthRoute(<InboxPage />)} />
+      <Route path="/inbox" element={renderAuthRoute(<InboxPage />)} />
       <Route path="/*" element={<Navigate replace to="/" />} />
     </>
   ) : (
