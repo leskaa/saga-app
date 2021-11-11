@@ -28,6 +28,14 @@ function MapSlide(props: MapSlideComponentProps): React.ReactElement {
             onClick={onPreviousSlide}
           />
         )}
+        {!onPreviousSlide && (
+          <Button
+            disabled
+            className="navigate-button"
+            type="default"
+            icon={<LeftOutlined />}
+          />
+        )}
       </Col>
       <Col className="map-slide-container" span={20} />
 
@@ -45,6 +53,14 @@ function MapSlide(props: MapSlideComponentProps): React.ReactElement {
             type="default"
             icon={<RightOutlined />}
             onClick={onNextSlide}
+          />
+        )}
+        {!onNextSlide && (
+          <Button
+            disabled
+            className="navigate-button"
+            type="default"
+            icon={<RightOutlined />}
           />
         )}
       </Col>

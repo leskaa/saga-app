@@ -70,12 +70,13 @@ function MapPage(): React.ReactElement {
       <Row>
         <Col span={1} />
         <Col span={15}>
-          <Text>
+          <Title level={3}>
             <br />
             Course Name
             <br />
-            {currentUnit.name} <br />
-            {currentUnit.description} <br /> <br />
+          </Title>
+          <Text>
+            <b>{currentUnit.name}</b> - {currentUnit.description} <br /> <br />
           </Text>
         </Col>
         <Col span={7}>
