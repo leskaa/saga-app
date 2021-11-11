@@ -53,7 +53,7 @@ function MyCalendarPage(): React.ReactElement {
       <Row className="name-row">
         <Col span={24}>
           <Typography>
-            <Title>{`${user.name}'s Quest Board`}</Title>
+            <Title className="title">{`${user.name}'s Quest Board`}</Title>
           </Typography>
         </Col>
       </Row>
@@ -85,7 +85,9 @@ function MyCalendarPage(): React.ReactElement {
         </Col>
         <Col span={2} />
         <Col span={9}>
-          <Title level={3}>November 1st, 2021</Title>
+          <Title className="title" level={3}>
+            November 1st, 2021
+          </Title>
           <List
             dataSource={courseData}
             renderItem={(item) => (

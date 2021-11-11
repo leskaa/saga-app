@@ -35,13 +35,17 @@ function Book(props: BookProps): React.ReactElement {
       <Content className="page4" />
       <Content className="page3" />
       <Content className="page2">
-        <Title level={3} className="page-title">
+        <Title level={4} className="page-title" style={{ padding: '5%' }}>
           {course.description}
         </Title>
       </Content>
       <Content className="page1" />
       <Content className="front" style={{ background: colors[colorIndex] }}>
-        <Title level={2} className="book-title">
+        <Title
+          level={3}
+          className="book-title"
+          style={{ fontFamily: 'Cinzel', padding: '10%' }}
+        >
           {course.name}
         </Title>
       </Content>

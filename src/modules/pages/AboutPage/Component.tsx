@@ -9,7 +9,7 @@ function AboutPage(): React.ReactElement {
   return (
     <Content className="about-page-container">
       <Typography>
-        <Title>
+        <Title className="title">
           {' '}
           We are bringing discovery and excitement into education with Saga.{' '}
         </Title>
@@ -21,7 +21,10 @@ function AboutPage(): React.ReactElement {
           platform.
         </Paragraph>
         <Divider />
-        <Title level={2}> What is Gamification? </Title>
+        <Title className="title" level={2}>
+          {' '}
+          What is Gamification?{' '}
+        </Title>
         <Paragraph className="paragraph-container">
           The Miriam-Webster dictionary defines gamification as ‘the process of
           adding games or gamelike elements to something (such as a task) as to
@@ -53,7 +56,9 @@ function AboutPage(): React.ReactElement {
           educators take the first step into a new and better way of teaching.
         </Paragraph>
         <Divider />
-        <Title level={2}> What is Saga? </Title>
+        <Title className="title" level={2}>
+          What is Saga?
+        </Title>
         <Paragraph className="paragraph-container">
           Saga is an online learning management system that serves as a platform
           for teaching and learning between students and teachers. Saga creates
@@ -70,8 +75,7 @@ function AboutPage(): React.ReactElement {
 
         <Divider />
 
-        <Title>
-          {' '}
+        <Title className="title">
           Saga is still in beta, so many features are still on the way!{' '}
         </Title>
         <Paragraph className="paragraph-container">
@@ -79,12 +83,16 @@ function AboutPage(): React.ReactElement {
           Trent Yetzer for the Liquid Hacks 2.0 Hackathon.
         </Paragraph>
 
-        <Title level={3}> Front End </Title>
+        <Title className="title" level={3}>
+          Front End
+        </Title>
         <Paragraph className="paragraph-container">
           Languages + Libraries: Typescript, React-Typescript, Ant Design
           Infrastructure: Netlify (Static Site Host)
         </Paragraph>
-        <Title level={3}>Back End </Title>
+        <Title className="title" level={3}>
+          Back End
+        </Title>
         <Paragraph className="paragraph-container">
           Languages + Libraries: Typescript, Node.js, AdonisJS, MySQL
           Infrastructure: Fly.io (Paas), PlanetScale (Serverless SQL), Google

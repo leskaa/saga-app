@@ -33,7 +33,7 @@ function TeacherCourseInfoPage(): React.ReactElement {
 
   return (
     <Content className="container">
-      <Title style={{ textAlign: 'center' }}>
+      <Title className="title" style={{ textAlign: 'center' }}>
         <br /> {course.name}
       </Title>
       <Tabs defaultActiveKey="1" centered>

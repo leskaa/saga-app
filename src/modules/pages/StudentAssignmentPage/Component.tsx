@@ -17,7 +17,7 @@ function StudentAssignmentPage(): React.ReactElement {
 
   return (
     <Content className="container">
-      <Title style={{ textAlign: 'center' }}>
+      <Title className="title" style={{ textAlign: 'center' }}>
         <br /> Quest Name
       </Title>
       <Tabs defaultActiveKey="1" centered>

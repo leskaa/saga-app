@@ -54,7 +54,7 @@ function InviteStudentModal(
 
   return (
     <Modal footer={null} className="invite-student-modal" {...rest}>
-      <Title level={3} style={{ textAlign: 'center' }}>
+      <Title className="title" level={3} style={{ textAlign: 'center' }}>
         {' '}
         Invite a New Adventurer!{' '}
       </Title>

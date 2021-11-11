@@ -28,7 +28,7 @@ function LandingPage(): React.ReactElement {
                 marginRight: 'auto',
               }}
             />
-            <Title />
+            <Title className="title" />
           </Typography>
           <Button
             className="buttons"

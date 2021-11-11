@@ -99,7 +99,7 @@ function NewMessagePage(): React.ReactElement {
   return (
     <Content>
       <Row>
-        <Title style={{ margin: 'auto' }}>
+        <Title className="title" style={{ margin: 'auto' }}>
           <br />
           New Message
         </Title>
