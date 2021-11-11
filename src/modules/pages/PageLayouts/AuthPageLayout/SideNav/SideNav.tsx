@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useContext } from 'react';
 import { Menu, Layout } from 'antd';
 import Icon, {
   BookOutlined,
@@ -13,6 +13,7 @@ import { useNavigate } from 'react-router-dom';
 import { ReactComponent as LogoSvg } from '../../../../../Logos/SagaBlack3Svg.svg';
 import { SideNavProps, SIDENAV_PATH_MAP } from './types';
 import './sidenav.css';
+import { GlobalContext } from '../../../../root/GlobalStore';
 
 // TODO:
 // Will need to take Student/Teacher Object
@@ -26,6 +27,7 @@ const { Sider, Content } = Layout;
 function SideNav(props: SideNavProps): React.ReactElement {
   const { onRequestSupportClick } = props;
   const navigate = useNavigate();
+  const { dispatch } = useContext(GlobalContext);
 
   const [collapsed, setCollapsed] = useState<boolean>(true);
 
@@ -40,6 +42,16 @@ function SideNav(props: SideNavProps): React.ReactElement {
 
         if (event.key === '_support') {
           onRequestSupportClick();
+        }
+
+        if (event.key === 'sign out') {
+          fetch('https://saga-learn.herokuapp.com/logout', { method: 'POST' })
+            .then(() => {
+              dispatch({ type: 'AUTHENTICATE_USER', payload: false });
+              dispatch({ type: 'SET_USER', payload: null });
+              navigate('/login');
+            })
+            .then((err) => console.error(err));
         }
       }
     },

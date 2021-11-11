@@ -1,14 +1,13 @@
 import React, { createContext, useEffect, useReducer, useRef } from 'react';
 import Reducer from './reducer';
 import { ContextType, GlobalStateInterface } from './types';
-import { dummyStudent, dummyTeacher } from '../general/dummyData';
 
 export const GlobalContext = createContext({} as ContextType);
 
 export const initialState: GlobalStateInterface = {
-  isUserAuthenticated: true, // TODO CHANGE TO FALSE - THEY SHOULD NOT BE ABLE TO GO TO AUTH PAGES IF NOT LOGGED IN
+  isUserAuthenticated: false, // TODO CHANGE TO FALSE - THEY SHOULD NOT BE ABLE TO GO TO AUTH PAGES IF NOT LOGGED IN
   loggedInCookie: '',
-  loggedInUser: dummyStudent,
+  loggedInUser: null,
   persistenceType: 'sessionStorage',
 };
 
@@ -54,11 +53,8 @@ export function GlobalStore({
     }
   }, [globalState]);
 
-  /*
   useEffect(() => {
-  
     //  Purge SessionStorage or LocalStorage when one is chosen
-    
 
     if (initialRenderPersistenceType.current) {
       initialRenderPersistenceType.current = false;
@@ -66,13 +62,12 @@ export function GlobalStore({
     }
 
     const getPersistenceType = globalState.persistenceType;
-    if (getPersistenceType === "sessionStorage") {
-      localStorage.removeItem("globalState");
-    } else if (getPersistenceType === "localStorage") {
-      sessionStorage.removeItem("globalState");
+    if (getPersistenceType === 'sessionStorage') {
+      localStorage.removeItem('globalState');
+    } else if (getPersistenceType === 'localStorage') {
+      sessionStorage.removeItem('globalState');
     }
   }, [globalState.persistenceType]);
-  */
 
   return (
     <GlobalContext.Provider value={{ globalState, dispatch }}>

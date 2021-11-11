@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Form, Input, Button, Checkbox, Row, Col } from 'antd';
-import Icon from '@ant-design/icons';
+import { Form, Input, Button, Checkbox, Row, Col, message } from 'antd';
+import { convertResponseDataToUser } from '../../../general/utils';
 import { ReactComponent as LogoSvg } from '../../../../Logos/SagaBlack2Svg.svg';
 import '../signin.css';
 import MovingBooksContainer from '../../PageLayouts/NoAuthPageLayout/MovingBooksContainer';
@@ -10,38 +10,43 @@ import { GlobalContext } from '../../../root/GlobalStore';
 function SignInPage(): React.ReactElement {
   const navigate = useNavigate();
   const { dispatch } = useContext(GlobalContext);
-
-  function NavigateToRoute(path: string) {
-    navigate(path);
-  }
+  const [form] = Form.useForm();
 
   const onFinish = (values: any) => {
     console.log('Success:', values);
-    // fetch('https://saga-learn.herokuapp.com/login', {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   },
-    //   body: JSON.stringify({
-    //     email: values.email,
-    //     password: values.password,
-    //     rememberMe: values.remember,
-    //   }),
-    // })
-    //   .then((res) => res.json())
-    //   .then((data) => {
-    //     console.log(data);
-    //     dispatch({type: 'SET_USER', payload: data});
-    //     NavigateToRoute('/mycourses');
-    //   });
-    NavigateToRoute('/mycourses');
+    fetch('https://saga-learn.herokuapp.com/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        email: values.email,
+        password: values.password,
+        rememberMe: values.remember,
+      }),
+      credentials: 'include',
+    })
+      .then((res) => {
+        if (!res.ok) {
+          message.error('Incorrect email or password.', 10);
+          throw Error(res.statusText);
+        }
+        return res.json();
+      })
+      .then((response) => {
+        dispatch({ type: 'AUTHENTICATE_USER', payload: true });
+        dispatch({
+          type: 'SET_USER',
+          payload: convertResponseDataToUser(response.data),
+        });
+        navigate('/myadventures');
+      })
+      .catch((err) => console.error(err));
   };
 
   const onFinishFailed = (errorInfo: any) => {
     console.log('Failed:', errorInfo);
   };
-
-  const [form] = Form.useForm();
 
   return (
     <MovingBooksContainer>

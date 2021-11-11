@@ -9,10 +9,13 @@ import {
   Statistic,
 } from 'antd';
 import { StarOutlined, StarFilled, StarTwoTone } from '@ant-design/icons';
+import useSWR from 'swr';
 import { Unit } from './MapSlideComponent/types';
 import MapSlide from './MapSlideComponent/Component';
 import './map.css';
+import { apiEndpoint } from '../../../root/constants';
 
+const courseId = 5;
 const units: Unit[] = [
   {
     id: '1',
@@ -107,7 +110,7 @@ function MapPage(): React.ReactElement {
             infinite={false}
             style={{ height: '100vh' }}
           >
-            {units.map((unit, index) => {
+            {units.map((unit: Unit, index: number) => {
               return (
                 <MapSlide
                   unit={unit}

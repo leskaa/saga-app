@@ -33,6 +33,7 @@ function renderNoAuthRoute(children: React.ReactElement): React.ReactElement {
 function AuthenticatedUserRoutes(
   isUserAuthenticated: boolean
 ): React.ReactElement {
+  console.log(isUserAuthenticated);
   return isUserAuthenticated ? (
     <>
       <Route path="/map" element={renderAuthRoute(<MapPage />)} />
@@ -93,6 +94,7 @@ function NotAuthenticatedUserRoutes(): React.ReactFragment {
 
 function BrowserRoutes() {
   const { globalState } = useContext(GlobalContext);
+  console.log(globalState);
 
   return (
     <Routes>
