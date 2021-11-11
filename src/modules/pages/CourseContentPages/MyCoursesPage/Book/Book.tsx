@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Typography, Layout } from 'antd';
 import { useNavigate } from 'react-router';
-import { BookProps, BOOK_COLORS, CSS_COLORS } from './types';
+import { BookProps } from './types';
 import './book.css';
 
 const { Title } = Typography;
@@ -11,7 +11,19 @@ function Book(props: BookProps): React.ReactElement {
   const { course } = props;
   const navigate = useNavigate();
 
-  const bookColor = CSS_COLORS[Math.floor(Math.random() * CSS_COLORS.length)];
+  const colors = [
+    '#84C2E8',
+    '#91D5FF',
+    '#C8A7BA',
+    'FF7875',
+    '#FFB597',
+    '#FFD3A8',
+    '#FFF1B8',
+    '#8096A2',
+    '#003A8C',
+    '#002766',
+  ];
+  const bookColor = colors[Math.floor(Math.random() * colors.length)];
 
   const handleOnClick = () => {
     navigate(`/adventure/${course.id}`);
