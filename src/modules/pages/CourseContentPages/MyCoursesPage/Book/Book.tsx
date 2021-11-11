@@ -8,7 +8,7 @@ import './book.css';
 const { Title } = Typography;
 const { Content } = Layout;
 function Book(props: BookProps): React.ReactElement {
-  const { course } = props;
+  const { course, colorIndex } = props;
   const navigate = useNavigate();
 
   const colors = [
@@ -23,14 +23,13 @@ function Book(props: BookProps): React.ReactElement {
     '#ADDCEE',
     '#91D5FF',
   ];
-  const bookColor = colors[Math.floor(Math.random() * colors.length)];
 
   const handleOnClick = () => {
     navigate(`/adventure/${course.id}`);
   };
   return (
     <Content className="book" onClick={handleOnClick}>
-      <Content className="back" style={{ background: bookColor }} />
+      <Content className="back" style={{ background: colors[colorIndex] }} />
       <Content className="page6" />
       <Content className="page5" />
       <Content className="page4" />
@@ -41,7 +40,7 @@ function Book(props: BookProps): React.ReactElement {
         </Title>
       </Content>
       <Content className="page1" />
-      <Content className="front" style={{ background: bookColor }}>
+      <Content className="front" style={{ background: colors[colorIndex] }}>
         <Title level={2} className="book-title">
           {course.name}
         </Title>
