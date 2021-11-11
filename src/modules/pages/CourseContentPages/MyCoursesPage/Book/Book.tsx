@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { Typography, Layout } from 'antd';
+import { useNavigate } from 'react-router';
 import { BookProps, BOOK_COLORS, CSS_COLORS } from './types';
 import './book.css';
 
@@ -8,11 +9,12 @@ const { Title } = Typography;
 const { Content } = Layout;
 function Book(props: BookProps): React.ReactElement {
   const { course } = props;
+  const navigate = useNavigate();
 
   const bookColor = CSS_COLORS[Math.floor(Math.random() * CSS_COLORS.length)];
 
   const handleOnClick = () => {
-    console.log('BOOK CLICKED');
+    navigate(`/adventure/${course.id}`);
   };
   return (
     <Content className="book" onClick={handleOnClick}>

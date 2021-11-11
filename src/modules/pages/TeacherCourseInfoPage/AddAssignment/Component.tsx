@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ReactQuill from 'react-quill';
 import {
   Form,
@@ -9,15 +9,25 @@ import {
   Select,
   Row,
   Col,
+  message,
+  Spin,
 } from 'antd';
 import moment from 'moment';
+import useSWR from 'swr';
 import { CourseInfoProps } from './types';
 import 'react-quill/dist/quill.snow.css';
+import { apiEndpoint } from '../../../root/constants';
 
 function AddAssignment(props: CourseInfoProps): React.ReactElement {
-  const { user } = props;
+  const { user, course } = props;
 
   const [form] = Form.useForm();
+
+  const [quillText, setQuillText] = useState('');
+  const [unitNumber, setUnitNumber] = useState(1);
+
+  // TODO: Sort with SWR Middleware
+  const { data: units } = useSWR(`${apiEndpoint}/courses/${course.id}/units/`);
 
   const format = 'HH:mm';
 
@@ -62,14 +72,57 @@ function AddAssignment(props: CourseInfoProps): React.ReactElement {
     'code block',
   ];
 
+  const updateUnit = (value: number) => {
+    setUnitNumber(value);
+  };
+
   const { Option } = Select;
+
+  const onFinish = (values: any) => {
+    fetch(
+      `${apiEndpoint}/courses/${course.id}/units/${
+        units[unitNumber - 1].id
+      }/assignments/`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: values.assignmentname,
+          content: quillText,
+          dueDate: `${values.duedate.format(
+            'YYYY-MM-DD'
+          )} ${values.duetime.format('HH:mm:ss')}`,
+        }),
+        credentials: 'include',
+      }
+    )
+      .then((res) => {
+        if (!res.ok) {
+          message.error('There was an issue creating the quest.', 10);
+          throw Error(res.statusText);
+        }
+        message.success('Quest created!', 10);
+      })
+      .catch((err) => console.error(err));
+  };
+
+  if (units === undefined) {
+    return <Spin size="large" />;
+  }
 
   return (
     <>
       <Row>
         <Col span={3} />
         <Col span={18}>
-          <Form form={form} layout="vertical" requiredMark={false}>
+          <Form
+            form={form}
+            layout="vertical"
+            requiredMark={false}
+            onFinish={onFinish}
+          >
             <Row>
               <Col span={16}>
                 <Form.Item
@@ -93,10 +146,10 @@ function AddAssignment(props: CourseInfoProps): React.ReactElement {
                     },
                   ]}
                 >
-                  <Select>
-                    <Option value="Chapter1">Chapter1</Option>
-                    <Option value="Chapter2">Chapter2</Option>
-                    <Option value="Chapter3">Chapter3</Option>
+                  <Select defaultValue={units[0].name} onChange={updateUnit}>
+                    {units.map((unit: any) => (
+                      <Option value={unit.unit_number}>{unit.name}</Option>
+                    ))}
                   </Select>
                 </Form.Item>
               </Col>
@@ -144,7 +197,13 @@ function AddAssignment(props: CourseInfoProps): React.ReactElement {
             </Row>
             <Form.Item name="description" label="Description">
               <div className="text-editor" style={{ background: 'white' }}>
-                <ReactQuill theme="snow" modules={modules} formats={formats} />
+                <ReactQuill
+                  theme="snow"
+                  modules={modules}
+                  formats={formats}
+                  value={quillText}
+                  onChange={setQuillText}
+                />
               </div>
             </Form.Item>
             <Form.Item>

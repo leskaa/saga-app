@@ -33,7 +33,6 @@ function renderNoAuthRoute(children: React.ReactElement): React.ReactElement {
 function AuthenticatedUserRoutes(
   isUserAuthenticated: boolean
 ): React.ReactElement {
-  console.log(isUserAuthenticated);
   return isUserAuthenticated ? (
     <>
       <Route path="/adventuremap" element={renderAuthRoute(<MapPage />)} />
@@ -43,11 +42,13 @@ function AuthenticatedUserRoutes(
       />
       <Route path="/stars" element={renderAuthRoute(<StudentGradesPage />)} />
       <Route path="/adventures" element={renderAuthRoute(<MyCoursesPage />)} />
-      <Route
-        path="/adventure"
-        element={renderAuthRoute(<TeacherCourseInfoPage />)}
-      />
       <Route path="questboard" element={renderAuthRoute(<MyCalendarPage />)} />
+      <Route path="/adventure">
+        <Route
+          path=":courseId"
+          element={renderAuthRoute(<TeacherCourseInfoPage />)}
+        />
+      </Route>
       <Route
         path="viewquest"
         element={renderAuthRoute(<TeacherAssignmentPage />)}

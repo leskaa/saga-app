@@ -49,7 +49,7 @@ function SideNav(props: SideNavProps): React.ReactElement {
             .then(() => {
               dispatch({ type: 'AUTHENTICATE_USER', payload: false });
               dispatch({ type: 'SET_USER', payload: null });
-              navigate('/login');
+              navigate('/signin');
             })
             .then((err) => console.error(err));
         }

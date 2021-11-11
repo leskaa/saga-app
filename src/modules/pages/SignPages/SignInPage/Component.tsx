@@ -39,7 +39,7 @@ function SignInPage(): React.ReactElement {
           type: 'SET_USER',
           payload: convertResponseDataToUser(response.data),
         });
-        navigate('/myadventures');
+        navigate('/adventures');
       })
       .catch((err) => console.error(err));
   };
