@@ -47,9 +47,6 @@ function CharacterContentPage(
             <TabPane forceRender tab="Choose Avatar" key="2">
               <ChooseAvatar user={user} />
             </TabPane>
-            <TabPane forceRender tab="Settings" key="3">
-              &quot;Settings&quot;
-            </TabPane>
           </Tabs>
         </Col>
       </Row>
