@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import {
   Row,
   Col,
@@ -47,13 +47,23 @@ const { Content } = Layout;
 function MapPage(): React.ReactElement {
   const carouselRef = React.createRef<any>();
 
-  const goNextSlide = useCallback(() => {
-    carouselRef.current.next();
-  }, [carouselRef]);
+  const [currentUnit, setCurrentUnit] = useState<Unit>(units[0]);
 
-  const goPreviousSlide = useCallback(() => {
-    carouselRef.current.prev();
-  }, [carouselRef]);
+  const goNextSlide = useCallback(
+    (unit: Unit) => {
+      carouselRef.current.next();
+      setCurrentUnit(unit);
+    },
+    [carouselRef, currentUnit]
+  );
+
+  const goPreviousSlide = useCallback(
+    (unit: Unit) => {
+      carouselRef.current.prev();
+      setCurrentUnit(unit);
+    },
+    [carouselRef, currentUnit]
+  );
 
   return (
     <Content>
@@ -64,8 +74,8 @@ function MapPage(): React.ReactElement {
             <br />
             Course Name
             <br />
-            Unit Name <br />
-            Unit Description.... bLah bLah bLah <br /> <br />
+            {currentUnit.name} <br />
+            {currentUnit.description} <br /> <br />
           </Text>
         </Col>
         <Col span={7}>
@@ -114,9 +124,15 @@ function MapPage(): React.ReactElement {
               return (
                 <MapSlide
                   unit={unit}
-                  onPreviousSlide={index !== 0 ? goPreviousSlide : void 0}
+                  onPreviousSlide={
+                    index !== 0
+                      ? () => goPreviousSlide(units[index - 1])
+                      : void 0
+                  }
                   onNextSlide={
-                    index !== units.length - 1 ? goNextSlide : void 0
+                    index !== units.length - 1
+                      ? () => goNextSlide(units[index + 1])
+                      : void 0
                   }
                 />
               );
