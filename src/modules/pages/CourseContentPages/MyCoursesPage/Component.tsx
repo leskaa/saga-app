@@ -10,11 +10,11 @@ import { dummyStudent, dummyCourse } from '../../../general/dummyData';
 const { Content } = Layout;
 const { Title } = Typography;
 
-const data = [dummyCourse];
+// const data = [dummyCourse];
 
 function MyCoursesPage(): React.ReactElement {
   // TODO: add effect to populate componet state with courses
-  // const { data, error } = useSWR(`${apiEndpoint}/courses`);
+  const { data, error } = useSWR(`${apiEndpoint}/courses`);
   const { globalState } = useContext(GlobalContext);
   const user = globalState.loggedInUser ?? dummyStudent;
 
