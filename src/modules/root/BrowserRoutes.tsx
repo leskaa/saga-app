@@ -36,33 +36,27 @@ function AuthenticatedUserRoutes(
   console.log(isUserAuthenticated);
   return isUserAuthenticated ? (
     <>
-      <Route path="/map" element={renderAuthRoute(<MapPage />)} />
+      <Route path="/adventuremap" element={renderAuthRoute(<MapPage />)} />
       <Route
-        path="/mycharacter"
+        path="/character"
         element={renderAuthRoute(<CharacterContentPage />)}
       />
       <Route path="/stars" element={renderAuthRoute(<StudentGradesPage />)} />
+      <Route path="/adventures" element={renderAuthRoute(<MyCoursesPage />)} />
       <Route
-        path="/myadventures"
-        element={renderAuthRoute(<MyCoursesPage />)}
-      />
-      <Route
-        path="/courseinfo"
+        path="/adventure"
         element={renderAuthRoute(<TeacherCourseInfoPage />)}
       />
+      <Route path="questboard" element={renderAuthRoute(<MyCalendarPage />)} />
       <Route
-        path="myquestboard"
-        element={renderAuthRoute(<MyCalendarPage />)}
-      />
-      <Route
-        path="assignment"
+        path="viewquest"
         element={renderAuthRoute(<TeacherAssignmentPage />)}
       />
       <Route
-        path="studentassignment"
+        path="quest"
         element={renderAuthRoute(<StudentAssignmentPage />)}
       />
-      <Route path="newmessage" element={renderAuthRoute(<NewMessagePage />)} />
+      <Route path="newletter" element={renderAuthRoute(<NewMessagePage />)} />
       <Route path="/*" element={<Navigate replace to="/" />} />
     </>
   ) : (
