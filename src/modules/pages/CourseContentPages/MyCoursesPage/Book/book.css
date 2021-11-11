@@ -24,7 +24,7 @@
 .page6 {
   transform-style: preserve-3d;
   position: absolute;
-  width: 200px;
+  width: 220px;
   height: 100%;
   top: 0;
   left: 0;
@@ -35,6 +35,7 @@
 .front,
 .back {
   /*background: #002766;*/
+  box-shadow: 0 1em 3em 0 rgba(0, 0, 0, 0.1);
 }
 
 .front,

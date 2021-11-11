@@ -14,5 +14,10 @@
   height: 62vh;
   background: white;
   overflow: scroll;
-  padding: 2%;
+}
+
+.ant-list-item:hover {
+  border-style: solid;
+  border-width: 1px;
+  border-color: #ff7875;
 }

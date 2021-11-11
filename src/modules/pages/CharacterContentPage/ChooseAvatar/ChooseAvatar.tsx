@@ -39,7 +39,7 @@ function ChooseAvatar(props: ChooseAvatarProps): React.ReactElement {
     <Content className="choose-avatar-container" {...rest}>
       <Row>
         <Col span={24}>
-          <Title> Choose your Avatar </Title>
+          <Title className="title"> Choose your Avatar </Title>
         </Col>
       </Row>
       <Row>

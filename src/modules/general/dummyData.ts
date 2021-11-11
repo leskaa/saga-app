@@ -7,6 +7,7 @@ import {
   Assignment,
   Unit,
   Submission,
+  Message,
 } from './types';
 
 export const dummyMap: Map = {
@@ -22,10 +23,9 @@ export const dummyCourse: Course = {
   name: 'Liquid Hacks 2.0: Learn to Hack',
   description:
     'Learn to hack with coders during the Liquid Hacks 2.0 challenge',
-  maps: [dummyMap],
-  teachers: [],
-  students: [],
-  assignments: [],
+  totalStars: 20,
+  starGoal: 900,
+  prize: 'Tacos',
   createdAt: new Date('11-05-2021'),
   updatedAt: new Date('11-06-2021'),
 };
@@ -34,9 +34,8 @@ export const dummyUnit: Unit = {
   id: 3,
   name: 'Hacking 101',
   description: 'Lorem Ipsum Liquid Liquid Liquid Hacks Lorem Ipsum Liquid',
-  map: dummyMap,
-  course: dummyCourse,
-  assignments: [],
+  unitNumber: 1,
+  map: 1,
   createdAt: new Date('11-05-2021'),
   updatedAt: new Date('11-06-2021'),
 };
@@ -70,10 +69,9 @@ export const dummyTeacher: Teacher = {
 export const dummyAssignment: Assignment = {
   id: 6,
   name: 'Project 1',
-  maxScore: 5,
+  content: 'Ooga booga yay!11',
   dueDate: new Date('12-31-2021'),
-  unit: dummyUnit,
-  course: dummyCourse,
+  unitId: 1,
   createdAt: new Date('11-05-2021'),
   updatedAt: new Date('11-06-2021'),
 };
@@ -86,7 +84,45 @@ export const dummySubmission: Submission = {
   updatedAt: new Date('11-06-2021'),
 };
 
-dummyCourse.students.push(dummyStudent);
-dummyCourse.teachers.push(dummyTeacher);
-dummyUnit.assignments.push(dummyAssignment);
-dummyCourse.assignments.push(dummyAssignment);
+export const dummyMessages: Message[] = [
+  {
+    id: 0,
+    subject: 'Bakes',
+    content: "I don't like your cake",
+    sender: 'Paul Hollywood',
+    read: false,
+    createdAt: new Date('11-05-2021'),
+  },
+  {
+    id: 1,
+    subject: 'Bakes 1',
+    content: "I don't like your cake",
+    sender: 'Paul Hollywood',
+    read: false,
+    createdAt: new Date('11-03-2021'),
+  },
+  {
+    id: 2,
+    subject: 'Bakes 2',
+    content: "I don't like your cake",
+    sender: 'Paul Hollywood',
+    read: false,
+    createdAt: new Date('11-02-2021'),
+  },
+  {
+    id: 3,
+    subject: 'Bakes 3',
+    content: "I don't like your cake",
+    sender: 'Mary Cherry',
+    read: false,
+    createdAt: new Date('11-01-2021'),
+  },
+  {
+    id: 4,
+    subject: 'Bakes 4',
+    content: 'I like your cake',
+    sender: 'Mary Cherry',
+    read: true,
+    createdAt: new Date('08-10-2011'),
+  },
+];

@@ -31,10 +31,9 @@ export interface Course {
   id: number;
   name: string;
   description: string;
-  maps: Map[];
-  teachers: Teacher[];
-  students: Student[];
-  assignments: Assignment[];
+  totalStars: number;
+  starGoal: number;
+  prize: string;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -50,10 +49,9 @@ export interface Map {
 export interface Assignment {
   id: number;
   name: string;
-  maxScore: number;
+  content: string;
   dueDate: Date;
-  unit: Unit;
-  course: Course;
+  unitId: number;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -62,9 +60,8 @@ export interface Unit {
   id: number;
   name: string;
   description: string;
-  map: Map;
-  course: Course;
-  assignments: Assignment[];
+  unitNumber: number;
+  map: number;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -76,4 +73,13 @@ export interface Submission {
   assignment: Assignment;
   createdAt: Date;
   updatedAt: Date;
+}
+
+export interface Message {
+  id: number;
+  subject: string;
+  content: string;
+  sender: string;
+  read: boolean;
+  createdAt: Date;
 }

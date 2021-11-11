@@ -17,7 +17,9 @@ import StudentGradesPage from '../pages/StudentGradesPage';
 import { GlobalContext } from './GlobalStore';
 import TeacherCourseInfoPage from '../pages/TeacherCourseInfoPage';
 import NewMessagePage from '../pages/NewMessagePage';
-import AssignmentPage from '../pages/TeacherAssignmentPage';
+import TeacherAssignmentPage from '../pages/TeacherAssignmentPage';
+import StudentAssignmentPage from '../pages/StudentAssignmentPage';
+import InboxPage from '../pages/InboxPage';
 
 // Render Layout with Sidenav and stuff because user is authenticated
 function renderAuthRoute(children: React.ReactElement): React.ReactElement {
@@ -32,29 +34,33 @@ function renderNoAuthRoute(children: React.ReactElement): React.ReactElement {
 function AuthenticatedUserRoutes(
   isUserAuthenticated: boolean
 ): React.ReactElement {
-  console.log(isUserAuthenticated);
   return isUserAuthenticated ? (
     <>
-      <Route path="/map" element={renderAuthRoute(<MapPage />)} />
+      <Route path="/adventuremap" element={renderAuthRoute(<MapPage />)} />
       <Route
-        path="/mycharacter"
+        path="/character"
         element={renderAuthRoute(<CharacterContentPage />)}
       />
       <Route path="/stars" element={renderAuthRoute(<StudentGradesPage />)} />
+      <Route path="/adventures" element={renderAuthRoute(<MyCoursesPage />)} />
+      <Route path="questboard" element={renderAuthRoute(<MyCalendarPage />)} />
+      <Route path="/adventure">
+        <Route
+          path=":courseId"
+          element={renderAuthRoute(<TeacherCourseInfoPage />)}
+        />
+      </Route>
       <Route
-        path="/myadventures"
-        element={renderAuthRoute(<MyCoursesPage />)}
+        path="viewquest"
+        element={renderAuthRoute(<TeacherAssignmentPage />)}
       />
       <Route
-        path="/courseinfo"
-        element={renderAuthRoute(<TeacherCourseInfoPage />)}
+        path="quest"
+        element={renderAuthRoute(<StudentAssignmentPage />)}
       />
-      <Route
-        path="myquestboard"
-        element={renderAuthRoute(<MyCalendarPage />)}
-      />
-      <Route path="assignment" element={renderAuthRoute(<AssignmentPage />)} />
+      <Route path="newletter" element={renderAuthRoute(<NewMessagePage />)} />
       <Route path="newmessage" element={renderAuthRoute(<NewMessagePage />)} />
+      <Route path="/inbox" element={renderAuthRoute(<InboxPage />)} />
       <Route path="/*" element={<Navigate replace to="/" />} />
     </>
   ) : (

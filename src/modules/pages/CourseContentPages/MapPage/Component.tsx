@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import {
   Row,
   Col,
@@ -47,25 +47,36 @@ const { Content } = Layout;
 function MapPage(): React.ReactElement {
   const carouselRef = React.createRef<any>();
 
-  const goNextSlide = useCallback(() => {
-    carouselRef.current.next();
-  }, [carouselRef]);
+  const [currentUnit, setCurrentUnit] = useState<Unit>(units[0]);
 
-  const goPreviousSlide = useCallback(() => {
-    carouselRef.current.prev();
-  }, [carouselRef]);
+  const goNextSlide = useCallback(
+    (unit: Unit) => {
+      carouselRef.current.next();
+      setCurrentUnit(unit);
+    },
+    [carouselRef, currentUnit]
+  );
+
+  const goPreviousSlide = useCallback(
+    (unit: Unit) => {
+      carouselRef.current.prev();
+      setCurrentUnit(unit);
+    },
+    [carouselRef, currentUnit]
+  );
 
   return (
     <Content>
       <Row>
         <Col span={1} />
         <Col span={15}>
-          <Text>
+          <Title className="title" level={3}>
             <br />
             Course Name
             <br />
-            Unit Name <br />
-            Unit Description.... bLah bLah bLah <br /> <br />
+          </Title>
+          <Text>
+            <b>{currentUnit.name}</b> - {currentUnit.description} <br /> <br />
           </Text>
         </Col>
         <Col span={7}>
@@ -114,9 +125,15 @@ function MapPage(): React.ReactElement {
               return (
                 <MapSlide
                   unit={unit}
-                  onPreviousSlide={index !== 0 ? goPreviousSlide : void 0}
+                  onPreviousSlide={
+                    index !== 0
+                      ? () => goPreviousSlide(units[index - 1])
+                      : void 0
+                  }
                   onNextSlide={
-                    index !== units.length - 1 ? goNextSlide : void 0
+                    index !== units.length - 1
+                      ? () => goNextSlide(units[index + 1])
+                      : void 0
                   }
                 />
               );

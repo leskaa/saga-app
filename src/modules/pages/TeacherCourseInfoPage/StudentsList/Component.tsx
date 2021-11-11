@@ -81,7 +81,9 @@ function StudentsList(props: StudentsListProps): React.ReactElement {
       {isModalVisible && (
         <InviteStudentModal
           user={user}
+          courseId={5}
           visible={isModalVisible}
+          setVisible={setIsModalVisible}
           onOk={() => setIsModalVisible(false)}
           onCancel={() => setIsModalVisible(false)}
         />

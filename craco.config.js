@@ -10,6 +10,7 @@ module.exports = {
           lessOptions: {
             modifyVars: {
               '@primary-color': '#FF7875',
+              '@font-family': "'Roboto', sans-serif",
             },
             javascriptEnabled: true,
           },

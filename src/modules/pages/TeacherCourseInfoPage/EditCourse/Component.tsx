@@ -10,16 +10,21 @@ import {
   Col,
   Slider,
   InputNumber,
+  Spin,
 } from 'antd';
 import 'react-quill/dist/quill.snow.css';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import moment from 'moment';
+import useSWR from 'swr';
 import { EditCourseProps } from './types';
+import { apiEndpoint } from '../../../root/constants';
 
 function EditCourse(props: EditCourseProps): React.ReactElement {
-  const { user } = props;
+  const { user, course } = props;
 
-  const [inputValue, setInputValue] = useState(4);
+  const [inputValue, setInputValue] = useState(course.starGoal);
+
+  const { data: units } = useSWR(`${apiEndpoint}/courses/${course.id}/units/`);
 
   const [form] = Form.useForm();
 
@@ -72,15 +77,34 @@ function EditCourse(props: EditCourseProps): React.ReactElement {
     setInputValue(value);
   };
 
+  const onSubmit = (value: any) => {
+    console.log(value);
+  };
+
+  if (units === undefined) {
+    return <Spin size="large" />;
+  }
+
   return (
     <>
       <Row>
         <Col span={3} />
         <Col span={18}>
-          <Form form={form} layout="vertical" requiredMark={false}>
+          <Form
+            form={form}
+            layout="vertical"
+            requiredMark={false}
+            initialValues={{
+              chapters: [
+                { name: 'name1', map: 'AutumnRoad', description: 'abc' },
+                { name: 'name2', map: 'Liquid', description: 'xyz' },
+              ],
+            }}
+          >
             <Form.Item
               name="coursename"
               label="Adventure Name"
+              initialValue={course.name}
               rules={[
                 {
                   required: true,
@@ -97,11 +121,11 @@ function EditCourse(props: EditCourseProps): React.ReactElement {
               <Col span={1} />
             </Row>
             <Form.List
-              name="units"
+              name="chapters"
               rules={[
                 {
-                  validator: async (_, units) => {
-                    if (!units || units.length < 1) {
+                  validator: async (_, chapters) => {
+                    if (!chapters || chapters.length < 1) {
                       return Promise.reject(
                         new Error('At least 1 chapter is required!')
                       );
@@ -113,7 +137,7 @@ function EditCourse(props: EditCourseProps): React.ReactElement {
             >
               {(fields, { add, remove }, { errors }) => (
                 <>
-                  {fields.map((field) => (
+                  {fields.map((field: any) => (
                     <Form.Item required={false} key={field.key}>
                       <Form.Item
                         {...field}
@@ -121,7 +145,6 @@ function EditCourse(props: EditCourseProps): React.ReactElement {
                         rules={[
                           {
                             required: true,
-                            whitespace: true,
                             message:
                               'Please input chapter name or delete this field.',
                           },
@@ -130,12 +153,18 @@ function EditCourse(props: EditCourseProps): React.ReactElement {
                       >
                         <Row>
                           <Col span={6}>
-                            <Form.Item>
+                            <Form.Item
+                              name={[field.name, 'name']}
+                              fieldKey={[field.key, 'name']}
+                            >
                               <Input placeholder="New Chapter" />
                             </Form.Item>
                           </Col>
                           <Col span={4}>
-                            <Form.Item>
+                            <Form.Item
+                              name={[field.name, 'map']}
+                              fieldKey={[field.key, 'map']}
+                            >
                               <Select defaultValue="Liquid">
                                 <Option value="BusyBee">Busy Bee</Option>
                                 <Option value="AutumnRoad">Autumn Road</Option>
@@ -144,8 +173,11 @@ function EditCourse(props: EditCourseProps): React.ReactElement {
                             </Form.Item>
                           </Col>
                           <Col span={13}>
-                            <Form.Item>
-                              <Input />
+                            <Form.Item
+                              name={[field.name, 'description']}
+                              fieldKey={[field.key, 'description']}
+                            >
+                              <Input placeholder="Description" />
                             </Form.Item>
                           </Col>
                           <Col span={1}>
@@ -177,7 +209,11 @@ function EditCourse(props: EditCourseProps): React.ReactElement {
             </Form.List>
             <Row>
               <Col span={16}>
-                <Form.Item name="prize description" label="Prize Description">
+                <Form.Item
+                  name="prize description"
+                  label="Prize Description"
+                  initialValue={course.prize}
+                >
                   <Input placeholder="Description" />
                 </Form.Item>
               </Col>
@@ -212,8 +248,8 @@ function EditCourse(props: EditCourseProps): React.ReactElement {
               </Col>
             </Row>
             <Form.Item>
-              <Button type="primary" htmlType="submit">
-                Add Course
+              <Button type="primary" htmlType="submit" onSubmit={onSubmit}>
+                Save
               </Button>
             </Form.Item>
           </Form>

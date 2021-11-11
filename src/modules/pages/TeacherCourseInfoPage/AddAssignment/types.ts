@@ -1,5 +1,6 @@
-import { User } from '../../../general/types';
+import { Course, User } from '../../../general/types';
 
 export interface CourseInfoProps {
   user: User;
+  course: Course;
 }
