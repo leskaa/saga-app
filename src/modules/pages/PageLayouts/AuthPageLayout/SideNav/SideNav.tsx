@@ -1,11 +1,11 @@
 import React, { useState, useCallback, useContext } from 'react';
 import { Menu, Layout } from 'antd';
 import Icon, {
-  BookOutlined,
-  CalendarOutlined,
+  ReadOutlined,
+  AppstoreOutlined,
   MailOutlined,
   UserOutlined,
-  SettingOutlined,
+  ImportOutlined,
   HomeOutlined,
   QuestionCircleOutlined,
 } from '@ant-design/icons';
@@ -83,7 +83,7 @@ function SideNav(props: SideNavProps): React.ReactElement {
         </Menu.Item>
         <SubMenu
           key="my adventures"
-          icon={<BookOutlined />}
+          icon={<ReadOutlined />}
           title="My Adventures"
         >
           <Menu.Item key="_viewalladventures"> View All Adventures </Menu.Item>
@@ -92,7 +92,7 @@ function SideNav(props: SideNavProps): React.ReactElement {
           <Menu.Item key="geography"> Geography </Menu.Item>
           <Menu.Item key="history"> History </Menu.Item>
         </SubMenu>
-        <Menu.Item key="_questboard" icon={<CalendarOutlined />}>
+        <Menu.Item key="_questboard" icon={<AppstoreOutlined />}>
           Quest Board
         </Menu.Item>
         <Menu.Item key="_inbox" icon={<MailOutlined />}>
@@ -101,10 +101,9 @@ function SideNav(props: SideNavProps): React.ReactElement {
         <Menu.Item key="_character" icon={<UserOutlined />}>
           My Character
         </Menu.Item>
-        <SubMenu key="settingsgroup" icon={<SettingOutlined />} title="Options">
-          <Menu.Item key="sign out"> Sign out </Menu.Item>
-          <Menu.Item key="settings"> Settings </Menu.Item>
-        </SubMenu>
+        <Menu.Item key="sign out" icon={<ImportOutlined />}>
+          Sign out
+        </Menu.Item>
         <Menu.Item key="_support" icon={<QuestionCircleOutlined />}>
           Request Support
         </Menu.Item>
