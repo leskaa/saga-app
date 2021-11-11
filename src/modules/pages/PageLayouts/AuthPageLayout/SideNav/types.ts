@@ -5,6 +5,7 @@ export interface SideNavProps {
 export const SIDENAV_PATH_MAP = new Map([
   ['_home', '/adventures'],
   ['_viewalladventures', '/adventures'],
-  ['_mycharacter', '/character'],
+  ['_character', '/character'],
   ['_questboard', '/questboard'],
+  ['_inbox', '/inbox'],
 ]);

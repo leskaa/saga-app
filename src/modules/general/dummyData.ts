@@ -7,6 +7,7 @@ import {
   Assignment,
   Unit,
   Submission,
+  Message,
 } from './types';
 
 export const dummyMap: Map = {
@@ -82,3 +83,46 @@ export const dummySubmission: Submission = {
   createdAt: new Date('11-05-2021'),
   updatedAt: new Date('11-06-2021'),
 };
+
+export const dummyMessages: Message[] = [
+  {
+    id: 0,
+    subject: 'Bakes',
+    content: "I don't like your cake",
+    sender: 'Paul Hollywood',
+    read: false,
+    createdAt: new Date('11-05-2021'),
+  },
+  {
+    id: 1,
+    subject: 'Bakes 1',
+    content: "I don't like your cake",
+    sender: 'Paul Hollywood',
+    read: false,
+    createdAt: new Date('11-03-2021'),
+  },
+  {
+    id: 2,
+    subject: 'Bakes 2',
+    content: "I don't like your cake",
+    sender: 'Paul Hollywood',
+    read: false,
+    createdAt: new Date('11-02-2021'),
+  },
+  {
+    id: 3,
+    subject: 'Bakes 3',
+    content: "I don't like your cake",
+    sender: 'Mary Cherry',
+    read: false,
+    createdAt: new Date('11-01-2021'),
+  },
+  {
+    id: 4,
+    subject: 'Bakes 4',
+    content: 'I like your cake',
+    sender: 'Mary Cherry',
+    read: true,
+    createdAt: new Date('08-10-2011'),
+  },
+];

@@ -19,6 +19,7 @@ import TeacherCourseInfoPage from '../pages/TeacherCourseInfoPage';
 import NewMessagePage from '../pages/NewMessagePage';
 import TeacherAssignmentPage from '../pages/TeacherAssignmentPage';
 import StudentAssignmentPage from '../pages/StudentAssignmentPage';
+import InboxPage from '../pages/InboxPage';
 
 // Render Layout with Sidenav and stuff because user is authenticated
 function renderAuthRoute(children: React.ReactElement): React.ReactElement {
@@ -58,6 +59,8 @@ function AuthenticatedUserRoutes(
         element={renderAuthRoute(<StudentAssignmentPage />)}
       />
       <Route path="newletter" element={renderAuthRoute(<NewMessagePage />)} />
+      <Route path="newmessage" element={renderAuthRoute(<NewMessagePage />)} />
+      <Route path="/inbox" element={renderAuthRoute(<InboxPage />)} />
       <Route path="/*" element={<Navigate replace to="/" />} />
     </>
   ) : (
