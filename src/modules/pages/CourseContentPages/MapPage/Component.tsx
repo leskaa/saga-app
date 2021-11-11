@@ -9,33 +9,14 @@ import {
   Statistic,
 } from 'antd';
 import { StarOutlined, StarFilled, StarTwoTone } from '@ant-design/icons';
+import useSWR from 'swr';
 import { Unit } from './MapSlideComponent/types';
 import MapSlide from './MapSlideComponent/Component';
 import './map.css';
+import { apiEndpoint } from '../../../root/constants';
 
-const units: Unit[] = [
-  {
-    id: '1',
-    name: 'Unit 1',
-    description: 'lorem ipsum for unit 1',
-    courseId: 1,
-    mapId: 1,
-  },
-  {
-    id: '2',
-    name: 'Unit 2',
-    description: 'lorem ipsum for unit 2',
-    courseId: 1,
-    mapId: 1,
-  },
-  {
-    id: '3',
-    name: 'Unit 3',
-    description: 'lorem ipsum for unit 3',
-    courseId: 1,
-    mapId: 1,
-  },
-];
+const courseId = 5;
+const units = useSWR(`${apiEndpoint}/courses/${courseId}/units`)?.data;
 
 const { Title, Text } = Typography;
 
@@ -107,7 +88,7 @@ function MapPage(): React.ReactElement {
             infinite={false}
             style={{ height: '100vh' }}
           >
-            {units.map((unit, index) => {
+            {units.map((unit: Unit, index: number) => {
               return (
                 <MapSlide
                   unit={unit}
