@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Form, Input, Button, Checkbox, Row, Col, message } from 'antd';
-import Icon from '@ant-design/icons';
+import { convertResponseDataToUser } from '../../../general/utils';
 import { ReactComponent as LogoSvg } from '../../../../Logos/SagaBlack2Svg.svg';
 import '../signin.css';
 import MovingBooksContainer from '../../PageLayouts/NoAuthPageLayout/MovingBooksContainer';
@@ -33,9 +33,12 @@ function SignInPage(): React.ReactElement {
         }
         return res.json();
       })
-      .then((user) => {
+      .then((response) => {
         dispatch({ type: 'AUTHENTICATE_USER', payload: true });
-        dispatch({ type: 'SET_USER', payload: user });
+        dispatch({
+          type: 'SET_USER',
+          payload: convertResponseDataToUser(response.data),
+        });
         navigate('/myadventures');
       })
       .catch((err) => console.error(err));

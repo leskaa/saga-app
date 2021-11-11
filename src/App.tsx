@@ -9,7 +9,6 @@ function App(): React.ReactElement {
   return (
     <SWRConfig
       value={{
-        refreshInterval: 3000,
         fetcher: (resource, init) =>
           fetch(resource, { credentials: 'include' }).then((res) => res.json()),
       }}
