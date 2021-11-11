@@ -1,74 +1,80 @@
-import React from 'react';
+import React, { useState, useCallback } from 'react';
 import ReactQuill from 'react-quill';
-import { Button, InputNumber, Row, Col, Typography, List } from 'antd';
+import { Button, InputNumber, Row, Col, Typography, List, Form } from 'antd';
 import { AssignmentProps } from './types';
 import 'react-quill/dist/quill.snow.css';
 import './assignmentsubmissions.css';
+import { User } from '../../../general/types';
+import { dummyStudent } from '../../../general/dummyData';
 
 const { Text } = Typography;
+const students = [dummyStudent];
 
 function AssignmentSubmissions(props: AssignmentProps): React.ReactElement {
   const { user } = props;
 
-  const onChange = (e: any) => {
-    console.log('selected student');
-  };
+  const [selectedUser, setSelectedUser] = useState<User>(students[0]);
 
-  const onHover = (e: any) => {
-    console.log('hovering student');
-  };
+  const [form] = Form.useForm();
+
+  const handleOnClick = useCallback(
+    (student: User) => {
+      setSelectedUser(student);
+    },
+    [selectedUser]
+  );
 
   return (
     <>
       <Row>
         <Col span={2} />
-        <Col
-          span={5}
-          className="sidebar"
-          onClick={onChange}
-          onMouseOver={onHover}
-        >
-          <List size="small">
-            <List.Item>Student1</List.Item>
-            <List.Item>Student2</List.Item>
-            <List.Item>Student3</List.Item>
-            <List.Item>Student4</List.Item>
-            <List.Item>Student5</List.Item>
-            <List.Item>Student6</List.Item>
-            <List.Item>Student7</List.Item>
-            <List.Item>Student8</List.Item>
-            <List.Item>Student9</List.Item>
-            <List.Item>Student10</List.Item>
-            <List.Item>Student11</List.Item>
-            <List.Item>Student12</List.Item>
-            <List.Item>Student13</List.Item>
-            <List.Item>Student14</List.Item>
-            <List.Item>Student15</List.Item>
-          </List>
+        <Col span={5} className="sidebar" style={{ margin: 0, padding: 0 }}>
+          <List
+            size="small"
+            dataSource={students}
+            renderItem={(student: any) => (
+              <List.Item
+                style={
+                  selectedUser === student
+                    ? { background: '#FF7875', color: 'white' }
+                    : {}
+                }
+                onClick={() => handleOnClick(student)}
+              >
+                {student.name}
+              </List.Item>
+            )}
+          />
         </Col>
         <Col span={1} />
         <Col span={14}>
-          <Row className="assignment">
-            <Col span={4}>Student Name</Col>
-            <Col span={10} />
-            <Col span={2}>
-              <Text>Stars:</Text>
-            </Col>
-            <Col span={4}>
-              <InputNumber min={0} max={5} style={{ margin: '0 16px' }} />
-            </Col>
-            <Col span={4}>
-              <Button
-                type="primary"
-                htmlType="submit"
-                style={{ width: '100%' }}
-              >
-                Save
-              </Button>
-            </Col>
-          </Row>
+          <Form form={form} layout="vertical" requiredMark={false}>
+            <Row className="assignment">
+              <Col span={4}>Student Name</Col>
+              <Col span={10} />
+              <Col span={2}>
+                <Text>Stars:</Text>
+              </Col>
+              <Col span={4}>
+                <Form.Item name="stars">
+                  <InputNumber min={0} max={5} style={{ margin: '0 16px' }} />
+                </Form.Item>
+              </Col>
+              <Col span={4}>
+                <Form.Item>
+                  <Button
+                    type="primary"
+                    htmlType="submit"
+                    style={{ width: '100%' }}
+                  >
+                    Save
+                  </Button>
+                </Form.Item>
+              </Col>
+            </Row>
+          </Form>
           <Row className="text">
-            <div>
+            <div style={{ margin: '2%' }}>
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur
               nisl eros, tempus quis laoreet at, finibus ac lectus. Sed egestas
               ipsum non justo viverra, non aliquam elit rutrum. Donec id ligula

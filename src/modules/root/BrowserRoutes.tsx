@@ -17,7 +17,8 @@ import StudentGradesPage from '../pages/StudentGradesPage';
 import { GlobalContext } from './GlobalStore';
 import TeacherCourseInfoPage from '../pages/TeacherCourseInfoPage';
 import NewMessagePage from '../pages/NewMessagePage';
-import AssignmentPage from '../pages/TeacherAssignmentPage';
+import TeacherAssignmentPage from '../pages/TeacherAssignmentPage';
+import StudentAssignmentPage from '../pages/StudentAssignmentPage';
 
 // Render Layout with Sidenav and stuff because user is authenticated
 function renderAuthRoute(children: React.ReactElement): React.ReactElement {
@@ -52,7 +53,14 @@ function AuthenticatedUserRoutes(
         path="myquestboard"
         element={renderAuthRoute(<MyCalendarPage />)}
       />
-      <Route path="assignment" element={renderAuthRoute(<AssignmentPage />)} />
+      <Route
+        path="assignment"
+        element={renderAuthRoute(<TeacherAssignmentPage />)}
+      />
+      <Route
+        path="studentassignment"
+        element={renderAuthRoute(<StudentAssignmentPage />)}
+      />
       <Route path="newmessage" element={renderAuthRoute(<NewMessagePage />)} />
       <Route path="/*" element={<Navigate replace to="/" />} />
     </>
