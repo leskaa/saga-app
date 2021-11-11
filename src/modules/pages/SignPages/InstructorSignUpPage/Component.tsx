@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Form, Input, Button, Select, Row, Col } from 'antd';
+import { Form, Input, Button, Select, Row, Col, message } from 'antd';
 import Icon from '@ant-design/icons';
 import { ReactComponent as LogoSvg } from '../../../../Logos/SagaBlackSvg.svg';
 import '../signin.css';
@@ -9,13 +9,29 @@ import MovingBooksContainer from '../../PageLayouts/NoAuthPageLayout/MovingBooks
 function InstructorSignInPage(): React.ReactElement {
   const navigate = useNavigate();
 
-  function NavigateToRoute(path: string) {
-    navigate(path);
-  }
-
   const onFinish = (values: any) => {
     console.log('Success:', values);
-    NavigateToRoute('/confirmation');
+    fetch('https://saga-learn.herokuapp.com/registerTeacher', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        email: values.email,
+        password: values.password,
+        name: `${values.firstName} ${values.lastName}`,
+        pronouns: values.pronouns,
+      }),
+      credentials: 'include',
+    })
+      .then((res) => {
+        if (!res.ok) {
+          message.error('There was an issue registering.', 10);
+          throw Error(res.statusText);
+        }
+        navigate('/signin');
+      })
+      .catch((err) => console.error(err));
   };
 
   const onFinishFailed = (errorInfo: any) => {
