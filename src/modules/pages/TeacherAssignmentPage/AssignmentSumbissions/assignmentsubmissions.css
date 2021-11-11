@@ -1,0 +1,18 @@
+.sidebar {
+  background: white;
+  height: 70vh;
+  overflow: scroll;
+}
+
+.assignment {
+  height: 8vh;
+  background: white;
+  padding: 2%;
+}
+
+.text {
+  height: 62vh;
+  background: white;
+  overflow: scroll;
+  padding: 2%;
+}
