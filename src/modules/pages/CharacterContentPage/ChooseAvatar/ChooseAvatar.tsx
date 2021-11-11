@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
-import { Layout, Card, Typography, Row, Col } from 'antd';
+import React from 'react';
+import { Layout, Card, Typography, Row, Col, Spin } from 'antd';
+import useSWR from 'swr';
 import { ChooseAvatarProps } from './types';
-import { avatarUrls } from './dummyConstants';
 import './chooseavatar.css';
+import { apiEndpoint } from '../../../root/constants';
+import { Avatar } from '../../../general/types';
 
 const { Content } = Layout;
 const { Meta } = Card;
@@ -10,9 +12,28 @@ const { Title } = Typography;
 
 function ChooseAvatar(props: ChooseAvatarProps): React.ReactElement {
   const { user, ...rest } = props;
-  const [selectedAvatar, setSelectedAvatar] = useState<string>(
-    user.selectedAvatar
-  );
+  const { data, error } = useSWR(`${apiEndpoint}/ownedAvatars`);
+
+  const changeAvatar = (avatarUrl: string) => {
+    fetch('https://saga-learn.herokuapp.com/changeAvatar', {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        url: avatarUrl,
+      }),
+      credentials: 'include',
+    })
+      .then((res) => {
+        console.log('Success');
+      })
+      .catch((err) => console.error(err));
+  };
+
+  if (data === undefined) {
+    return <Spin size="default" />;
+  }
 
   return (
     <Content className="choose-avatar-container" {...rest}>
@@ -23,23 +44,25 @@ function ChooseAvatar(props: ChooseAvatarProps): React.ReactElement {
       </Row>
       <Row>
         <Col span={24} className="choose-avatar-col">
-          {Array.from(avatarUrls.entries()).map((entry) => (
-            <Card
-              hoverable
-              cover={<img alt="profile avatar" src={entry[1]} />}
-              className={
-                selectedAvatar === entry[0]
-                  ? 'avatar-card-selected'
-                  : 'avatar-card'
-              }
-              onClick={() => {
-                setSelectedAvatar(entry[0]);
-              }}
-              key={entry[0]}
-            >
-              <Meta title={entry[0]} />
-            </Card>
-          ))}
+          {Array.from(
+            data.map((avatar: Avatar) => (
+              <Card
+                hoverable
+                cover={<img alt="profile avatar" src={avatar.url} />}
+                className={
+                  user.selectedAvatar === avatar.url
+                    ? 'avatar-card-selected'
+                    : 'avatar-card'
+                }
+                onClick={() => {
+                  changeAvatar(avatar.url);
+                }}
+                key={avatar.name}
+              >
+                <Meta title={avatar.name} />
+              </Card>
+            ))
+          )}
         </Col>
       </Row>
     </Content>

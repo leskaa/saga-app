@@ -22,6 +22,7 @@ export interface Avatar {
   id: number;
   name: string;
   url: string;
+  cost: number;
   createdAt: Date;
   updatedAt: Date;
 }
