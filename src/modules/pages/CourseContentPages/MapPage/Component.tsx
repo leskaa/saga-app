@@ -16,7 +16,29 @@ import './map.css';
 import { apiEndpoint } from '../../../root/constants';
 
 const courseId = 5;
-const units = useSWR(`${apiEndpoint}/courses/${courseId}/units`)?.data;
+const units: Unit[] = [
+  {
+    id: '1',
+    name: 'Unit 1',
+    description: 'lorem ipsum for unit 1',
+    courseId: 1,
+    mapId: 1,
+  },
+  {
+    id: '2',
+    name: 'Unit 2',
+    description: 'lorem ipsum for unit 2',
+    courseId: 1,
+    mapId: 1,
+  },
+  {
+    id: '3',
+    name: 'Unit 3',
+    description: 'lorem ipsum for unit 3',
+    courseId: 1,
+    mapId: 1,
+  },
+];
 
 const { Title, Text } = Typography;
 
