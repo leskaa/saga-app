@@ -68,13 +68,14 @@ export const dummyTeacher: Teacher = {
 
 export const dummyAssignment: Assignment = {
   id: 6,
-  name: 'Project 1',
+  name: 'Assignment',
   content: 'Ooga booga yay!11',
   dueDate: new Date('12-31-2021'),
   unitId: 1,
   createdAt: new Date('11-05-2021'),
   updatedAt: new Date('11-06-2021'),
 };
+
 export const dummySubmission: Submission = {
   id: 7,
   grade: 4,
@@ -127,3 +128,15 @@ export const dummyMessages: Message[] = [
     createdAt: new Date('08-10-2011'),
   },
 ];
+
+export const dummyAssignments: Assignment[] = [...Array(10)].map(
+  (value, index) => {
+    return {
+      ...dummyAssignment,
+      id: index,
+      name: `Assignment ${index + 1}`,
+      content: `Content fsdfsf ${index} Content fsdfsf Content fsdfsf Content fsdfsf Content fsdfsf Content fsdfsf Content fsdfsf Content fsdfsf Content fsdfsf Content fsdfsf Content fsdfsf Content fsdfsf Content fsdfsf Content fsdfsf Content fsdfsf Content fsdfsf Content fsdfsf `,
+      createdAt: new Date('11-05-2021'),
+    };
+  }
+);

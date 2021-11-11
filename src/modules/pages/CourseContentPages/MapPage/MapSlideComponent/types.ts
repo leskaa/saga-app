@@ -11,3 +11,8 @@ export interface Unit {
   courseId: number;
   mapId: number;
 }
+
+export interface Coordinates {
+  x: number;
+  y: number;
+}

@@ -2,7 +2,7 @@
   height: 80vh;
   width: 100%;
   background: url('https://drive.google.com/uc?export=view&id=1YLqoHJStUKp4Op2S1mGVHZZbWpgRoa1q');
-  background-size: cover;
+  background-size: 100% 100%;
 }
 
 .navigate-button {
@@ -15,4 +15,23 @@
 
 .main-slide-content {
   text-align: center;
+}
+
+
+.inner-grid-col {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.inner-grid-row {
+  height: 5%;
+}
+
+.assignment-button {
+  margin: 0 auto;
+  display: block;
+  flex-shrink: 1;
+  outline: 1px solid black;
 }
