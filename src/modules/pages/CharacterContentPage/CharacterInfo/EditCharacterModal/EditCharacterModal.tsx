@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Modal, Form, Input, Button, Select } from 'antd';
 import { EditCharacterModalProps } from './types';
 import './editcharactermodal.css';
+import { convertResponseDataToUser } from '../../../../general/utils';
+import { GlobalContext } from '../../../../root/GlobalStore';
 
 /* eslint-disable no-template-curly-in-string */
 const validateMessages = {
@@ -24,9 +26,43 @@ function EditCharacterModal(
   props: EditCharacterModalProps
 ): React.ReactElement {
   const { user, ...rest } = props;
+  const { dispatch } = useContext(GlobalContext);
 
-  const onFinish = (values: any) => {
-    console.log(values);
+  const updateUser = (values: any) => {
+    let { name } = values;
+    let { pronouns } = values;
+
+    if (!name) {
+      name = user.name;
+    }
+    if (!pronouns) {
+      pronouns = user.pronouns;
+    }
+    fetch('https://saga-learn.herokuapp.com/updateUser', {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        name,
+        pronouns,
+      }),
+      credentials: 'include',
+    })
+      .then((res) => {
+        if (!res.ok) {
+          throw Error(res.statusText);
+        }
+        return res.json();
+      })
+      .then((response) => {
+        dispatch({
+          type: 'SET_USER',
+          payload: convertResponseDataToUser(response),
+        });
+        console.log(response);
+      })
+      .catch((err) => console.error(err));
   };
 
   return (
@@ -34,12 +70,12 @@ function EditCharacterModal(
       <Form
         {...layout}
         name="ed-character-form"
-        onFinish={onFinish}
+        onFinish={updateUser}
         validateMessages={validateMessages}
         className="edit-character-form"
       >
-        <Form.Item name={['user', 'name']} label="Name">
-          <Input disabled defaultValue={user?.name} />
+        <Form.Item label="Name" name="name">
+          <Input defaultValue={user?.name} />
         </Form.Item>
         <Form.Item label="Pronouns" name="pronouns">
           <Select defaultValue={user.pronouns ?? ''}>
