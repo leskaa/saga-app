@@ -67,7 +67,7 @@ function MyCalendarPage(): React.ReactElement {
               const style = {
                 border: '',
                 height: '8vh',
-                width: '8vh',
+                width: '92%',
                 marginLeft: '2vh',
                 paddingTop: '2vh',
                 fontSize: '1.3em',

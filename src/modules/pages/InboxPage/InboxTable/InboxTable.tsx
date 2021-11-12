@@ -51,11 +51,11 @@ function InboxTable(props: InboxTableProps): React.ReactElement {
 
   return (
     <List
-      className="inbox-table-container"
       size="small"
       dataSource={messages}
       renderItem={(record: any) => (
         <List.Item
+          id="hoverable"
           style={
             selectedMessage === record
               ? { background: '#FF7875', color: 'white' }

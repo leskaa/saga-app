@@ -34,6 +34,7 @@ function AssignmentSubmissions(props: AssignmentProps): React.ReactElement {
             dataSource={students}
             renderItem={(student: any) => (
               <List.Item
+                id="hoverable"
                 style={
                   selectedUser === student
                     ? { background: '#FF7875', color: 'white' }

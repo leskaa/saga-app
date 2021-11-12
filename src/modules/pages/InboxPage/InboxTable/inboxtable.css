@@ -9,3 +9,9 @@
   overflow: hidden;
   white-space: nowrap;
 }
+
+#hoverable:hover {
+  border-style: solid;
+  border-width: 1px;
+  border-color: #ff7875;
+}

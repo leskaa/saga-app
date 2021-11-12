@@ -16,7 +16,7 @@
   overflow: scroll;
 }
 
-.ant-list-item:hover {
+#hoverable:hover {
   border-style: solid;
   border-width: 1px;
   border-color: #ff7875;
