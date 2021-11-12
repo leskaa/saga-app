@@ -103,6 +103,7 @@ function MapSlide(props: MapSlideComponentProps): React.ReactElement {
                 <Col span={1} className="inner-grid-col">
                   {assignmentCoordinateIndex >= 0 && (
                     <Popover
+                      zIndex={10}
                       title={
                         isNextDue
                           ? `${assignment.name} IS DUE NEXT`

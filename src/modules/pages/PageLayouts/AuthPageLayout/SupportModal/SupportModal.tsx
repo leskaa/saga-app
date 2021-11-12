@@ -53,6 +53,7 @@ function SupportModal(props: SupportModalProps): React.ReactElement {
         display: 'flex',
       }}
       centered
+      zIndex={50}
       {...rest}
     >
       {!isFinished ? (

@@ -9,6 +9,7 @@ import {
   Typography,
   Progress,
   Statistic,
+  Spin,
 } from 'antd';
 import { StarOutlined } from '@ant-design/icons';
 import useSWR from 'swr';
@@ -32,7 +33,7 @@ const { Title, Text } = Typography;
 
 const { Content } = Layout;
 
-const units = dummyUnits;
+// const units = dummyUnits;
 
 function MapPage(): React.ReactElement {
   const carouselRef = React.createRef<any>();
@@ -41,7 +42,7 @@ function MapPage(): React.ReactElement {
   const getData = (endpoint: string) => {
     try {
       const { data } = useSWR(`${apiEndpoint}/${endpoint}`);
-      return { data };
+      return data;
     } catch (error) {
       console.log('error: ', error);
       throw error;
@@ -49,34 +50,41 @@ function MapPage(): React.ReactElement {
   };
 
   // grab units from course
-  /*
-  const { data: dataUnits } = getData(`/courses/${courseId}/units`);
 
-  const units = convertResponseDataToUnitArray(dataUnits);
-  */
+  // const dataUnits = getData(`courses/5/units`);
 
-  console.log(dummyUnits);
+  const { data: dataUnits } = useSWR(`${apiEndpoint}/units`);
 
-  const [currentUnit, setCurrentUnit] = useState<Unit>(units[0]);
+  console.log('DATAUNITS: ', dataUnits);
+
+  const units = convertResponseDataToUnitArray(dataUnits ?? []);
+
+  const [currentUnit, setCurrentUnit] = useState<Unit>(units?.[0]);
 
   // grab assignments from CurrentUnit
-  /*
+
   const getAssignments = useCallback((): Assignment[] => {
+    if (dataUnits === undefined) {
+      return [];
+    }
     const { data: dataAssignments } = getData(
-      `/unitAssignments/${currentUnit.id}`
+      `/unitAssignments/${currentUnit?.id}`
     );
     const assignments = convertResponseDataToAssignmentArray(dataAssignments);
     return assignments;
-  }, [currentUnit]);
+  }, [currentUnit, dataUnits]);
 
   const getSubmissions = useCallback((): Submission[] => {
+    if (dataUnits === undefined) {
+      return [];
+    }
+
     const { data: dataSubmissions } = getData(
-      `/unitStudentAssignments/${currentUnit.id}`
+      `/unitStudentAssignments/${currentUnit?.id}`
     );
     const submissions = convertResponseDataToSubmissionArray(dataSubmissions);
     return submissions;
-  }, [currentUnit]);
-  */
+  }, [currentUnit, dataUnits]);
 
   const submissions = dummySubmissions;
   const assignments = dummyAssignments;
@@ -97,6 +105,10 @@ function MapPage(): React.ReactElement {
     [carouselRef, currentUnit]
   );
 
+  if (dataUnits === undefined) {
+    return <Spin size="large" />;
+  }
+
   return (
     <Content className="container" style={{ height: '116%' }}>
       <Row>
@@ -108,7 +120,8 @@ function MapPage(): React.ReactElement {
             <br />
           </Title>
           <Text>
-            <b>{currentUnit.name}</b> - {currentUnit.description} <br /> <br />
+            <b>{currentUnit?.name}</b> - {currentUnit?.description} <br />
+            <br />
           </Text>
         </Col>
         <Col span={7}>

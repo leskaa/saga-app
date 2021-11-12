@@ -26,10 +26,10 @@ const layout = {
 function InviteStudentModal(
   props: InviteStudentModalProps
 ): React.ReactElement {
-  const { user, ...rest } = props;
+  const { user, courseId, ...rest } = props;
 
   const onFinish = (values: any) => {
-    fetch(`${apiEndpoint}/inviteStudent/${props.courseId}`, {
+    fetch(`${apiEndpoint}/inviteStudent/${courseId}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

@@ -30,7 +30,9 @@ const { Sider, Content } = Layout;
 function SideNav(props: SideNavProps): React.ReactElement {
   const { onRequestSupportClick } = props;
   const navigate = useNavigate();
-  const { dispatch } = useContext(GlobalContext);
+  const { globalState, dispatch } = useContext(GlobalContext);
+  const user = globalState.loggedInUser ?? null;
+
   const { data, error } = useSWR(`${apiEndpoint}/courses`);
 
   const [courses, setCourses] = useState<Course[]>([]);
@@ -65,7 +67,11 @@ function SideNav(props: SideNavProps): React.ReactElement {
           keyPathLength > 1 &&
           event.keyPath?.[keyPathLength - 1] === '_adventures'
         ) {
-          navigate(`/adventure/${event.key}`);
+          if (user?.isTeacher) {
+            navigate(`/adventure/${event.key}`);
+          } else {
+            navigate(`/adventuremap/${event.key}`);
+          }
         }
       }
     },
