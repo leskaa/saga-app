@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import { useParams } from 'react-router';
 
 import {
@@ -38,56 +38,31 @@ const { Content } = Layout;
 function MapPage(): React.ReactElement {
   const carouselRef = React.createRef<any>();
   const { courseId } = useParams();
-
-  const getData = (endpoint: string) => {
-    try {
-      const { data } = useSWR(`${apiEndpoint}/${endpoint}`);
-      return data;
-    } catch (error) {
-      console.log('error: ', error);
-      throw error;
-    }
-  };
-
   // grab units from course
 
-  // const dataUnits = getData(`courses/5/units`);
+  // TODO: FIX THESE CALLS and add undefined stuff
+  const { data: unitsData } = useSWR(
+    `${apiEndpoint}/courses/${courseId}/units`
+  );
+  const { data: assignmentsData } = useSWR(
+    () => `${apiEndpoint}/unitAssignments/${unitsData[0].id}/units`
+  );
 
-  const { data: dataUnits } = useSWR(`${apiEndpoint}/units`);
+  const { data: submissionsData } = useSWR(
+    () => `${apiEndpoint}/unitStudentAssignments/${unitsData[0].id}`
+  );
+  console.log('unitsData: ', unitsData);
+  console.log('assignmentsData: ', assignmentsData);
+  console.log('submissionsData: ', submissionsData);
 
-  console.log('DATAUNITS: ', dataUnits);
-
-  const units = convertResponseDataToUnitArray(dataUnits ?? []);
+  const units = convertResponseDataToUnitArray(unitsData ?? []);
 
   const [currentUnit, setCurrentUnit] = useState<Unit>(units?.[0]);
 
   // grab assignments from CurrentUnit
 
-  const getAssignments = useCallback((): Assignment[] => {
-    if (dataUnits === undefined) {
-      return [];
-    }
-    const { data: dataAssignments } = getData(
-      `/unitAssignments/${currentUnit?.id}`
-    );
-    const assignments = convertResponseDataToAssignmentArray(dataAssignments);
-    return assignments;
-  }, [currentUnit, dataUnits]);
-
-  const getSubmissions = useCallback((): Submission[] => {
-    if (dataUnits === undefined) {
-      return [];
-    }
-
-    const { data: dataSubmissions } = getData(
-      `/unitStudentAssignments/${currentUnit?.id}`
-    );
-    const submissions = convertResponseDataToSubmissionArray(dataSubmissions);
-    return submissions;
-  }, [currentUnit, dataUnits]);
-
-  const submissions = dummySubmissions;
   const assignments = dummyAssignments;
+  const submissions = dummySubmissions;
 
   const goNextSlide = useCallback(
     (unit: Unit) => {
@@ -105,10 +80,11 @@ function MapPage(): React.ReactElement {
     [carouselRef, currentUnit]
   );
 
-  if (dataUnits === undefined) {
+  /*
+  if (unitsData === undefined) {
     return <Spin size="large" />;
   }
-
+*/
   return (
     <Content className="container" style={{ height: '116%' }}>
       <Row>
