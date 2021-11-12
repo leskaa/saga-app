@@ -151,4 +151,24 @@ export function convertResponseDataToMapArray(data: any): Map[] {
 
   return maps;
 }
-// TODO: d
+
+export function convertResponseDataToSubmission(data: any): Submission {
+  const submission: Submission = {
+    id: data?.id,
+    content: data?.content,
+    grade: data?.grade,
+    studentId: data?.student_id,
+    assignmentId: data?.assignment_id,
+    createdAt: new Date(data?.created_at),
+    updatedAt: new Date(data?.updated_at),
+  };
+  return submission;
+}
+
+export function convertResponseDataToSubmissionArray(data: any): Submission[] {
+  const submissions: Submission[] = data.map((submission: any) =>
+    convertResponseDataToSubmission(submission)
+  );
+
+  return submissions;
+}

@@ -120,7 +120,7 @@ function BrowserRoutes() {
   return (
     <Routes>
       {/** TODO: Only render Authenticated User Routes if User is Logged In */}
-      {AuthenticatedUserRoutes(globalState?.isUserAuthenticated, user)}
+      {user && AuthenticatedUserRoutes(globalState?.isUserAuthenticated, user)}
       {NotAuthenticatedUserRoutes()}
     </Routes>
   );

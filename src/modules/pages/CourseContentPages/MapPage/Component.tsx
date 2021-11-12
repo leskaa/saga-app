@@ -1,4 +1,6 @@
 import React, { useState, useCallback } from 'react';
+import { useParams } from 'react-router';
+
 import {
   Row,
   Col,
@@ -8,46 +10,76 @@ import {
   Progress,
   Statistic,
 } from 'antd';
-import { StarOutlined, StarFilled, StarTwoTone } from '@ant-design/icons';
+import { StarOutlined } from '@ant-design/icons';
 import useSWR from 'swr';
-import { Unit } from './MapSlideComponent/types';
 import MapSlide from './MapSlideComponent/Component';
 import './map.css';
 import { apiEndpoint } from '../../../root/constants';
-
-const courseId = 5;
-const units: Unit[] = [
-  {
-    id: '1',
-    name: 'Unit 1',
-    description: 'lorem ipsum for unit 1',
-    courseId: 1,
-    mapId: 1,
-  },
-  {
-    id: '2',
-    name: 'Unit 2',
-    description: 'lorem ipsum for unit 2',
-    courseId: 1,
-    mapId: 1,
-  },
-  {
-    id: '3',
-    name: 'Unit 3',
-    description: 'lorem ipsum for unit 3',
-    courseId: 1,
-    mapId: 1,
-  },
-];
+import {
+  convertResponseDataToAssignmentArray,
+  convertResponseDataToUnitArray,
+  convertResponseDataToSubmissionArray,
+} from '../../../general/utils';
+import { Assignment, Unit, Submission } from '../../../general/types';
+import {
+  dummySubmissions,
+  dummyAssignments,
+  dummyUnits,
+  getdummyAssignments,
+} from '../../../general/dummyData';
 
 const { Title, Text } = Typography;
 
 const { Content } = Layout;
 
+const units = dummyUnits;
+
 function MapPage(): React.ReactElement {
   const carouselRef = React.createRef<any>();
+  const { courseId } = useParams();
+
+  const getData = (endpoint: string) => {
+    try {
+      const { data } = useSWR(`${apiEndpoint}/${endpoint}`);
+      return { data };
+    } catch (error) {
+      console.log('error: ', error);
+      throw error;
+    }
+  };
+
+  // grab units from course
+  /*
+  const { data: dataUnits } = getData(`/courses/${courseId}/units`);
+
+  const units = convertResponseDataToUnitArray(dataUnits);
+  */
+
+  console.log(dummyUnits);
 
   const [currentUnit, setCurrentUnit] = useState<Unit>(units[0]);
+
+  // grab assignments from CurrentUnit
+  /*
+  const getAssignments = useCallback((): Assignment[] => {
+    const { data: dataAssignments } = getData(
+      `/unitAssignments/${currentUnit.id}`
+    );
+    const assignments = convertResponseDataToAssignmentArray(dataAssignments);
+    return assignments;
+  }, [currentUnit]);
+
+  const getSubmissions = useCallback((): Submission[] => {
+    const { data: dataSubmissions } = getData(
+      `/unitStudentAssignments/${currentUnit.id}`
+    );
+    const submissions = convertResponseDataToSubmissionArray(dataSubmissions);
+    return submissions;
+  }, [currentUnit]);
+  */
+
+  const submissions = dummySubmissions;
+  const assignments = dummyAssignments;
 
   const goNextSlide = useCallback(
     (unit: Unit) => {
@@ -125,6 +157,8 @@ function MapPage(): React.ReactElement {
               return (
                 <MapSlide
                   unit={unit}
+                  assignments={assignments}
+                  submissions={submissions}
                   onPreviousSlide={
                     index !== 0
                       ? () => goPreviousSlide(units[index - 1])

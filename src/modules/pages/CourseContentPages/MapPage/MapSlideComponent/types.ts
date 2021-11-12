@@ -1,15 +1,11 @@
+import { Unit, Assignment, Submission } from '../../../../general/types';
+
 export interface MapSlideComponentProps {
   unit: Unit;
+  assignments: Assignment[];
+  submissions: Submission[];
   onNextSlide?: () => void;
   onPreviousSlide?: () => void;
-}
-
-export interface Unit {
-  id: string;
-  name: string;
-  description: string;
-  courseId: number;
-  mapId: number;
 }
 
 export interface Coordinates {
