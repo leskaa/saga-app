@@ -1,6 +1,6 @@
-import React, { useState, useCallback, useMemo } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { useParams } from 'react-router';
-
+import useSWR from 'swr';
 import {
   Row,
   Col,
@@ -12,7 +12,6 @@ import {
   Spin,
 } from 'antd';
 import { StarOutlined } from '@ant-design/icons';
-import useSWR from 'swr';
 import MapSlide from './MapSlideComponent/Component';
 import './map.css';
 import { apiEndpoint } from '../../../root/constants';
@@ -22,69 +21,65 @@ import {
   convertResponseDataToSubmissionArray,
 } from '../../../general/utils';
 import { Assignment, Unit, Submission } from '../../../general/types';
-import {
-  dummySubmissions,
-  dummyAssignments,
-  dummyUnits,
-  getdummyAssignments,
-} from '../../../general/dummyData';
 
 const { Title, Text } = Typography;
 
 const { Content } = Layout;
 
-// const units = dummyUnits;
-
 function MapPage(): React.ReactElement {
   const carouselRef = React.createRef<any>();
   const { courseId } = useParams();
-  // grab units from course
 
-  // TODO: FIX THESE CALLS and add undefined stuff
+  const [currentUnitIndex, setCurrentUnitIndex] = useState<number>(0);
+  const [units, setUnits] = useState<Unit[]>([]);
+  const [assignments, setAssignments] = useState<Assignment[]>([]);
+  const [submissions, setSubmissions] = useState<Submission[]>([]);
+
   const { data: unitsData } = useSWR(
-    `${apiEndpoint}/courses/${courseId}/units`
+    `${apiEndpoint}/courses/${courseId}/units`,
+    {}
   );
   const { data: assignmentsData } = useSWR(
-    () => `${apiEndpoint}/unitAssignments/${unitsData[0].id}/units`
+    () => `${apiEndpoint}/unitAssignments/${unitsData[currentUnitIndex].id}`
   );
-
   const { data: submissionsData } = useSWR(
-    () => `${apiEndpoint}/unitStudentAssignments/${unitsData[0].id}`
-  );
-  console.log('unitsData: ', unitsData);
-  console.log('assignmentsData: ', assignmentsData);
-  console.log('submissionsData: ', submissionsData);
-
-  const units = convertResponseDataToUnitArray(unitsData ?? []);
-
-  const [currentUnit, setCurrentUnit] = useState<Unit>(units?.[0]);
-
-  // grab assignments from CurrentUnit
-
-  const assignments = dummyAssignments;
-  const submissions = dummySubmissions;
-
-  const goNextSlide = useCallback(
-    (unit: Unit) => {
-      carouselRef.current.next();
-      setCurrentUnit(unit);
-    },
-    [carouselRef, currentUnit]
+    () =>
+      `${apiEndpoint}/unitStudentSubmissions/${unitsData[currentUnitIndex].id}`
   );
 
-  const goPreviousSlide = useCallback(
-    (unit: Unit) => {
-      carouselRef.current.prev();
-      setCurrentUnit(unit);
-    },
-    [carouselRef, currentUnit]
-  );
+  const goNextSlide = useCallback(() => {
+    carouselRef.current.next();
+    setCurrentUnitIndex(currentUnitIndex + 1);
+  }, [carouselRef, currentUnitIndex]);
 
-  /*
-  if (unitsData === undefined) {
-    return <Spin size="large" />;
+  const goPreviousSlide = useCallback(() => {
+    carouselRef.current.prev();
+    setCurrentUnitIndex(currentUnitIndex - 1);
+  }, [carouselRef, currentUnitIndex]);
+
+  useEffect(() => {
+    if (unitsData !== undefined)
+      setUnits(convertResponseDataToUnitArray(unitsData));
+  }, [unitsData]);
+
+  useEffect(() => {
+    if (assignmentsData !== undefined)
+      setAssignments(convertResponseDataToAssignmentArray(assignmentsData));
+  }, [assignmentsData]);
+
+  useEffect(() => {
+    if (submissionsData !== undefined)
+      setSubmissions(convertResponseDataToSubmissionArray(submissionsData));
+  }, [submissionsData]);
+
+  if (
+    unitsData === undefined ||
+    assignmentsData === undefined ||
+    submissionsData === undefined
+  ) {
+    return <Spin />;
   }
-*/
+
   return (
     <Content className="container" style={{ height: '116%' }}>
       <Row>
@@ -96,7 +91,8 @@ function MapPage(): React.ReactElement {
             <br />
           </Title>
           <Text>
-            <b>{currentUnit?.name}</b> - {currentUnit?.description} <br />
+            <b>{units?.[currentUnitIndex].name}</b> -
+            {units?.[currentUnitIndex].description} <br />
             <br />
           </Text>
         </Col>
@@ -149,14 +145,10 @@ function MapPage(): React.ReactElement {
                   assignments={assignments}
                   submissions={submissions}
                   onPreviousSlide={
-                    index !== 0
-                      ? () => goPreviousSlide(units[index - 1])
-                      : void 0
+                    index !== 0 ? () => goPreviousSlide() : void 0
                   }
                   onNextSlide={
-                    index !== units.length - 1
-                      ? () => goNextSlide(units[index + 1])
-                      : void 0
+                    index !== units.length - 1 ? () => goNextSlide() : void 0
                   }
                 />
               );
