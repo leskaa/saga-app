@@ -105,7 +105,7 @@ function NewMessagePage(): React.ReactElement {
     <Content className="container">
       <Row>
         <Title className="title" style={{ margin: 'auto', padding: '3%' }}>
-          New Message
+          New Letter
         </Title>
       </Row>
       <Row>
@@ -145,7 +145,7 @@ function NewMessagePage(): React.ReactElement {
 
                 <Form.Item>
                   <Button className="buttons" type="primary" htmlType="submit">
-                    Send Message
+                    Send Letter
                   </Button>
                 </Form.Item>
               </Col>
