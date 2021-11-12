@@ -44,14 +44,16 @@ function AssignmentDescription(props: AssignmentProps): React.ReactElement {
         <Col span={1} />
         <Col span={4} className="sidebar">
           <Row style={{ height: '30%' }}>
-            <Rate
-              disabled
-              defaultValue={
-                submissions[0] !== undefined ? submissions[0].grade : 0
-              }
-              className="stars"
-              style={{ height: '100%' }}
-            />
+            {submissions[0] !== undefined ? (
+              <Rate
+                disabled
+                defaultValue={submissions[0].grade}
+                className="stars"
+                style={{ height: '100%' }}
+              />
+            ) : (
+              <Text style={{ color: '#b4b5b7' }}>Ungraded</Text>
+            )}
           </Row>
           <Row style={{ height: '20%' }}>
             <Text>
