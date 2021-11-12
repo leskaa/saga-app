@@ -1,67 +1,90 @@
-import React from 'react';
-import { Typography, Layout, Row, Col, Statistic, Space, Avatar } from 'antd';
+import React, { useContext, useEffect, useState } from 'react';
+import {
+  Typography,
+  Layout,
+  Row,
+  Col,
+  Statistic,
+  Space,
+  Avatar,
+  Spin,
+  message,
+} from 'antd';
 import { StarOutlined } from '@ant-design/icons';
 import AvatarCard from './AvatarCard';
 import { Avatar as AvatarObject, User } from '../../general/types';
+import { GlobalContext } from '../../root/GlobalStore';
 
-const { Text, Title } = Typography;
+const { Title } = Typography;
 const { Content } = Layout;
 
 function ShopPage(): React.ReactElement {
-  const user = {
-    id: 4,
-    name: 'Frodo Baggins',
-    email: 'frodo.baggins@fellowship.edu',
-    pronouns: 'He/Him',
-    isTeacher: true,
-    stars: 56,
-    selectedAvatar: 'Blue',
-    createdAt: new Date('11-05-2021'),
-    updatedAt: new Date('11-06-2021'),
-    attendingCourses: [],
+  const { globalState } = useContext(GlobalContext);
+  const user = globalState.loggedInUser as User;
+  const [purchasableAvatars, setPurchasableAvatar] = useState<AvatarObject[]>(
+    []
+  );
+  const [allAvatars, setAllAvatars] = useState<AvatarObject[]>([]);
+  const [ownedAvatars, setOwnedAvatars] = useState<number[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+
+  const populateStore = () => {
+    const avatarList = allAvatars.filter((element: any) => {
+      return !ownedAvatars.includes(element.id);
+    });
+    setPurchasableAvatar(avatarList);
+    setLoading(false);
   };
-  const avatars: AvatarObject[] = [
-    {
-      id: 1,
-      name: 'Blue',
-      url: 'https://drive.google.com/uc?export=view&id=1ncNCMDOFzx1MH4HyBStHfHJoqYOfxngq',
-      cost: 35,
-      createdAt: new Date('11-05-2021'),
-      updatedAt: new Date('11-05-2021'),
-    },
-    {
-      id: 2,
-      name: 'Cat',
-      url: 'https://drive.google.com/uc?export=view&id=1VhUoLpsH9L5emU2WrfKd-8D1ZbldxeJw',
-      cost: 50,
-      createdAt: new Date('11-05-2021'),
-      updatedAt: new Date('11-05-2021'),
-    },
-    {
-      id: 3,
-      name: 'Cow',
-      url: 'https://drive.google.com/uc?export=view&id=1szEZ6OQ1mD5i9Pr7PpmGhuI4M6hlR3W3',
-      cost: 60,
-      createdAt: new Date('11-05-2021'),
-      updatedAt: new Date('11-05-2021'),
-    },
-    {
-      id: 4,
-      name: 'Dog',
-      url: 'https://drive.google.com/uc?export=view&id=1jpnKx6bRcz_zCBGzAF2LNvJVm8aji4cv',
-      cost: 50,
-      createdAt: new Date('11-05-2021'),
-      updatedAt: new Date('11-05-2021'),
-    },
-    {
-      id: 5,
-      name: 'Giraffe',
-      url: 'https://drive.google.com/uc?export=view&id=1QAhTBA6kMAwgw7r9_MXRMbWEUeB0TPNr',
-      cost: 60,
-      createdAt: new Date('11-05-2021'),
-      updatedAt: new Date('11-05-2021'),
-    },
-  ];
+
+  async function getAvatars() {
+    await fetch('https://saga-learn.herokuapp.com/avatars', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
+    })
+      .then((res) => {
+        if (!res.ok) {
+          message.error('Something went wrong.', 10);
+          throw Error(res.statusText);
+        }
+        return res.json();
+      })
+      .then((response) => {
+        setAllAvatars(response);
+      })
+      .catch((err) => console.error(err));
+
+    await fetch('https://saga-learn.herokuapp.com/ownedAvatars', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
+    })
+      .then((res) => {
+        if (!res.ok) {
+          message.error('Something went wrong.', 10);
+          throw Error(res.statusText);
+        }
+        return res.json();
+      })
+      .then((response) => {
+        setOwnedAvatars(response.map((e: AvatarObject) => e.id));
+      })
+      .catch((err) => console.error(err));
+
+    await populateStore();
+  }
+
+  useEffect(() => {
+    getAvatars();
+  }, [loading]);
+
+  if (loading) {
+    return <Spin size="default" />;
+  }
 
   return (
     <Content className="container">
@@ -82,8 +105,8 @@ function ShopPage(): React.ReactElement {
         <Col span={1}>
           <Avatar
             alt="profile avatar"
-            src="https://drive.google.com/uc?export=view&id=1ncNCMDOFzx1MH4HyBStHfHJoqYOfxngq"
-            style={{ width: '5em', height: '5em' }}
+            src={user.selectedAvatar}
+            style={{ width: '7em', height: '7em' }}
           />
         </Col>
         <Col span={2} />
@@ -93,10 +116,10 @@ function ShopPage(): React.ReactElement {
           size="large"
           style={{
             display: 'flex',
-            overflow: 'scroll',
+            justifyContent: 'center',
           }}
         >
-          {avatars.map((avatar: AvatarObject) => (
+          {purchasableAvatars.map((avatar: AvatarObject) => (
             <AvatarCard avatar={avatar} user={user} />
           ))}
         </Space>

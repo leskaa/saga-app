@@ -27,36 +27,6 @@ function MyCalendarPage(): React.ReactElement {
   const [selectedDate, setSelectedDate] = useState<Moment>(moment());
   const [currentAssignments, setCurrentAssignments] = useState<any[]>(data);
 
-  const getListData = useCallback((value) => {
-    let listData;
-    switch (value.date()) {
-      case 8:
-        listData = [
-          { type: 'warning', content: 'This is warning event.' },
-          { type: 'success', content: 'This is usual event.' },
-        ];
-        break;
-      case 10:
-        listData = [
-          { type: 'warning', content: 'This is warning event.' },
-          { type: 'success', content: 'This is usual event.' },
-          { type: 'error', content: 'This is error event.' },
-        ];
-        break;
-      case 15:
-        listData = [
-          { type: 'warning', content: 'This is warning event' },
-          { type: 'success', content: 'This is very long usual event。。....' },
-          { type: 'error', content: 'This is error event 1.' },
-          { type: 'error', content: 'This is error event 2.' },
-          { type: 'error', content: 'This is error event 3.' },
-          { type: 'error', content: 'This is error event 4.' },
-        ];
-        break;
-      default:
-    }
-  }, []);
-
   const handleSelectedDate = (value: Moment) => {
     setSelectedDate(value);
     const assignments = data.filter((element: any) => {
@@ -72,7 +42,6 @@ function MyCalendarPage(): React.ReactElement {
   if (data === undefined) {
     return <Spin size="default" />;
   }
-  console.log(data);
   return (
     <Content className="calendar-page-container">
       <Row className="name-row">
@@ -98,9 +67,17 @@ function MyCalendarPage(): React.ReactElement {
                 paddingTop: '2vh',
                 fontSize: '1.3em',
               };
-              if (current.date() === 10 || current.date() === 15) {
-                style.border = '1px solid #000000';
-              }
+              data.forEach((element: any) => {
+                const dateLong = element.due_date.split('T')[0];
+                const date = dateLong.split('-');
+                if (
+                  current.date().toString() === date[2] &&
+                  (current.month() + 1).toString() === date[1] &&
+                  current.year().toString() === date[0]
+                ) {
+                  style.border = '1px solid #000000';
+                }
+              });
               return (
                 <div className="ant-picker-cell-inner" style={style}>
                   {current.date()}

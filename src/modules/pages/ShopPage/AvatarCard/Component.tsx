@@ -1,17 +1,36 @@
 import React from 'react';
-import { Typography, Card, Button, Statistic } from 'antd';
+import { Card, Button, Statistic, message } from 'antd';
 import { StarOutlined } from '@ant-design/icons';
-import userEvent from '@testing-library/user-event';
 import { AvatarCardInfoProps } from './types';
 
-const { Text, Title } = Typography;
 const { Meta } = Card;
 
 function AvatarCard(props: AvatarCardInfoProps): React.ReactElement {
   const { avatar, user } = props;
 
   const onClickBuy = () => {
-    console.log('clicked');
+    console.log(avatar);
+    fetch('https://saga-learn.herokuapp.com/purchaseAvatar', {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        url: avatar.url,
+      }),
+      credentials: 'include',
+    })
+      .then((res) => {
+        if (!res.ok) {
+          message.error('Something went wrong.', 10);
+          throw Error(res.statusText);
+        }
+        return res.json();
+      })
+      .then((response) => {
+        user.stars -= avatar.cost;
+      })
+      .catch((err) => console.error(err));
   };
 
   return (
@@ -27,7 +46,7 @@ function AvatarCard(props: AvatarCardInfoProps): React.ReactElement {
         style={{ paddingBottom: '2%' }}
       />
       <Button
-        disabled={user.stars <= avatar.cost}
+        disabled={user.stars < avatar.cost}
         type="primary"
         style={{ width: '100%' }}
         onClick={onClickBuy}
