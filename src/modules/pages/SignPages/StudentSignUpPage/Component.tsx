@@ -1,29 +1,59 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Form, Input, Button, Select, Row, Col } from 'antd';
+import { useParams } from 'react-router';
+import { Form, Input, Button, Select, Row, Col, Spin, message } from 'antd';
+import useSWR from 'swr';
 import Icon from '@ant-design/icons';
 import { ReactComponent as LogoSvg } from '../../../../Logos/SagaBlackSvg.svg';
 import '../signin.css';
 import MovingBooksContainer from '../../PageLayouts/NoAuthPageLayout/MovingBooksContainer';
+import { apiEndpoint } from '../../../root/constants';
 
 function AddAssignmentPage(): React.ReactElement {
   const navigate = useNavigate();
+  const { verificationCode } = useParams();
+  const { data: email } = useSWR(
+    `${apiEndpoint}/inviteEmail/${verificationCode}`,
+    {
+      fetcher: (resource) => fetch(resource).then((res) => res.text()),
+    }
+  );
 
   function NavigateToRoute(path: string) {
     navigate(path);
   }
 
   const onFinish = (values: any) => {
-    console.log('Success:', values);
-    NavigateToRoute('/confirmation');
-  };
-
-  const onFinishFailed = (errorInfo: any) => {
-    console.log('Failed:', errorInfo);
+    fetch(
+      `${apiEndpoint}/registerStudent?verificationCode=${verificationCode}`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          password: values.password,
+          name: `${values.firstName} ${values.lastName}`,
+          pronouns: values.pronouns,
+        }),
+        credentials: 'include',
+      }
+    )
+      .then((res) => {
+        if (!res.ok) {
+          message.error('There was an issue registering.', 10);
+          throw Error(res.statusText);
+        }
+        NavigateToRoute('/confirmation');
+      })
+      .catch((err) => console.error(err));
   };
 
   const [form] = Form.useForm();
 
+  if (email === undefined) {
+    return <Spin size="large" />;
+  }
   return (
     <MovingBooksContainer>
       <>
@@ -43,9 +73,8 @@ function AddAssignmentPage(): React.ReactElement {
               form={form}
               layout="vertical"
               requiredMark
-              initialValues={{ pronouns: '' }}
+              initialValues={{ pronouns: '', email }}
               onFinish={onFinish}
-              onFinishFailed={onFinishFailed}
             >
               <Row>
                 <Col span={12}>
@@ -90,7 +119,7 @@ function AddAssignmentPage(): React.ReactElement {
               </Form.Item>
 
               <Form.Item label="Email" name="email">
-                <Input defaultValue="testemail@something.edu" disabled />
+                <Input disabled />
               </Form.Item>
 
               <Form.Item

@@ -29,15 +29,13 @@ function InviteStudentModal(
   const { user, ...rest } = props;
 
   const onFinish = (values: any) => {
-    fetch(`${apiEndpoint}/inviteStudents/${props.courseId}`, {
+    fetch(`${apiEndpoint}/inviteStudent/${props.courseId}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        email: values.email,
-        password: values.password,
-        rememberMe: values.remember,
+        emails: [values.email],
       }),
       credentials: 'include',
     })
@@ -66,7 +64,7 @@ function InviteStudentModal(
         className="edit-character-form"
       >
         <Form.Item
-          name={['user', 'email']}
+          name="email"
           label="Email"
           rules={[{ required: true, type: 'email' }]}
         >

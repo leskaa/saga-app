@@ -75,10 +75,12 @@ function NotAuthenticatedUserRoutes(): React.ReactFragment {
         path="/instructorsignup"
         element={renderNoAuthRoute(<InstructorSignUpPage />)}
       />
-      <Route
-        path="/studentsignup"
-        element={renderNoAuthRoute(<StudentSignUpPage />)}
-      />
+      <Route path="/studentsignup">
+        <Route
+          path=":verificationCode"
+          element={renderNoAuthRoute(<StudentSignUpPage />)}
+        />
+      </Route>
       <Route
         path="/confirmation"
         element={renderNoAuthRoute(<SignUpConfirmationPage />)}
