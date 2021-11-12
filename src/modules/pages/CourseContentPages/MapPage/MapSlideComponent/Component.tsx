@@ -15,12 +15,9 @@ const rows = 20;
 function MapSlide(props: MapSlideComponentProps): React.ReactElement {
   const { onNextSlide, onPreviousSlide } = props;
   const assignments = dummyAssignments;
-  console.log(assignments);
 
   const coordinateList: Coordinates[] =
     assignmentCoordinates.get(assignments.length) ?? [];
-
-  const [assignmentCounter, setAssignmentCounter] = useState<number>(0);
 
   const checkIsCoordinate = (x: number, y: number): number => {
     const coordinate: Coordinates = { x, y };
@@ -29,6 +26,10 @@ function MapSlide(props: MapSlideComponentProps): React.ReactElement {
     );
     return isCoordinate;
   };
+
+  const handleOnClick = useCallback((index: number) => {
+    console.log(`ASSIGNMENT ${index + 1} at index ${index} was clicked!`);
+  }, []);
 
   return (
     <Row style={{ height: '100%' }}>
@@ -60,35 +61,41 @@ function MapSlide(props: MapSlideComponentProps): React.ReactElement {
       <Col className="map-slide-container" span={20}>
         {[...Array(rows)].map((value, yIndex) => (
           <Row className="inner-grid-row">
-            {[...Array(cols)].map((value2, xIndex) => (
-              <Col span={1} className="inner-grid-col">
-                {checkIsCoordinate(xIndex, yIndex) >= 0 && (
-                  <Popover
-                    title={assignments[checkIsCoordinate(xIndex, yIndex)].name}
-                    content={
-                      <Typography style={{ width: '200px' }}>
-                        <Text ellipsis>
-                          {
-                            assignments[checkIsCoordinate(xIndex, yIndex)]
-                              .content
-                          }
-                        </Text>
-                      </Typography>
-                    }
-                    style={{ width: '20px' }}
-                  >
-                    <Button
-                      shape="circle"
-                      type="default"
-                      size="large"
-                      className="assignment-button"
+            {[...Array(cols)].map((value2, xIndex) => {
+              const assignmentCoordinateIndex = checkIsCoordinate(
+                xIndex,
+                yIndex
+              );
+
+              return (
+                <Col span={1} className="inner-grid-col">
+                  {assignmentCoordinateIndex >= 0 && (
+                    <Popover
+                      title={assignments[assignmentCoordinateIndex].name}
+                      content={
+                        <Typography style={{ width: '200px' }}>
+                          <Text ellipsis>
+                            {assignments[assignmentCoordinateIndex].content}
+                          </Text>
+                          <Text strong>Click Button to View</Text>
+                        </Typography>
+                      }
+                      style={{ width: '20px' }}
                     >
-                      {checkIsCoordinate(xIndex, yIndex) + 1}
-                    </Button>
-                  </Popover>
-                )}
-              </Col>
-            ))}
+                      <Button
+                        shape="circle"
+                        type="default"
+                        size="large"
+                        className="assignment-button"
+                        onClick={() => handleOnClick(assignmentCoordinateIndex)}
+                      >
+                        {assignmentCoordinateIndex + 1}
+                      </Button>
+                    </Popover>
+                  )}
+                </Col>
+              );
+            })}
           </Row>
         ))}
       </Col>

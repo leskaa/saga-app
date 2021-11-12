@@ -1,3 +1,5 @@
 import { ModalProps } from 'antd';
 
-export type SupportModalProps = ModalProps;
+export interface SupportModalProps extends ModalProps {
+  onHide: () => void;
+}
