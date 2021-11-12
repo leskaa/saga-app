@@ -26,3 +26,7 @@ code {
 .title {
   font-family: 'Cinzel', serif;
 }
+
+#logo :hover {
+  cursor: pointer;
+}

@@ -44,6 +44,10 @@ function SignInPage(): React.ReactElement {
       .catch((err) => console.error(err));
   };
 
+  const handleLogoClick = () => {
+    navigate('/');
+  };
+
   const onFinishFailed = (errorInfo: any) => {
     console.log('Failed:', errorInfo);
   };
@@ -55,6 +59,7 @@ function SignInPage(): React.ReactElement {
           <Col span={8} />
           <Col span={8} className="center-container">
             <LogoSvg
+              id="logo"
               style={{
                 width: '25em',
                 display: 'block',
@@ -62,6 +67,7 @@ function SignInPage(): React.ReactElement {
                 marginRight: 'auto',
                 height: '60%',
               }}
+              onClick={handleLogoClick}
             />
             <Form
               form={form}

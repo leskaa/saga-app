@@ -1,18 +1,38 @@
 import React from 'react';
 import { Typography, Layout, Divider } from 'antd';
 import './about.css';
+import { useNavigate } from 'react-router-dom';
+import { ReactComponent as LogoSvg } from '../../../Logos/SagaBlack2Svg.svg';
 
 const { Content } = Layout;
 const { Paragraph, Title } = Typography;
 
 function AboutPage(): React.ReactElement {
+  const navigate = useNavigate();
+
+  const handleLogoClick = () => {
+    navigate('/');
+  };
+
   return (
     <Content className="about-page-container">
+      <LogoSvg
+        id="logo"
+        style={{
+          width: '10em',
+          height: '5em',
+          margin: '1em auto',
+          display: 'block',
+        }}
+        onClick={handleLogoClick}
+      />
       <Typography>
-        <Title className="title">
-          {' '}
-          We are bringing discovery and excitement into education with Saga.{' '}
-        </Title>
+        <Divider orientation="left">
+          <Title className="title" level={2}>
+            {' '}
+            We are bringing discovery and excitement into education with Saga.{' '}
+          </Title>
+        </Divider>
         <Paragraph className="paragraph-container">
           It&apos;s not about making a platform where students can succeed,
           It&apos;s about making a platform that makes students want to succeed.
@@ -20,11 +40,13 @@ function AboutPage(): React.ReactElement {
           reward them for their hard work through a gamified online learning
           platform.
         </Paragraph>
-        <Divider />
-        <Title className="title" level={2}>
-          {' '}
-          What is Gamification?{' '}
-        </Title>
+        <br />
+        <Divider orientation="left">
+          <Title className="title" level={3}>
+            {' '}
+            What is Gamification?{' '}
+          </Title>
+        </Divider>
         <Paragraph className="paragraph-container">
           The Miriam-Webster dictionary defines gamification as ‘the process of
           adding games or gamelike elements to something (such as a task) as to
@@ -55,10 +77,12 @@ function AboutPage(): React.ReactElement {
           encouraging, and motivating as a game, but we hope that Saga can help
           educators take the first step into a new and better way of teaching.
         </Paragraph>
-        <Divider />
-        <Title className="title" level={2}>
-          What is Saga?
-        </Title>
+        <br />
+        <Divider orientation="left">
+          <Title className="title" level={3}>
+            What is Saga?
+          </Title>
+        </Divider>
         <Paragraph className="paragraph-container">
           Saga is an online learning management system that serves as a platform
           for teaching and learning between students and teachers. Saga creates
@@ -72,27 +96,30 @@ function AboutPage(): React.ReactElement {
           real-world prizes set by the teacher, such as a pizza party, or a
           movie viewing at the end of the course.
         </Paragraph>
-
-        <Divider />
-
-        <Title className="title">
-          Saga is still in beta, so many features are still on the way!{' '}
-        </Title>
+        <br />
+        <Divider orientation="left">
+          <Title className="title" level={2}>
+            Saga is still in beta, so many features are still on the way!{' '}
+          </Title>
+        </Divider>
         <Paragraph className="paragraph-container">
           Saga was made by Alex Leska, Ethan Nguyen, Marguerite Brugger, and
           Trent Yetzer for the Liquid Hacks 2.0 Hackathon.
         </Paragraph>
-
-        <Title className="title" level={3}>
-          Front End
-        </Title>
+        <Divider orientation="left">
+          <Title className="title" level={3}>
+            Front End
+          </Title>
+        </Divider>
         <Paragraph className="paragraph-container">
           Languages + Libraries: Typescript, React-Typescript, Ant Design
           Infrastructure: Netlify (Static Site Host)
         </Paragraph>
-        <Title className="title" level={3}>
-          Back End
-        </Title>
+        <Divider orientation="left">
+          <Title className="title" level={3}>
+            Back End
+          </Title>
+        </Divider>
         <Paragraph className="paragraph-container">
           Languages + Libraries: Typescript, Node.js, AdonisJS, MySQL
           Infrastructure: Fly.io (Paas), PlanetScale (Serverless SQL), Google
