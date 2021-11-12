@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Modal,
   Form,
@@ -11,25 +11,81 @@ import {
   Select,
   Slider,
   InputNumber,
+  Spin,
 } from 'antd';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
+import useSWR from 'swr';
+import { useNavigate } from 'react-router';
 import { CreateCourseModalProps } from './types';
 import { apiEndpoint } from '../../../../root/constants';
 import EditCourse from '../../../TeacherCourseInfoPage/EditCourse';
+import { Map } from '../../../../general/types';
 
 const { Title } = Typography;
 const { Option } = Select;
 
 function CreateCourseModal(props: CreateCourseModalProps): React.ReactElement {
-  const { user, ...rest } = props;
+  const { user, setVisible, ...rest } = props;
 
-  const inputValue = 4;
+  const [inputValue, setInputValue] = useState(4);
+  const { data: maps } = useSWR(`${apiEndpoint}/maps`);
 
   const [form] = Form.useForm();
+  const navigate = useNavigate();
 
-  const onSubmit = (value: any) => {
-    console.log(value);
+  const onFinish = (values: any) => {
+    console.log(values);
+    fetch(`${apiEndpoint}/courses/`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        name: values.coursename,
+        description: '',
+        starGoal: inputValue,
+        prize: values.prizedescription,
+        mapIds: [values.map],
+      }),
+      credentials: 'include',
+    })
+      .then((response) => {
+        if (!response.ok) {
+          message.error('There was an issue creating the adventure.', 10);
+          throw Error(response.statusText);
+        }
+        return response.json();
+      })
+      .then((json) => {
+        fetch(`${apiEndpoint}/courses/${json.course_id}/units`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            name: values.coursename,
+            description: values.description,
+            unitNumber: 1,
+            mapId: [values.map],
+          }),
+          credentials: 'include',
+        })
+          .then((res) => {
+            if (!res.ok) {
+              message.error('There was an issue creating the chapter.', 10);
+              throw Error(res.statusText);
+            }
+            message.success('Adventure created!', 10);
+            setVisible(false);
+          })
+          .catch((err) => console.error(err));
+      })
+      .catch((err) => console.error(err));
   };
+
+  if (maps === undefined) {
+    return <Spin size="large" />;
+  }
 
   return (
     <Modal footer={null} {...rest} width="70%">
@@ -42,6 +98,7 @@ function CreateCourseModal(props: CreateCourseModalProps): React.ReactElement {
           <Col span={22}>
             <Form
               form={form}
+              onFinish={onFinish}
               layout="vertical"
               requiredMark={false}
               initialValues={{
@@ -77,10 +134,10 @@ function CreateCourseModal(props: CreateCourseModalProps): React.ReactElement {
                 </Col>
                 <Col span={4}>
                   <Form.Item name="map">
-                    <Select defaultValue="Liquid">
-                      <Option value="BusyBee">Busy Bee</Option>
-                      <Option value="AutumnRoad">Autumn Road</Option>
-                      <Option value="Liquid">Liquid</Option>
+                    <Select defaultValue={1}>
+                      {maps.map((map: Map) => (
+                        <Option value={map.id}>{map.name}</Option>
+                      ))}
                     </Select>
                   </Form.Item>
                 </Col>
@@ -92,7 +149,7 @@ function CreateCourseModal(props: CreateCourseModalProps): React.ReactElement {
               </Row>
               <Row>
                 <Col span={16}>
-                  <Form.Item name="prize description" label="Prize Description">
+                  <Form.Item name="prizedescription" label="Prize Description">
                     <Input placeholder="Description" />
                   </Form.Item>
                 </Col>
@@ -110,6 +167,7 @@ function CreateCourseModal(props: CreateCourseModalProps): React.ReactElement {
                           value={
                             typeof inputValue === 'number' ? inputValue : 0
                           }
+                          onChange={setInputValue}
                           step={0.1}
                         />
                       </Col>
@@ -120,6 +178,7 @@ function CreateCourseModal(props: CreateCourseModalProps): React.ReactElement {
                           style={{ margin: '0 16px' }}
                           step={0.1}
                           value={inputValue}
+                          onChange={setInputValue}
                         />
                       </Col>
                     </Row>
@@ -127,7 +186,7 @@ function CreateCourseModal(props: CreateCourseModalProps): React.ReactElement {
                 </Col>
               </Row>
               <Form.Item>
-                <Button type="primary" htmlType="submit" onSubmit={onSubmit}>
+                <Button type="primary" htmlType="submit">
                   Create
                 </Button>
               </Form.Item>
