@@ -1,16 +1,28 @@
 import React from 'react';
 import ReactQuill from 'react-quill';
-import { Button, InputNumber, Row, Col, Typography, List, Form } from 'antd';
+import { useNavigate } from 'react-router';
+import {
+  Button,
+  InputNumber,
+  Row,
+  Col,
+  Typography,
+  List,
+  Form,
+  message,
+} from 'antd';
 import { AssignmentProps } from './types';
 import 'react-quill/dist/quill.snow.css';
 import './studentassignmentsubmissions.css';
+import { apiEndpoint } from '../../../root/constants';
 
 const { Text } = Typography;
 
 function AssignmentSubmissions(props: AssignmentProps): React.ReactElement {
-  const { user } = props;
+  const { user, assignment } = props;
 
   const [form] = Form.useForm();
+  const navigate = useNavigate();
 
   const modules = {
     toolbar: [
@@ -53,12 +65,39 @@ function AssignmentSubmissions(props: AssignmentProps): React.ReactElement {
     'code block',
   ];
 
+  const onFinish = (values: any) => {
+    fetch(`${apiEndpoint}/assignments/${assignment.id}/submissions`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        content: values.submission,
+      }),
+      credentials: 'include',
+    })
+      .then((res) => {
+        if (!res.ok) {
+          message.error('There was an issue submitting.', 10);
+          throw Error(res.statusText);
+        }
+        message.success('Submitted!', 10);
+        navigate(`/adventures`);
+      })
+      .catch((err) => console.error(err));
+  };
+
   return (
     <>
       <Row>
         <Col span={3} />
         <Col span={18}>
-          <Form form={form} layout="vertical" requiredMark={false}>
+          <Form
+            form={form}
+            layout="vertical"
+            requiredMark={false}
+            onFinish={onFinish}
+          >
             <Row className="assignment">
               <Col span={20} />
               <Col span={4}>

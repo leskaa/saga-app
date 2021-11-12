@@ -1,15 +1,13 @@
 import React from 'react';
 
 import { Typography, Layout } from 'antd';
-import { useNavigate } from 'react-router';
 import { BookProps } from './types';
 import './book.css';
 
 const { Title } = Typography;
 const { Content } = Layout;
 function Book(props: BookProps): React.ReactElement {
-  const { course, colorIndex } = props;
-  const navigate = useNavigate();
+  const { course, colorIndex, onBookClick } = props;
 
   const colors = [
     '#D6AAEF',
@@ -24,11 +22,8 @@ function Book(props: BookProps): React.ReactElement {
     '#91D5FF',
   ];
 
-  const handleOnClick = () => {
-    navigate(`/adventure/${course.id}`);
-  };
   return (
-    <Content className="book" onClick={handleOnClick}>
+    <Content className="book" onClick={onBookClick}>
       <Content className="back" style={{ background: colors[colorIndex] }} />
       <Content className="page6" />
       <Content className="page5" />

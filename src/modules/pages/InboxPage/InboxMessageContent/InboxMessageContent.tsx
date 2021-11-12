@@ -35,27 +35,33 @@ function InboxMessageContent(
     // </Card>
     <Content className="inbox-message-container">
       <Row>
-        <Col span={3}>
-          <Text>From:</Text>
+        <Col span={22}>
+          <Row>
+            <Col span={3}>
+              <Text>From:</Text>
+            </Col>
+            <Col span={16}>
+              <Text>{message.sender}</Text>
+            </Col>
+            <Col span={5}>
+              <Text>{message.createdAt.toString()}</Text>
+            </Col>
+          </Row>
+          <Row style={{ paddingTop: '2%' }}>
+            <Col span={3}>
+              <Text>Subject:</Text>
+            </Col>
+            <Col span={21}>
+              <Text>{message.subject}</Text>
+            </Col>
+          </Row>
         </Col>
-        <Col span={16}>
-          <Text>{message.sender}</Text>
+        <Col span={2}>
           <Avatar
             alt="profile avatar"
-            src="https://drive.google.com/uc?export=view&id=1351Sn0NN6refchUXVrMx6AXL-oyR5lMT"
-            style={{ width: '3em' }}
+            src="https://drive.google.com/uc?export=view&id=1ncNCMDOFzx1MH4HyBStHfHJoqYOfxngq"
+            style={{ width: '4em', height: '4em' }}
           />
-        </Col>
-        <Col span={5}>
-          <Text>{message.createdAt.toString()}</Text>
-        </Col>
-      </Row>
-      <Row style={{ paddingTop: '2%' }}>
-        <Col span={3}>
-          <Text>Subject:</Text>
-        </Col>
-        <Col span={21}>
-          <Text>{message.subject}</Text>
         </Col>
       </Row>
       <Row>

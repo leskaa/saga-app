@@ -1,22 +1,31 @@
-import React, { useCallback, useContext } from 'react';
-import { Calendar, Layout, Badge, Row, Col, Typography, List } from 'antd';
+import React, { useCallback, useContext, useState } from 'react';
+import moment, { Moment } from 'moment';
+import {
+  Calendar,
+  Layout,
+  Badge,
+  Row,
+  Col,
+  Typography,
+  List,
+  Spin,
+} from 'antd';
 import { PresetStatusColorType } from 'antd/lib/_util/colors.d';
 import Item from 'antd/lib/list/Item';
+import useSWR from 'swr';
 import { GlobalContext } from '../../root/GlobalStore';
 import { User } from '../../general/types';
 import './mycalendarpage.css';
+import { apiEndpoint } from '../../root/constants';
 
 const { Content } = Layout;
 const { Title, Text } = Typography;
 function MyCalendarPage(): React.ReactElement {
   const { globalState } = useContext(GlobalContext);
+  const { data, error } = useSWR(`${apiEndpoint}/relatedAssignments`);
   const user = globalState.loggedInUser as User;
-
-  const courseData = [
-    'Adventure Name 1',
-    'Adventure Name 2',
-    'Adventure Name 3',
-  ];
+  const [selectedDate, setSelectedDate] = useState<Moment>(moment());
+  const [currentAssignments, setCurrentAssignments] = useState<any[]>(data);
 
   const getListData = useCallback((value) => {
     let listData;
@@ -48,6 +57,22 @@ function MyCalendarPage(): React.ReactElement {
     }
   }, []);
 
+  const handleSelectedDate = (value: Moment) => {
+    setSelectedDate(value);
+    const assignments = data.filter((element: any) => {
+      const elementDate = element.due_date.split('T')[0];
+      if (selectedDate.format().split('T')[0] === elementDate) {
+        return true;
+      }
+      return false;
+    });
+    setCurrentAssignments(assignments);
+  };
+
+  if (data === undefined) {
+    return <Spin size="default" />;
+  }
+  console.log(data);
   return (
     <Content className="calendar-page-container">
       <Row className="name-row">
@@ -62,6 +87,7 @@ function MyCalendarPage(): React.ReactElement {
         <Col span={9}>
           <Calendar
             fullscreen={false}
+            onSelect={handleSelectedDate}
             className="calendar"
             dateFullCellRender={(current) => {
               const style = {
@@ -86,23 +112,19 @@ function MyCalendarPage(): React.ReactElement {
         <Col span={2} />
         <Col span={9}>
           <Title className="title" level={3}>
-            November 1st, 2021
+            {selectedDate.format('LL')}
           </Title>
           <List
-            dataSource={courseData}
-            renderItem={(item) => (
+            dataSource={currentAssignments}
+            renderItem={(assignment: any) => (
               <List.Item>
                 <Typography.Text style={{ fontWeight: 'bold' }}>
                   {' '}
-                  {item}{' '}
-                </Typography.Text>
-                .
+                  {assignment.name}{' '}
+                </Typography.Text>{' '}
                 <List size="small">
                   <List.Item style={{ padding: 0 }}>
-                    Assignment 1 Name
-                  </List.Item>
-                  <List.Item style={{ padding: 0 }}>
-                    Assignment 2 Name
+                    {assignment.content}
                   </List.Item>
                 </List>
               </List.Item>

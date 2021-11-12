@@ -18,16 +18,20 @@ function StudentsList(props: StudentsListProps): React.ReactElement {
   const columns: any = [
     {
       title: 'Avatar',
-      width: 4,
+      width: 2,
       dataIndex: 'selected_avatar_url',
       align: 'center',
       render: (avatar: string) => (
-        <Avatar alt="profile avatar" src={avatar} style={{ width: '3em' }} />
+        <Avatar
+          alt="profile avatar"
+          src={avatar}
+          style={{ width: '2em', height: '2em' }}
+        />
       ),
     },
     {
       title: 'Name',
-      width: 5,
+      width: 6,
       dataIndex: 'name',
       sorter: (a: any, b: any) => a.name.length - b.name.length,
     },
@@ -39,7 +43,7 @@ function StudentsList(props: StudentsListProps): React.ReactElement {
     },
     {
       title: 'Email',
-      width: 9,
+      width: 12,
       dataIndex: 'email',
       sorter: (a: any, b: any) => a.email.length - b.email.length,
     },

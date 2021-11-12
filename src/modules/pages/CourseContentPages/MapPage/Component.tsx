@@ -1,4 +1,6 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
+import { useParams } from 'react-router';
+
 import {
   Row,
   Col,
@@ -7,47 +9,60 @@ import {
   Typography,
   Progress,
   Statistic,
+  Spin,
 } from 'antd';
-import { StarOutlined, StarFilled, StarTwoTone } from '@ant-design/icons';
+import { StarOutlined } from '@ant-design/icons';
 import useSWR from 'swr';
-import { Unit } from './MapSlideComponent/types';
 import MapSlide from './MapSlideComponent/Component';
 import './map.css';
 import { apiEndpoint } from '../../../root/constants';
-
-const courseId = 5;
-const units: Unit[] = [
-  {
-    id: '1',
-    name: 'Unit 1',
-    description: 'lorem ipsum for unit 1',
-    courseId: 1,
-    mapId: 1,
-  },
-  {
-    id: '2',
-    name: 'Unit 2',
-    description: 'lorem ipsum for unit 2',
-    courseId: 1,
-    mapId: 1,
-  },
-  {
-    id: '3',
-    name: 'Unit 3',
-    description: 'lorem ipsum for unit 3',
-    courseId: 1,
-    mapId: 1,
-  },
-];
+import {
+  convertResponseDataToAssignmentArray,
+  convertResponseDataToUnitArray,
+  convertResponseDataToSubmissionArray,
+} from '../../../general/utils';
+import { Assignment, Unit, Submission } from '../../../general/types';
+import {
+  dummySubmissions,
+  dummyAssignments,
+  dummyUnits,
+  getdummyAssignments,
+} from '../../../general/dummyData';
 
 const { Title, Text } = Typography;
 
 const { Content } = Layout;
 
+// const units = dummyUnits;
+
 function MapPage(): React.ReactElement {
   const carouselRef = React.createRef<any>();
+  const { courseId } = useParams();
+  // grab units from course
 
-  const [currentUnit, setCurrentUnit] = useState<Unit>(units[0]);
+  // TODO: FIX THESE CALLS and add undefined stuff
+  const { data: unitsData } = useSWR(
+    `${apiEndpoint}/courses/${courseId}/units`
+  );
+  const { data: assignmentsData } = useSWR(
+    () => `${apiEndpoint}/unitAssignments/${unitsData[0].id}/units`
+  );
+
+  const { data: submissionsData } = useSWR(
+    () => `${apiEndpoint}/unitStudentAssignments/${unitsData[0].id}`
+  );
+  console.log('unitsData: ', unitsData);
+  console.log('assignmentsData: ', assignmentsData);
+  console.log('submissionsData: ', submissionsData);
+
+  const units = convertResponseDataToUnitArray(unitsData ?? []);
+
+  const [currentUnit, setCurrentUnit] = useState<Unit>(units?.[0]);
+
+  // grab assignments from CurrentUnit
+
+  const assignments = dummyAssignments;
+  const submissions = dummySubmissions;
 
   const goNextSlide = useCallback(
     (unit: Unit) => {
@@ -65,6 +80,11 @@ function MapPage(): React.ReactElement {
     [carouselRef, currentUnit]
   );
 
+  /*
+  if (unitsData === undefined) {
+    return <Spin size="large" />;
+  }
+*/
   return (
     <Content className="container" style={{ height: '116%' }}>
       <Row>
@@ -76,7 +96,8 @@ function MapPage(): React.ReactElement {
             <br />
           </Title>
           <Text>
-            <b>{currentUnit.name}</b> - {currentUnit.description} <br /> <br />
+            <b>{currentUnit?.name}</b> - {currentUnit?.description} <br />
+            <br />
           </Text>
         </Col>
         <Col span={7}>
@@ -125,6 +146,8 @@ function MapPage(): React.ReactElement {
               return (
                 <MapSlide
                   unit={unit}
+                  assignments={assignments}
+                  submissions={submissions}
                   onPreviousSlide={
                     index !== 0
                       ? () => goPreviousSlide(units[index - 1])

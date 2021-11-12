@@ -1,20 +1,17 @@
-import React, { useCallback, useState } from 'react';
-import { Row, Col, Layout, Button, Popover, Typography, Rate } from 'antd';
+import React, { useCallback, useMemo } from 'react';
+import { Row, Col, Button, Popover, Rate } from 'antd';
 import { LeftOutlined, RightOutlined } from '@ant-design/icons';
+import { useNavigate } from 'react-router-dom';
 import { MapSlideComponentProps, Coordinates } from './types';
 import { assignmentCoordinates } from './constants';
-import { dummyAssignments } from '../../../../general/dummyData';
 import './mapslide.css';
-
-const { Content } = Layout;
-const { Text } = Typography;
 
 const cols = 24;
 const rows = 20;
 
 function MapSlide(props: MapSlideComponentProps): React.ReactElement {
-  const { onNextSlide, onPreviousSlide } = props;
-  const assignments = dummyAssignments;
+  const { onNextSlide, onPreviousSlide, assignments, submissions } = props;
+  const navigate = useNavigate();
 
   const coordinateList: Coordinates[] =
     assignmentCoordinates.get(assignments.length) ?? [];
@@ -27,9 +24,40 @@ function MapSlide(props: MapSlideComponentProps): React.ReactElement {
     return isCoordinate;
   };
 
-  const handleOnClick = useCallback((index: number) => {
-    console.log(`ASSIGNMENT ${index + 1} at index ${index} was clicked!`);
-  }, []);
+  const getAssignmentHasSubmission = useCallback(
+    (id: number) => {
+      return submissions.find((submission) => submission.assignmentId === id);
+    },
+    [submissions]
+  );
+
+  const sortedAssignments = useMemo(() => {
+    const tempSortedAssignments = assignments.sort((a, b) => {
+      return a.dueDate.valueOf() - b.dueDate.valueOf();
+    });
+
+    return tempSortedAssignments;
+  }, [assignments]);
+
+  const closestDueAssignment = useMemo(() => {
+    const currentTime = new Date().valueOf();
+
+    const afterDates = sortedAssignments.filter((d) => {
+      return (
+        currentTime <= d.dueDate.valueOf() && !getAssignmentHasSubmission(d.id)
+      );
+    });
+
+    return afterDates?.[0];
+  }, [sortedAssignments]);
+
+  const handleOnClick = useCallback(
+    (index: number) => {
+      const { id } = assignments[index];
+      navigate(`/quest/${id}`);
+    },
+    [assignments]
+  );
 
   return (
     <Row style={{ height: '100%' }}>
@@ -67,23 +95,35 @@ function MapSlide(props: MapSlideComponentProps): React.ReactElement {
                 yIndex
               );
 
+              const assignment = assignments[assignmentCoordinateIndex];
+              const isNextDue = closestDueAssignment?.id === assignment?.id;
+              const hasSubmission = getAssignmentHasSubmission(assignment?.id);
+
               return (
                 <Col span={1} className="inner-grid-col">
                   {assignmentCoordinateIndex >= 0 && (
                     <Popover
-                      title={assignments[assignmentCoordinateIndex].name}
+                      zIndex={10}
+                      title={
+                        isNextDue
+                          ? `${assignment.name} IS DUE NEXT`
+                          : assignment.name
+                      }
+                      visible={isNextDue ? true : void 0}
                       content={
                         <Rate
                           disabled
-                          defaultValue={4}
-                          style={{ color: '#ff7875' }}
+                          defaultValue={
+                            hasSubmission ? hasSubmission?.grade : void 0
+                          }
+                          style={{ color: '#FF7875' }}
                         />
                       }
                       style={{ width: '20px' }}
                     >
                       <Button
                         shape="circle"
-                        type="default"
+                        type={hasSubmission ? 'primary' : 'default'}
                         size="large"
                         className="assignment-button"
                         onClick={() => handleOnClick(assignmentCoordinateIndex)}

@@ -68,9 +68,10 @@ export interface Unit {
 
 export interface Submission {
   id: number;
+  content: string;
   grade: number;
-  student: Student;
-  assignment: Assignment;
+  studentId: number;
+  assignmentId: number;
   createdAt: Date;
   updatedAt: Date;
 }

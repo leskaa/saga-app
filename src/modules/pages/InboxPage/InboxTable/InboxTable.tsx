@@ -66,8 +66,8 @@ function InboxTable(props: InboxTableProps): React.ReactElement {
           <div className="inboxtext">
             <Avatar
               alt="profile avatar"
-              src="https://drive.google.com/uc?export=view&id=1351Sn0NN6refchUXVrMx6AXL-oyR5lMT"
-              style={{ width: '3em' }}
+              src="https://drive.google.com/uc?export=view&id=1ncNCMDOFzx1MH4HyBStHfHJoqYOfxngq"
+              style={{ marginRight: '6px' }}
             />
             <b>{record.sender}</b> - {record.subject}
           </div>

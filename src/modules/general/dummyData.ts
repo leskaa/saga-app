@@ -10,6 +10,12 @@ import {
   Message,
 } from './types';
 
+function randomDate(start: Date, end: Date) {
+  return new Date(
+    start.getTime() + Math.random() * (end.getTime() - start.getTime())
+  );
+}
+
 export const dummyMap: Map = {
   id: 1,
   name: 'Bee Map',
@@ -79,8 +85,9 @@ export const dummyAssignment: Assignment = {
 export const dummySubmission: Submission = {
   id: 7,
   grade: 4,
-  student: dummyStudent,
-  assignment: dummyAssignment,
+  content: "I don't like your cake",
+  studentId: 1,
+  assignmentId: 6,
   createdAt: new Date('11-05-2021'),
   updatedAt: new Date('11-06-2021'),
 };
@@ -137,6 +144,26 @@ export const dummyAssignments: Assignment[] = [...Array(10)].map(
       name: `Assignment ${index + 1}`,
       content: `Content fsdfsf ${index} Content fsdfsf Content fsdfsf Content fsdfsf Content fsdfsf Content fsdfsf Content fsdfsf Content fsdfsf Content fsdfsf Content fsdfsf Content fsdfsf Content fsdfsf Content fsdfsf Content fsdfsf Content fsdfsf Content fsdfsf Content fsdfsf `,
       createdAt: new Date('11-05-2021'),
+      dueDate: randomDate(new Date('01-01-2016'), new Date('06-25-2025')),
     };
   }
 );
+
+export const dummyUnits: Unit[] = [...Array(10)].map((value, index) => {
+  return {
+    ...dummyUnit,
+  };
+});
+
+export const dummySubmissions: Submission[] = [...Array(4)].map(
+  (value, index) => {
+    return {
+      ...dummySubmission,
+      id: index + 30,
+      assignmentId: index,
+      grade: Math.floor(Math.random() * 6),
+    };
+  }
+);
+
+export const getdummyAssignments = () => dummyAssignments;

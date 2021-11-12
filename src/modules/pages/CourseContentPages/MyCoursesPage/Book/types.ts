@@ -1,9 +1,9 @@
-import { ClassAttributes, HtmlHTMLAttributes } from 'react';
 import { Course } from '../../../../general/types';
 
 export interface BookProps {
   course: Course;
   colorIndex: number;
+  onBookClick: () => void;
 }
 
 export const BOOK_COLORS = ['#91D5FF', '#FF7875', '#FFF1B8'];
