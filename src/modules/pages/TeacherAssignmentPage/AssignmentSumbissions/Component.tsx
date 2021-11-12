@@ -1,5 +1,6 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import ReactQuill from 'react-quill';
+import ReactHtmlParser from 'react-html-parser';
 import {
   Button,
   InputNumber,
@@ -9,20 +10,37 @@ import {
   List,
   Form,
   Avatar,
+  Spin,
+  message,
 } from 'antd';
+import useSWR from 'swr';
 import { AssignmentProps } from './types';
 import 'react-quill/dist/quill.snow.css';
 import './assignmentsubmissions.css';
-import { User } from '../../../general/types';
+import { Submission, User } from '../../../general/types';
 import { dummyStudent } from '../../../general/dummyData';
+import { apiEndpoint } from '../../../root/constants';
+import {
+  convertResponseDataToSubmissionArray,
+  convertResponseDataToUserArray,
+} from '../../../general/utils';
 
-const { Text } = Typography;
-const students = [dummyStudent];
+const { Text, Title } = Typography;
 
 function AssignmentSubmissions(props: AssignmentProps): React.ReactElement {
-  const { user, assignment } = props;
+  const { user, course, assignment } = props;
 
-  const [selectedUser, setSelectedUser] = useState<User>(students[0]);
+  const [selectedUser, setSelectedUser] = useState<User>();
+  const [selectedSubmission, setSelectedSubmission] = useState<Submission>();
+  const [starInputValue, setStarInputValue] = useState<number>(0);
+
+  const { data: submissions } = useSWR(
+    `${apiEndpoint}/assignments/${assignment.id}/submissions`
+  );
+
+  const { data: students } = useSWR(
+    `${apiEndpoint}/enrolledStudents/${course.id}`
+  );
 
   const [form] = Form.useForm();
 
@@ -32,6 +50,58 @@ function AssignmentSubmissions(props: AssignmentProps): React.ReactElement {
     },
     [selectedUser]
   );
+
+  const onFinish = (values: any) => {
+    fetch(`${apiEndpoint}/gradeSubmission/${selectedSubmission?.id}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        content: selectedSubmission?.content,
+        grade: starInputValue,
+      }),
+      credentials: 'include',
+    })
+      .then((res) => {
+        if (!res.ok) {
+          message.error('There was an issue updating the grade.', 10);
+          throw Error(res.statusText);
+        }
+        message.success('Grade updated!', 10);
+      })
+      .catch((err) => console.error(err));
+  };
+
+  useEffect(() => {
+    if (
+      submissions !== undefined &&
+      students !== undefined &&
+      submissions !== null &&
+      students !== null
+    )
+      setSelectedSubmission(
+        submissions.filter(
+          (submission: any) => submission.user_id === selectedUser?.id
+        )[0]
+      );
+  }, [selectedUser]);
+
+  useEffect(() => {
+    if (students !== undefined) {
+      setSelectedUser(students[0]);
+    }
+  }, [students]);
+
+  useEffect(() => {
+    if (selectedSubmission !== undefined && selectedSubmission !== null) {
+      setStarInputValue(selectedSubmission.grade);
+    }
+  }, [selectedSubmission]);
+
+  if (selectedSubmission === null || selectedUser === null) {
+    return <Spin size="large" />;
+  }
 
   return (
     <>
@@ -57,90 +127,67 @@ function AssignmentSubmissions(props: AssignmentProps): React.ReactElement {
           />
         </Col>
         <Col span={1} />
-        <Col span={14}>
-          <Form form={form} layout="vertical" requiredMark={false}>
-            <Row className="assignment">
-              <Col span={2}>
-                <Avatar
-                  alt="profile avatar"
-                  src="https://drive.google.com/uc?export=view&id=1351Sn0NN6refchUXVrMx6AXL-oyR5lMT"
-                  style={{ width: '3em' }}
-                />
-              </Col>
-              <Col span={4}>Student Name</Col>
-              <Col span={8} />
-              <Col span={2}>
-                <Text>Stars:</Text>
-              </Col>
-              <Col span={4}>
-                <Form.Item name="stars">
-                  <InputNumber min={0} max={5} style={{ margin: '0 16px' }} />
-                </Form.Item>
-              </Col>
-              <Col span={4}>
-                <Form.Item>
-                  <Button
-                    type="primary"
-                    htmlType="submit"
-                    style={{ width: '100%' }}
-                  >
-                    Save
-                  </Button>
-                </Form.Item>
-              </Col>
+        {selectedSubmission && starInputValue ? (
+          <Col span={14}>
+            <Form
+              form={form}
+              layout="vertical"
+              requiredMark={false}
+              onFinish={onFinish}
+            >
+              <Row className="assignment">
+                <Col span={2}>
+                  <Avatar
+                    alt="profile avatar"
+                    src={selectedUser?.selectedAvatar}
+                    style={{ width: '3em' }}
+                  />
+                </Col>
+                <Col span={4}>{selectedUser?.name}</Col>
+                <Col span={8} />
+                <Col span={2}>
+                  <Text>Stars:</Text>
+                </Col>
+                <Col span={4}>
+                  <Form.Item name="stars">
+                    <InputNumber
+                      min={0}
+                      max={5}
+                      style={{ margin: '0 16px' }}
+                      defaultValue={starInputValue}
+                      value={starInputValue}
+                      onChange={setStarInputValue}
+                    />
+                  </Form.Item>
+                </Col>
+                <Col span={4}>
+                  <Form.Item>
+                    <Button
+                      type="primary"
+                      htmlType="submit"
+                      style={{ width: '100%' }}
+                    >
+                      Save
+                    </Button>
+                  </Form.Item>
+                </Col>
+              </Row>
+            </Form>
+            <Row className="text">
+              <div style={{ margin: '2%' }}>
+                {ReactHtmlParser(selectedSubmission.content)}
+              </div>
             </Row>
-          </Form>
-          <Row className="text">
-            <div style={{ margin: '2%' }}>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur
-              nisl eros, tempus quis laoreet at, finibus ac lectus. Sed egestas
-              ipsum non justo viverra, non aliquam elit rutrum. Donec id ligula
-              non tortor tempor scelerisque. Nullam ut est gravida, luctus
-              ligula fringilla, vehicula lorem. Donec ac egestas risus, vitae
-              pulvinar orci. Vestibulum blandit tincidunt diam, sit amet
-              accumsan leo laoreet et. Pellentesque efficitur turpis sed nunc
-              pharetra venenatis. Cras eu pharetra libero. Etiam ut eleifend
-              risus. Suspendisse commodo sapien eu velit sagittis hendrerit.
-              Quisque a convallis mi. Pellentesque eget elementum ligula. Morbi
-              commodo, tellus non consectetur venenatis, erat neque feugiat
-              odio, ac sagittis tortor metus et ante. Ut laoreet a augue
-              vestibulum placerat. Pellentesque lacus turpis, consectetur et
-              molestie ac, sagittis eu dolor. Donec congue ut magna et feugiat.
-              Morbi ut nunc vitae purus vehicula tristique. Duis et tempor
-              neque. Nullam rhoncus a diam vel lobortis. Etiam eleifend
-              facilisis accumsan. Sed eget laoreet enim. Morbi ullamcorper orci
-              at eros semper, in blandit mauris sodales. Integer nec mollis
-              sapien. Mauris magna tellus, molestie vitae purus a, porta
-              eleifend arcu. Donec in ante at mauris posuere congue. Curabitur
-              sed lorem varius, fermentum ligula id, tempor nibh. Cras
-              consectetur volutpat orci, sed blandit tortor aliquam ut.
-              Pellentesque finibus magna nec diam sagittis, quis pulvinar dolor
-              dapibus. Nunc in suscipit magna, at ultricies augue. Donec
-              ultricies sapien hendrerit felis dictum molestie. Proin sagittis
-              in leo sed tincidunt. Nam aliquet placerat mauris, a lobortis
-              nulla feugiat vel. Integer blandit ullamcorper magna at porta.
-              Aenean sed luctus metus. Ut est diam, condimentum ut nunc sed,
-              venenatis faucibus mauris. Suspendisse eget lacus efficitur,
-              eleifend lorem vitae, efficitur lacus. Nulla varius sem vitae
-              viverra tempor. Ut ac dolor scelerisque, varius leo id, ultrices
-              nunc. Maecenas sit amet euismod magna, quis cursus nunc. Nunc
-              vitae scelerisque nibh, sed auctor lorem. Nullam porttitor eros
-              nec eros consectetur gravida. Duis sed nibh non urna pellentesque
-              dapibus eget non tortor. Orci varius natoque penatibus et magnis
-              dis parturient montes, nascetur ridiculus mus. Ut vitae bibendum
-              dolor. Curabitur ullamcorper laoreet nunc, a efficitur elit
-              consectetur vel. Ut congue nec elit id cursus. Aenean sagittis
-              dolor lobortis finibus vulputate. Aliquam erat volutpat. In
-              euismod ante eget libero dapibus, id efficitur sapien lobortis.
-              Morbi quis consectetur orci. Phasellus pretium mi in metus
-              euismod, in fringilla est tempor. Sed at sodales augue.
-              Pellentesque tempus id lorem a accumsan. Cras mattis massa ut elit
-              rhoncus vulputate. Aliquam ac venenatis tortor, eget rutrum leo.
-              Quisque quis magna vitae sem elementum pulvinar. Nunc ultricies
-              nisi quis lorem auctor tristique. Aenean nec tincidunt lorem.{' '}
-            </div>
-          </Row>
-        </Col>
+          </Col>
+        ) : (
+          <div>
+            <br />
+            <br />
+            <Title level={2} className="title" style={{ color: '#b4b5b7' }}>
+              Not Submitted
+            </Title>
+          </div>
+        )}
         <Col span={2} />
       </Row>
     </>
