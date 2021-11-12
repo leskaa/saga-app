@@ -19,6 +19,7 @@ import NewMessagePage from '../pages/NewMessagePage';
 import TeacherAssignmentPage from '../pages/TeacherAssignmentPage';
 import StudentAssignmentPage from '../pages/StudentAssignmentPage';
 import InboxPage from '../pages/InboxPage';
+import { User } from '../general/types';
 
 // Render Layout with Sidenav and stuff because user is authenticated
 function renderAuthRoute(children: React.ReactElement): React.ReactElement {
@@ -31,11 +32,16 @@ function renderNoAuthRoute(children: React.ReactElement): React.ReactElement {
 
 // Add routes where user should only be able to access when they are authenticated
 function AuthenticatedUserRoutes(
-  isUserAuthenticated: boolean
+  isUserAuthenticated: boolean,
+  user: User
 ): React.ReactElement {
+  const { isTeacher } = user;
+
   return isUserAuthenticated ? (
     <>
-      <Route path="/adventuremap" element={renderAuthRoute(<MapPage />)} />
+      <Route path="/adventuremap">
+        <Route path=":courseId" element={renderAuthRoute(<MapPage />)} />
+      </Route>
       <Route
         path="/character"
         element={renderAuthRoute(<CharacterContentPage />)}
@@ -62,6 +68,21 @@ function AuthenticatedUserRoutes(
       <Route path="newmessage" element={renderAuthRoute(<NewMessagePage />)} />
       <Route path="/mailbox" element={renderAuthRoute(<InboxPage />)} />
       <Route path="/*" element={<Navigate replace to="/" />} />
+      {/* Routes that only teachers can access */}
+      {isTeacher && (
+        <>
+          <Route path="/adventure">
+            <Route
+              path=":courseId"
+              element={renderAuthRoute(<TeacherCourseInfoPage />)}
+            />
+          </Route>
+          <Route
+            path="viewquest"
+            element={renderAuthRoute(<TeacherAssignmentPage />)}
+          />
+        </>
+      )}
     </>
   ) : (
     <Route path="/*" element={<Navigate replace to="/signin" />} />
@@ -94,10 +115,12 @@ function NotAuthenticatedUserRoutes(): React.ReactFragment {
 
 function BrowserRoutes() {
   const { globalState } = useContext(GlobalContext);
+  const user = globalState.loggedInUser;
+
   return (
     <Routes>
       {/** TODO: Only render Authenticated User Routes if User is Logged In */}
-      {AuthenticatedUserRoutes(globalState?.isUserAuthenticated)}
+      {AuthenticatedUserRoutes(globalState?.isUserAuthenticated, user)}
       {NotAuthenticatedUserRoutes()}
     </Routes>
   );
