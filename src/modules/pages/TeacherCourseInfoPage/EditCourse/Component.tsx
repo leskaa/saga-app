@@ -4,13 +4,13 @@ import {
   Form,
   Input,
   Button,
-  Select,
   Space,
   Row,
   Col,
   Slider,
   InputNumber,
   Spin,
+  Select,
 } from 'antd';
 import 'react-quill/dist/quill.snow.css';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
@@ -18,6 +18,8 @@ import moment from 'moment';
 import useSWR from 'swr';
 import { EditCourseProps } from './types';
 import { apiEndpoint } from '../../../root/constants';
+
+const { Option } = Select;
 
 function EditCourse(props: EditCourseProps): React.ReactElement {
   const { user, course } = props;
@@ -27,51 +29,6 @@ function EditCourse(props: EditCourseProps): React.ReactElement {
   const { data: units } = useSWR(`${apiEndpoint}/courses/${course?.id}/units/`);
 
   const [form] = Form.useForm();
-
-  const format = 'HH:mm';
-
-  const modules = {
-    toolbar: [
-      [{ header: [1, 2, false] }],
-      [
-        'bold',
-        'italic',
-        'underline',
-        'strike',
-        'blockquote',
-        { color: [] },
-        { background: [] },
-      ],
-      [
-        { list: 'ordered' },
-        { list: 'bullet' },
-        { indent: '-1' },
-        { indent: '+1' },
-        { align: [] },
-      ],
-      ['link', 'code-block'],
-      ['clean'],
-    ],
-  };
-
-  const formats = [
-    'header',
-    'bold',
-    'italic',
-    'underline',
-    'strike',
-    'blockquote',
-    'color',
-    'background',
-    'list',
-    'bullet',
-    'indent',
-    'text alignment',
-    'link',
-    'code block',
-  ];
-
-  const { Option } = Select;
 
   const onChange = (value: number) => {
     setInputValue(value);
