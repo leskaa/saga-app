@@ -1,7 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Form, Input, Button, Select, Row, Col, message } from 'antd';
-import Icon from '@ant-design/icons';
 import { ReactComponent as LogoSvg } from '../../../../Logos/SagaBlackSvg.svg';
 import '../signin.css';
 import MovingBooksContainer from '../../PageLayouts/NoAuthPageLayout/MovingBooksContainer';
@@ -38,6 +37,10 @@ function InstructorSignInPage(): React.ReactElement {
     console.log('Failed:', errorInfo);
   };
 
+  const handleLogoClick = () => {
+    navigate('/');
+  };
+
   const [form] = Form.useForm();
 
   return (
@@ -47,6 +50,7 @@ function InstructorSignInPage(): React.ReactElement {
           <Col span={7} />
           <Col span={10} className="center-container">
             <LogoSvg
+              id="logo"
               style={{
                 width: '20em',
                 display: 'block',
@@ -54,6 +58,7 @@ function InstructorSignInPage(): React.ReactElement {
                 marginRight: 'auto',
                 height: '29%',
               }}
+              onClick={handleLogoClick}
             />
             <Form
               form={form}

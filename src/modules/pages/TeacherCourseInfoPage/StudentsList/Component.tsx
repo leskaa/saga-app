@@ -1,26 +1,40 @@
 import React, { useState } from 'react';
-import { Select, Row, Col, Table, Button } from 'antd';
+import useSWR from 'swr';
+import { Select, Row, Col, Table, Button, Avatar } from 'antd';
 import { StudentsListProps } from './types';
 import 'react-quill/dist/quill.snow.css';
 import InviteStudentModal from './InviteStudentModal';
+import { apiEndpoint } from '../../../root/constants';
 
 function StudentsList(props: StudentsListProps): React.ReactElement {
-  const { user } = props;
+  const { user, course } = props;
+  const { data, error } = useSWR(
+    `${apiEndpoint}/enrolledStudents/${course.id}`
+  );
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
 
-  const { Option } = Select;
+  console.log(data);
 
   const columns: any = [
     {
+      title: 'Avatar',
+      width: 4,
+      dataIndex: 'selected_avatar_url',
+      align: 'center',
+      render: (avatar: string) => (
+        <Avatar alt="profile avatar" src={avatar} style={{ width: '3em' }} />
+      ),
+    },
+    {
       title: 'First Name',
       width: 5,
-      dataIndex: 'firstname',
+      dataIndex: 'name',
       sorter: (a: any, b: any) => a.firstname.length - b.firstname.length,
     },
     {
       title: 'Last Name',
       width: 5,
-      dataIndex: 'lastname',
+      dataIndex: 'name',
       defaultSortOrder: 'descend',
       sorter: (a: any, b: any) => a.lastname.length - b.lastname.length,
     },
@@ -44,19 +58,10 @@ function StudentsList(props: StudentsListProps): React.ReactElement {
     },
   ];
 
-  const data: any = [
-    {
-      firstname: 'Marguerite',
-      lastname: 'Brugger',
-      pronouns: 'She/Her',
-      email: 'bruggermarguerite@gmail.com',
-      status: 'Accepted',
-    },
-  ];
-
   return (
     <>
       <Row style={{ height: '10%' }}>
+        <Col span={10} />
         <Col span={18} />
         <Col span={3}>
           <Button

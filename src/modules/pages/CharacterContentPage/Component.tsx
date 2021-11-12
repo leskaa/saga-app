@@ -25,7 +25,6 @@ function CharacterContentPage(
       <Row className="profile-row">
         <Col span={24} className="profile-col">
           <Card
-            hoverable
             cover={<img alt="profile avatar" src={user.selectedAvatar} />}
             className="profile-card"
           >
