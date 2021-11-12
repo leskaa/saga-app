@@ -100,31 +100,42 @@ function AssignmentDescription(props: AssignmentProps): React.ReactElement {
           <Col span={13} style={{ background: 'white' }}>
             <Row style={{ paddingBottom: '1%' }}>
               <Col span={18}>
-                <Input defaultValue={assignment.name} />
+                <Form.Item
+                  name="assignmentname"
+                  rules={[
+                    { required: true, message: 'Please name your quest!' },
+                  ]}
+                >
+                  <Input defaultValue={assignment.name} />
+                </Form.Item>
               </Col>
               <Col span={6}>
-                <Button
-                  type="primary"
-                  htmlType="submit"
-                  style={{ width: '100%' }}
-                >
-                  Save
-                </Button>
+                <Form.Item>
+                  <Button
+                    type="primary"
+                    htmlType="submit"
+                    style={{ width: '100%' }}
+                  >
+                    Save
+                  </Button>
+                </Form.Item>
               </Col>
             </Row>
             <Row>
-              <div
-                className="text-editor"
-                style={{ width: '100%', height: '58vh' }}
-              >
-                <ReactQuill
-                  theme="snow"
-                  modules={modules}
-                  formats={formats}
-                  style={{ height: '100%' }}
-                  defaultValue={assignment.content}
-                />
-              </div>
+              <Form.Item name="description" style={{ width: '100%' }}>
+                <div
+                  className="text-editor"
+                  style={{ width: '100%', height: '58vh' }}
+                >
+                  <ReactQuill
+                    theme="snow"
+                    modules={modules}
+                    formats={formats}
+                    style={{ height: '100%' }}
+                    defaultValue={assignment.content}
+                  />
+                </div>
+              </Form.Item>
             </Row>
           </Col>
           <Col span={1} />
@@ -139,40 +150,95 @@ function AssignmentDescription(props: AssignmentProps): React.ReactElement {
             <Row style={{ height: '10%' }} />
             <Row style={{ height: '20%' }}>
               <Text>Expiration:</Text>
-              <DatePicker
-                defaultValue={moment(assignment.dueDate)}
+              <Form.Item
+                name="duedate"
+                rules={[
+                  {
+                    required: true,
+                    message: 'Expiration Date is required',
+                  },
+                ]}
                 style={{ width: '100%' }}
-              />
-              <TimePicker
-                defaultValue={moment(assignment.dueDate)}
-                format={format}
+              >
+                <DatePicker
+                  defaultValue={moment(assignment.dueDate)}
+                  style={{ width: '100%' }}
+                />
+              </Form.Item>
+              <Form.Item
+                name="duetime"
+                rules={[
+                  {
+                    required: true,
+                    message: 'Expiration Time is required',
+                  },
+                ]}
                 style={{ width: '100%' }}
-              />
+              >
+                <TimePicker
+                  defaultValue={moment(assignment.dueDate)}
+                  format={format}
+                  style={{ width: '100%' }}
+                />
+              </Form.Item>
             </Row>
             <Row style={{ height: '10%' }} />
             <Row style={{ height: '20%' }}>
               <Text>Available:</Text>
-              <DatePicker
-                defaultValue={moment(assignment.createdAt)}
+              <Form.Item
+                name="availabledate"
+                rules={[
+                  {
+                    required: true,
+                    message: 'Available Date is required',
+                  },
+                ]}
                 style={{ width: '100%' }}
-              />
-              <TimePicker
-                defaultValue={moment(assignment.createdAt)}
-                format={format}
+              >
+                <DatePicker
+                  defaultValue={moment(assignment.createdAt)}
+                  style={{ width: '100%' }}
+                />
+              </Form.Item>
+              <Form.Item
+                name="availabletime"
+                rules={[
+                  {
+                    required: true,
+                    message: 'Available Time is required',
+                  },
+                ]}
                 style={{ width: '100%' }}
-              />
+              >
+                <TimePicker
+                  defaultValue={moment(assignment.createdAt)}
+                  format={format}
+                  style={{ width: '100%' }}
+                />
+              </Form.Item>
             </Row>
             <Row style={{ height: '10%' }} />
             <Row style={{ height: '20%' }}>
-              <Text>Chapter:</Text>
-              <Select
-                defaultValue={assignment.unitId}
+              <Form.Item
+                name="unit"
+                rules={[
+                  {
+                    required: true,
+                    message: 'Please assign it to a Chapter!',
+                  },
+                ]}
                 style={{ width: '100%' }}
               >
-                {units.map((unit: Unit) => (
-                  <Option value={unit.id}>{unit.name}</Option>
-                ))}
-              </Select>
+                <Text>Chapter:</Text>
+                <Select
+                  defaultValue={assignment.unitId}
+                  style={{ width: '100%' }}
+                >
+                  {units.map((unit: Unit) => (
+                    <Option value={unit.id}>{unit.name}</Option>
+                  ))}
+                </Select>
+              </Form.Item>
             </Row>
           </Col>
           <Col span={3} />
