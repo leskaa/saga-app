@@ -101,7 +101,7 @@ function MyCalendarPage(): React.ReactElement {
                 </Typography.Text>{' '}
                 <List size="small">
                   <List.Item style={{ padding: 0 }}>
-                    {assignment.content}
+                    {assignment.content.replace(/<[^>]+>/g, '')}
                   </List.Item>
                 </List>
               </List.Item>
