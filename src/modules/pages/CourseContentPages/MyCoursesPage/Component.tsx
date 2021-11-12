@@ -10,7 +10,7 @@ import Book from './Book';
 import { GlobalContext } from '../../../root/GlobalStore';
 import { Course } from '../../../general/types';
 import { apiEndpoint } from '../../../root/constants';
-import { dummyStudent, dummyCourse } from '../../../general/dummyData';
+import { dummyStudent } from '../../../general/dummyData';
 import CreateCourseModal from './CreateCourseModal/CreateCourseModal';
 
 const { Content } = Layout;

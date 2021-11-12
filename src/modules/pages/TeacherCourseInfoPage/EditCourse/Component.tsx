@@ -11,13 +11,14 @@ import {
   InputNumber,
   Spin,
   Select,
+  message,
 } from 'antd';
 import 'react-quill/dist/quill.snow.css';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
-import moment from 'moment';
 import useSWR from 'swr';
 import { EditCourseProps } from './types';
 import { apiEndpoint } from '../../../root/constants';
+import { Map } from '../../../general/types';
 
 const { Option } = Select;
 
@@ -27,6 +28,7 @@ function EditCourse(props: EditCourseProps): React.ReactElement {
   const [inputValue, setInputValue] = useState(course?.starGoal);
 
   const { data: units } = useSWR(`${apiEndpoint}/courses/${course?.id}/units/`);
+  const { data: maps } = useSWR(`${apiEndpoint}/maps`);
 
   const [form] = Form.useForm();
 
@@ -34,11 +36,108 @@ function EditCourse(props: EditCourseProps): React.ReactElement {
     setInputValue(value);
   };
 
-  const onSubmit = (value: any) => {
-    console.log(value);
+  const onSubmit = (values: any) => {
+    if (values.chapters.length < 1) {
+      message.error('Must have at least one unit');
+    }
+    // use inputValue state for prizestars
+    fetch(`${apiEndpoint}/courses/${course?.id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        name: values.coursename,
+        description: values.coursedescription,
+        starGoal: inputValue,
+        prize: values.prizedescription,
+        mapIds: values.chapters.map((chapter: any) => {
+          return chapter.map;
+        }),
+      }),
+      credentials: 'include',
+    })
+      .then((response) => {
+        if (!response.ok) {
+          message.error('There was an issue creating the adventure.', 10);
+          throw Error(response.statusText);
+        }
+        let updatedChapters = 0;
+        values.chapters.forEach((chapter: any, index: number) => {
+          if (index < units.length) {
+            fetch(
+              `${apiEndpoint}/courses/${course?.id}/units/${units[index].id}`,
+              {
+                method: 'PUT',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                  name: chapter.chaptername,
+                  description: chapter.description,
+                  mapId: chapter.map,
+                }),
+                credentials: 'include',
+              }
+            )
+              .then((res) => {
+                console.log(res);
+                if (!res.ok) {
+                  message.error('There was an issue creating a unit.', 10);
+                  throw Error(res.statusText);
+                }
+              })
+              .catch((err) => console.error(err));
+          } else {
+            fetch(`${apiEndpoint}/courses/${course?.id}/units`, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                name: chapter.chaptername,
+                description: chapter.description,
+                mapId: chapter.map,
+                unitNumber: index,
+              }),
+              credentials: 'include',
+            })
+              .then((res) => {
+                if (!res.ok) {
+                  message.error('There was an issue creating a unit.', 10);
+                  throw Error(res.statusText);
+                }
+              })
+              .catch((err) => console.error(err));
+          }
+          updatedChapters += 1;
+        });
+        while (units.length > updatedChapters) {
+          fetch(
+            `${apiEndpoint}/courses/${course?.id}/units/${units[updatedChapters].id}`,
+            {
+              method: 'DELETE',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              credentials: 'include',
+            }
+          )
+            .then((res) => {
+              if (!res.ok) {
+                message.error('There was an issue deleting a unit.', 10);
+                throw Error(res.statusText);
+              }
+            })
+            .catch((err) => console.error(err));
+          updatedChapters += 1;
+        }
+        message.success('Adventure updated!', 10);
+      })
+      .catch((err) => console.error(err));
   };
 
-  if (units === undefined && course !== undefined) {
+  if (units === undefined || maps === undefined || course === undefined) {
     return <Spin size="large" />;
   }
 
@@ -51,21 +150,39 @@ function EditCourse(props: EditCourseProps): React.ReactElement {
             form={form}
             layout="vertical"
             requiredMark={false}
+            onFinish={(e) => onSubmit(e)}
             initialValues={{
-              chapters: [
-                { name: 'name1', map: 'AutumnRoad', description: 'abc' },
-                { name: 'name2', map: 'Liquid', description: 'xyz' },
-              ],
+              chapters: units.map((unit: any) => {
+                return {
+                  chaptername: unit.name,
+                  map: unit.map_id,
+                  description: unit.description,
+                };
+              }),
+              coursename: course.name,
+              prizedescription: course.prize,
+              coursedescription: course.description,
             }}
           >
             <Form.Item
               name="coursename"
               label="Adventure Name"
-              initialValue={course?.name}
               rules={[
                 {
                   required: true,
                   message: 'Please name your adventure!',
+                },
+              ]}
+            >
+              <Input />
+            </Form.Item>
+            <Form.Item
+              name="coursedescription"
+              label="Adventure Description"
+              rules={[
+                {
+                  required: true,
+                  message: 'Please describe your adventure!',
                 },
               ]}
             >
@@ -96,58 +213,55 @@ function EditCourse(props: EditCourseProps): React.ReactElement {
                 <>
                   {fields.map((field: any) => (
                     <Form.Item required={false} key={field.key}>
-                      <Form.Item
-                        {...field}
-                        validateTrigger={['onChange', 'onBlur']}
-                        rules={[
-                          {
-                            required: true,
-                            message:
-                              'Please input chapter name or delete this field.',
-                          },
-                        ]}
-                        noStyle
-                      >
-                        <Row>
-                          <Col span={6}>
-                            <Form.Item
-                              name={[field.name, 'name']}
-                              fieldKey={[field.key, 'name']}
-                            >
-                              <Input placeholder="New Chapter" />
-                            </Form.Item>
-                          </Col>
-                          <Col span={4}>
-                            <Form.Item
-                              name={[field.name, 'map']}
-                              fieldKey={[field.key, 'map']}
-                            >
-                              <Select defaultValue="Liquid">
-                                <Option value="BusyBee">Busy Bee</Option>
-                                <Option value="AutumnRoad">Autumn Road</Option>
-                                <Option value="Liquid">Liquid</Option>
-                              </Select>
-                            </Form.Item>
-                          </Col>
-                          <Col span={13}>
-                            <Form.Item
-                              name={[field.name, 'description']}
-                              fieldKey={[field.key, 'description']}
-                            >
-                              <Input placeholder="Description" />
-                            </Form.Item>
-                          </Col>
-                          <Col span={1}>
-                            {fields.length > 1 ? (
-                              <MinusCircleOutlined
-                                style={{ paddingLeft: '30%' }}
-                                className="dynamic-delete-button"
-                                onClick={() => remove(field.name)}
-                              />
-                            ) : null}
-                          </Col>
-                        </Row>
-                      </Form.Item>
+                      <Row>
+                        <Col span={6}>
+                          <Form.Item
+                            {...field}
+                            name={[field.name, 'chaptername']}
+                            fieldKey={[field.key, 'chaptername']}
+                            validateTrigger={['onChange', 'onBlur']}
+                            rules={[
+                              {
+                                required: true,
+                                message: 'Please input chapter name.',
+                              },
+                            ]}
+                          >
+                            <Input placeholder="New Chapter" />
+                          </Form.Item>
+                        </Col>
+                        <Col span={4}>
+                          <Form.Item
+                            {...field}
+                            name={[field.name, 'map']}
+                            fieldKey={[field.key, 'map']}
+                          >
+                            <Select defaultValue={1}>
+                              {maps.map((map: Map) => (
+                                <Option value={map.id}>{map.name}</Option>
+                              ))}
+                            </Select>
+                          </Form.Item>
+                        </Col>
+                        <Col span={13}>
+                          <Form.Item
+                            {...field}
+                            name={[field.name, 'description']}
+                            fieldKey={[field.key, 'description']}
+                          >
+                            <Input placeholder="Description" />
+                          </Form.Item>
+                        </Col>
+                        <Col span={1}>
+                          {fields.length > 1 ? (
+                            <MinusCircleOutlined
+                              style={{ paddingLeft: '30%' }}
+                              className="dynamic-delete-button"
+                              onClick={() => remove(field.name)}
+                            />
+                          ) : null}
+                        </Col>
+                      </Row>
                     </Form.Item>
                   ))}
                   <Form.Item>
@@ -166,11 +280,7 @@ function EditCourse(props: EditCourseProps): React.ReactElement {
             </Form.List>
             <Row>
               <Col span={16}>
-                <Form.Item
-                  name="prize description"
-                  label="Prize Description"
-                  initialValue={course?.prize}
-                >
+                <Form.Item name="prizedescription" label="Prize Description">
                   <Input placeholder="Description" />
                 </Form.Item>
               </Col>
@@ -205,7 +315,7 @@ function EditCourse(props: EditCourseProps): React.ReactElement {
               </Col>
             </Row>
             <Form.Item>
-              <Button type="primary" htmlType="submit" onSubmit={onSubmit}>
+              <Button type="primary" htmlType="submit">
                 Save
               </Button>
             </Form.Item>

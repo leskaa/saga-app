@@ -1,4 +1,5 @@
-import React, { useState, useCallback, useContext } from 'react';
+import React, { useState, useCallback, useContext, useEffect } from 'react';
+import useSWR from 'swr';
 import { Menu, Layout } from 'antd';
 import Icon, {
   ReadOutlined,
@@ -12,9 +13,11 @@ import Icon, {
 import { useNavigate } from 'react-router-dom';
 import { ReactComponent as LogoSvg } from '../../../../../Logos/SagaBlack3Svg.svg';
 import { SideNavProps, SIDENAV_PATH_MAP } from './types';
+import { apiEndpoint } from '../../../../root/constants';
 import './sidenav.css';
 import { GlobalContext } from '../../../../root/GlobalStore';
-
+import { convertResponseDataToCourseArray } from '../../../../general/utils';
+import { Course } from '../../../../general/types';
 // TODO:
 // Will need to take Student/Teacher Object
 // Populate Submenus based on courses etc etc
@@ -28,6 +31,9 @@ function SideNav(props: SideNavProps): React.ReactElement {
   const { onRequestSupportClick } = props;
   const navigate = useNavigate();
   const { dispatch } = useContext(GlobalContext);
+  const { data, error } = useSWR(`${apiEndpoint}/courses`);
+
+  const [courses, setCourses] = useState<Course[]>([]);
 
   const [collapsed, setCollapsed] = useState<boolean>(true);
 
@@ -53,6 +59,14 @@ function SideNav(props: SideNavProps): React.ReactElement {
             })
             .then((err) => console.error(err));
         }
+
+        const keyPathLength = event.keyPath.length;
+        if (
+          keyPathLength > 1 &&
+          event.keyPath?.[keyPathLength - 1] === '_adventures'
+        ) {
+          navigate(`/adventure/${event.key}`);
+        }
       }
     },
     [navigate, onRequestSupportClick]
@@ -61,6 +75,17 @@ function SideNav(props: SideNavProps): React.ReactElement {
   const onCollapse = useCallback(() => {
     setCollapsed(!collapsed);
   }, [collapsed]);
+
+  useEffect(() => {
+    if (data !== undefined) {
+      setCourses(convertResponseDataToCourseArray(data));
+    }
+  }, [data]);
+
+  if (data === undefined) {
+    return <></>;
+  }
+
   return (
     <Sider
       className="sideNav"
@@ -82,15 +107,14 @@ function SideNav(props: SideNavProps): React.ReactElement {
           Home
         </Menu.Item>
         <SubMenu
-          key="my adventures"
+          key="_adventures"
           icon={<ReadOutlined />}
           title="My Adventures"
         >
           <Menu.Item key="_viewalladventures"> View All Adventures </Menu.Item>
-          <Menu.Item key="math"> Math </Menu.Item>
-          <Menu.Item key="science"> Science </Menu.Item>
-          <Menu.Item key="geography"> Geography </Menu.Item>
-          <Menu.Item key="history"> History </Menu.Item>
+          {courses.map((course) => (
+            <Menu.Item key={course.id}> {course.name} </Menu.Item>
+          ))}
         </SubMenu>
         <Menu.Item key="_questboard" icon={<AppstoreOutlined />}>
           Quest Board

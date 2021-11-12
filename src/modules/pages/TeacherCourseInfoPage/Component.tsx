@@ -11,6 +11,7 @@ import Grading from './Grading';
 import AssignmentList from './AssignmentList';
 import './teachercourseinfo.css';
 import { apiEndpoint } from '../../root/constants';
+import { convertResponseDataToCourse } from '../../general/utils';
 
 const { Content } = Layout;
 const { TabPane } = Tabs;
@@ -38,7 +39,10 @@ function TeacherCourseInfoPage(): React.ReactElement {
       </Title>
       <Tabs defaultActiveKey="1" centered>
         <TabPane forceRender tab="Quests" key="1">
-          <AssignmentList user={user} course={course} />
+          <AssignmentList
+            user={user}
+            course={convertResponseDataToCourse(course)}
+          />
         </TabPane>
         <TabPane forceRender tab="Adventurers" key="2">
           <StudentsList user={user} course={course} />
@@ -47,10 +51,16 @@ function TeacherCourseInfoPage(): React.ReactElement {
           <Grading user={user} />
         </TabPane>
         <TabPane forceRender tab="New Quest" key="4">
-          <AddAssignment user={user} course={course} />
+          <AddAssignment
+            user={user}
+            course={convertResponseDataToCourse(course)}
+          />
         </TabPane>
         <TabPane forceRender tab="Edit" key="5">
-          <EditCourse user={user} course={course} />
+          <EditCourse
+            user={user}
+            course={convertResponseDataToCourse(course)}
+          />
         </TabPane>
       </Tabs>
     </Content>
