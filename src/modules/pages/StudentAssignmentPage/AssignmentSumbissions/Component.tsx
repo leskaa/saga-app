@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import ReactQuill from 'react-quill';
 import { useNavigate } from 'react-router';
+import ReactHtmlParser from 'react-html-parser';
 import {
   Button,
   InputNumber,
@@ -32,26 +33,26 @@ function AssignmentSubmissions(props: AssignmentProps): React.ReactElement {
   );
 
   const [quillContent, setQuillContent] = useState('');
+  const [alreadySubmitted, setAlreadySubmitted] = useState<boolean | null>(
+    null
+  );
 
   useEffect(() => {
-    if (submissions !== undefined && submissions[0] !== undefined) {
-      setQuillContent(submissions[0].content);
+    if (submissions !== undefined) {
+      const filteredSubmissions = submissions.filter(
+        (submission: any) => submission.user_id === user.id
+      );
+      if (filteredSubmissions.length === 0) {
+        setAlreadySubmitted(false);
+      } else {
+        setAlreadySubmitted(true);
+      }
     }
   }, [submissions]);
 
-  if (submissions === undefined) {
+  if (submissions === undefined || alreadySubmitted === null) {
     return <Spin size="large" />;
   }
-
-  submissions.sort((first: Submission, second: Submission) => {
-    if (first.updatedAt >= second.updatedAt) {
-      return -1;
-    }
-    if (first.updatedAt < second.updatedAt) {
-      return 1;
-    }
-    return 0;
-  });
 
   const modules = {
     toolbar: [
@@ -116,6 +117,23 @@ function AssignmentSubmissions(props: AssignmentProps): React.ReactElement {
       })
       .catch((err) => console.error(err));
   };
+
+  if (alreadySubmitted) {
+    const filteredSubmissions = submissions.filter(
+      (submission: any) => submission.user_id === user.id
+    );
+
+    return (
+      <Row>
+        <Col span={3} />
+
+        <Col span={18} className="description">
+          <div>{ReactHtmlParser(filteredSubmissions[0].content)}</div>
+        </Col>
+        <Col span={3} />
+      </Row>
+    );
+  }
 
   return (
     <>
