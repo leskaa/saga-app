@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.less';
 import { SWRConfig } from 'swr';
-import { BrowserRouter as Router } from 'react-router-dom';
+import { HashRouter as Router } from 'react-router-dom';
 import BrowserRoutes from './modules/root/BrowserRoutes';
 import { GlobalStore } from './modules/root/GlobalStore';
 
