@@ -10,11 +10,6 @@ import { dummyStudent, dummyCourse } from '../../../general/dummyData';
 const { Content } = Layout;
 const { Title } = Typography;
 
-<<<<<<< HEAD
-=======
-// const data = [dummyCourse];
-
->>>>>>> 4bdc8aef4f15e59b89a24c9c81bbd2ae4cbdffac
 function MyCoursesPage(): React.ReactElement {
   // TODO: add effect to populate componet state with courses
   const { data, error } = useSWR(`${apiEndpoint}/courses`);
