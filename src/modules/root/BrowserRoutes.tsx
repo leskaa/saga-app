@@ -13,7 +13,6 @@ import MapPage from '../pages/CourseContentPages/MapPage';
 import CharacterContentPage from '../pages/CharacterContentPage';
 import MyCoursesPage from '../pages/CourseContentPages/MyCoursesPage/Component';
 import MyCalendarPage from '../pages/MyCalendarPage';
-import StudentGradesPage from '../pages/StudentGradesPage';
 import { GlobalContext } from './GlobalStore';
 import TeacherCourseInfoPage from '../pages/TeacherCourseInfoPage';
 import NewMessagePage from '../pages/NewMessagePage';
@@ -59,7 +58,7 @@ function AuthenticatedUserRoutes(
       />
       <Route path="newletter" element={renderAuthRoute(<NewMessagePage />)} />
       <Route path="newmessage" element={renderAuthRoute(<NewMessagePage />)} />
-      <Route path="/inbox" element={renderAuthRoute(<InboxPage />)} />
+      <Route path="/mailbox" element={renderAuthRoute(<InboxPage />)} />
       <Route path="/*" element={<Navigate replace to="/" />} />
     </>
   ) : (

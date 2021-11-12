@@ -1,5 +1,5 @@
 import React, { useContext, useState, useCallback } from 'react';
-import { Layout, Row, Col } from 'antd';
+import { Layout, Row, Col, Typography, AutoComplete } from 'antd';
 import { GlobalContext } from '../../root/GlobalStore';
 import { Message } from '../../general/types';
 import { dummyStudent, dummyMessages } from '../../general/dummyData';
@@ -8,6 +8,7 @@ import InboxMessageContent from './InboxMessageContent';
 import './inboxpage.css';
 
 const { Content } = Layout;
+const { Title } = Typography;
 
 function InboxPage(): React.ReactElement {
   const { globalState } = useContext(GlobalContext);
@@ -29,8 +30,17 @@ function InboxPage(): React.ReactElement {
 
   return (
     <Content className="inbox-page-container">
+      <Row>
+        <Title className="title" style={{ margin: 'auto', padding: '3%' }}>
+          MailBox
+        </Title>
+      </Row>
       <Row className="inbox-page-row">
-        <Col span={8}>
+        <Col span={1} />
+        <Col
+          span={8}
+          style={{ background: 'white', height: '100%', overflow: 'scroll' }}
+        >
           <InboxTable
             messages={userMessages}
             selectedMessage={selectedMessage}
@@ -38,9 +48,19 @@ function InboxPage(): React.ReactElement {
             handleRowClick={(message) => setSelectedMessage(message)}
           />
         </Col>
-        <Col span={16}>
+        <Col span={1} />
+        <Col
+          span={14}
+          style={{
+            background: 'white',
+            height: '100%',
+            overflow: 'scroll',
+            padding: '1.5%',
+          }}
+        >
           <InboxMessageContent message={selectedMessage} />
         </Col>
+        <Col span={1} />
       </Row>
     </Content>
   );

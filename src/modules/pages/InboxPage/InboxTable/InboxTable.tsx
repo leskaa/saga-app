@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { Table, Button } from 'antd';
+import { Table, Button, List, Row, Col } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import { InboxTableProps } from './types';
 import { Message } from '../../../general/types';
@@ -20,11 +20,6 @@ const messageColumns: ColumnsType<Message> = [
     dataIndex: 'subject',
   },
   {
-    key: 'content',
-    title: 'Content',
-    dataIndex: 'content',
-  },
-  {
     key: 'createdAt',
     title: 'Received At',
     dataIndex: 'createdAt',
@@ -38,41 +33,41 @@ function InboxTable(props: InboxTableProps): React.ReactElement {
   const { messages, selectedMessage, handleDeleteClick, handleRowClick } =
     props;
 
-  const getSelectedMessages = useMemo(() => {
-    return [selectedMessage.id];
-  }, [selectedMessage]);
+  // const getSelectedMessages = useMemo(() => {
+  //   return [selectedMessage.id];
+  // }, [selectedMessage]);
 
-  const deleteColumn: ColumnsType<Message> = [
-    {
-      title: 'Action',
-      key: 'delete',
-      render: (value, record) => (
-        <Button type="primary" onClick={() => handleDeleteClick(record)}>
-          Delete
-        </Button>
-      ),
-    },
-  ];
+  // const deleteColumn: ColumnsType<Message> = [
+  //   {
+  //     title: 'Action',
+  //     key: 'delete',
+  //     render: (value, record) => (
+  //       <Button type="primary" onClick={() => handleDeleteClick(record)}>
+  //         Delete
+  //       </Button>
+  //     ),
+  //   },
+  // ];
 
   return (
-    <Table<Message>
+    <List
       className="inbox-table-container"
-      rowKey="id"
-      key="id"
-      scroll={{ y: '100vh' }}
-      pagination={false}
-      columns={[...messageColumns /* ...deleteColumn */]}
+      size="small"
       dataSource={messages}
-      rowSelection={{
-        type: 'radio',
-        selectedRowKeys: getSelectedMessages,
-      }}
-      bordered
-      onRow={(record) => {
-        return {
-          onClick: () => handleRowClick(record),
-        };
-      }}
+      renderItem={(record: any) => (
+        <List.Item
+          style={
+            selectedMessage === record
+              ? { background: '#FF7875', color: 'white' }
+              : {}
+          }
+          onClick={() => handleRowClick(record)}
+        >
+          <div className="inboxtext">
+            <b>{record.sender}</b> - {record.subject}
+          </div>
+        </List.Item>
+      )}
     />
   );
 }
