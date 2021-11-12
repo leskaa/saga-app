@@ -47,9 +47,9 @@ function TeacherCourseInfoPage(): React.ReactElement {
         <TabPane forceRender tab="Adventurers" key="2">
           <StudentsList user={user} course={course} />
         </TabPane>
-        <TabPane forceRender tab="Stars" key="3">
+        {/* <TabPane forceRender tab="Stars" key="3">
           <Grading user={user} />
-        </TabPane>
+        </TabPane> */}
         <TabPane forceRender tab="New Quest" key="4">
           <AddAssignment
             user={user}

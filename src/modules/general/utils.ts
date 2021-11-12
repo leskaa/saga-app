@@ -129,7 +129,7 @@ export function convertResponseDataToAssignment(data: any): Assignment {
 
 export function convertResponseDataToAssignmentArray(data: any): Assignment[] {
   const assignments: Assignment[] = data.map((assignment: any) =>
-    convertResponseDataToAvatar(assignment)
+    convertResponseDataToAssignment(assignment)
   );
 
   return assignments;

@@ -1,10 +1,16 @@
 import React, { useState } from 'react';
 import { Select, Row, Col, Table, Spin } from 'antd';
 import useSWR from 'swr';
+import ReactHtmlParser from 'react-html-parser';
 import { AssignmentListProps } from './types';
 import 'react-quill/dist/quill.snow.css';
 import { apiEndpoint } from '../../../root/constants';
-import { Unit } from '../../../general/types';
+import { Assignment, Unit } from '../../../general/types';
+import {
+  convertResponseDataToAssignment,
+  convertResponseDataToAssignmentArray,
+  convertResponseDataToUnitArray,
+} from '../../../general/utils';
 
 function AssignmentList(props: AssignmentListProps): React.ReactElement {
   const { user, course } = props;
@@ -47,9 +53,20 @@ function AssignmentList(props: AssignmentListProps): React.ReactElement {
     setUnitNumber(value);
   };
 
-  if (assignments === undefined) {
+  const getLink = (assignment: Assignment) => {
+    return (
+      <a href={`/#/viewquest/${course.id}/${assignment.id}`}>
+        {assignment.name}
+      </a>
+    );
+  };
+
+  if (assignments === undefined || units === undefined) {
     return <Spin size="large" />;
   }
+
+  const chapters = convertResponseDataToUnitArray(units);
+  console.log(chapters);
 
   return (
     <>
@@ -57,12 +74,12 @@ function AssignmentList(props: AssignmentListProps): React.ReactElement {
         <Col span={15} />
         <Col span={6}>
           <Select
-            defaultValue={units[0].name}
+            defaultValue={chapters[0].unitNumber}
             onChange={updateUnit}
             style={{ width: '100%' }}
           >
-            {units.map((unit: any) => (
-              <Option value={unit.unit_number}>{unit.name}</Option>
+            {chapters.map((unit: any) => (
+              <Option value={unit.unitNumber}>{unit.name}</Option>
             ))}
           </Select>
         </Col>
@@ -74,7 +91,13 @@ function AssignmentList(props: AssignmentListProps): React.ReactElement {
         <Col span={18}>
           <Table
             columns={columns}
-            dataSource={assignments}
+            dataSource={convertResponseDataToAssignmentArray(assignments).map(
+              (assignment: Assignment) => ({
+                name: getLink(assignment),
+                content: ReactHtmlParser(assignment.content),
+                due_date: assignment.dueDate.toLocaleString(),
+              })
+            )}
             scroll={{ y: 250 }}
           />
         </Col>

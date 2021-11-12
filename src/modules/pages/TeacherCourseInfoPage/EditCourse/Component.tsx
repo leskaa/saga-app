@@ -98,7 +98,7 @@ function EditCourse(props: EditCourseProps): React.ReactElement {
                 name: chapter.chaptername,
                 description: chapter.description,
                 mapId: chapter.map,
-                unitNumber: index,
+                unitNumber: index + 1,
               }),
               credentials: 'include',
             })
