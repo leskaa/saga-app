@@ -23,7 +23,7 @@ function InboxPage(): React.ReactElement {
 
   const deleteMessage = useCallback(
     (message: Message) => {
-      console.log('asfdsf');
+      console.log('This would delete message');
     },
     [userMessages]
   );
