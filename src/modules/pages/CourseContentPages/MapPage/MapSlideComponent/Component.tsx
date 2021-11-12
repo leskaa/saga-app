@@ -72,7 +72,13 @@ function MapSlide(props: MapSlideComponentProps): React.ReactElement {
                   {assignmentCoordinateIndex >= 0 && (
                     <Popover
                       title={assignments[assignmentCoordinateIndex].name}
-                      content={<Rate disabled defaultValue={4} />}
+                      content={
+                        <Rate
+                          disabled
+                          defaultValue={4}
+                          style={{ color: '#ff7875' }}
+                        />
+                      }
                       style={{ width: '20px' }}
                     >
                       <Button
