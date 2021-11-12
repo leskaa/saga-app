@@ -2,17 +2,37 @@ import React from 'react';
 import ReactQuill from 'react-quill';
 import ReactHtmlParser from 'react-html-parser';
 import useSWR from 'swr';
-import { Rate, Row, Col, Typography } from 'antd';
+import { Rate, Row, Col, Typography, Spin } from 'antd';
 import moment from 'moment';
 import { AssignmentProps } from './types';
 import 'react-quill/dist/quill.snow.css';
 import './studentassignmentdescription.css';
 import { apiEndpoint } from '../../../root/constants';
+import { dummySubmissions } from '../../../general/dummyData';
+import { Submission } from '../../../general/types';
 
 const { Text } = Typography;
 
 function AssignmentDescription(props: AssignmentProps): React.ReactElement {
   const { user, assignment } = props;
+
+  const { data: submissions } = useSWR(
+    `${apiEndpoint}/assignments/${assignment.id}/submissions`
+  );
+
+  if (submissions === undefined) {
+    return <Spin size="large" />;
+  }
+
+  submissions.sort((first: Submission, second: Submission) => {
+    if (first.updatedAt >= second.updatedAt) {
+      return 1;
+    }
+    if (first.updatedAt < second.updatedAt) {
+      return -1;
+    }
+    return 0;
+  });
 
   return (
     <>
@@ -26,7 +46,9 @@ function AssignmentDescription(props: AssignmentProps): React.ReactElement {
           <Row style={{ height: '30%' }}>
             <Rate
               disabled
-              defaultValue={4}
+              defaultValue={
+                submissions[0] !== undefined ? submissions[0].grade : 0
+              }
               className="stars"
               style={{ height: '100%' }}
             />
