@@ -74,6 +74,13 @@ function SideNav(props: SideNavProps): React.ReactElement {
             navigate(`/adventuremap/${event.key}`);
           }
         }
+        if (event.key === '_mailbox') {
+          if (user?.isTeacher) {
+            navigate(`/newletter`);
+          } else {
+            navigate(`/mailbox`);
+          }
+        }
       }
     },
     [navigate, onRequestSupportClick]

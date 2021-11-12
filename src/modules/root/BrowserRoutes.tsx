@@ -70,8 +70,7 @@ function AuthenticatedUserRoutes(
           element={renderAuthRoute(<StudentAssignmentPage />)}
         />
       </Route>
-      <Route path="newletter" element={renderAuthRoute(<NewMessagePage />)} />
-      <Route path="newmessage" element={renderAuthRoute(<NewMessagePage />)} />
+      <Route path="/newletter" element={renderAuthRoute(<NewMessagePage />)} />
       <Route path="/mailbox" element={renderAuthRoute(<InboxPage />)} />
       <Route path="/*" element={<Navigate replace to="/" />} />
       {/* Routes that only teachers can access */}
