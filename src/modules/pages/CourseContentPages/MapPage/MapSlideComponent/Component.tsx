@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react';
-import { Row, Col, Layout, Button, Popover, Typography } from 'antd';
+import { Row, Col, Layout, Button, Popover, Typography, Rate } from 'antd';
 import { LeftOutlined, RightOutlined } from '@ant-design/icons';
 import { MapSlideComponentProps, Coordinates } from './types';
 import { assignmentCoordinates } from './constants';
@@ -72,14 +72,7 @@ function MapSlide(props: MapSlideComponentProps): React.ReactElement {
                   {assignmentCoordinateIndex >= 0 && (
                     <Popover
                       title={assignments[assignmentCoordinateIndex].name}
-                      content={
-                        <Typography style={{ width: '200px' }}>
-                          <Text ellipsis>
-                            {assignments[assignmentCoordinateIndex].content}
-                          </Text>
-                          <Text strong>Click Button to View</Text>
-                        </Typography>
-                      }
+                      content={<Rate disabled defaultValue={4} />}
                       style={{ width: '20px' }}
                     >
                       <Button
