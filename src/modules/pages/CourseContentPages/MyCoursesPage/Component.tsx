@@ -52,7 +52,7 @@ function MyCoursesPage(): React.ReactElement {
             top: 0,
           }}
         >
-          {user.isTeacher && (
+          {Boolean(user.isTeacher) && (
             <Button
               type="primary"
               size="large"

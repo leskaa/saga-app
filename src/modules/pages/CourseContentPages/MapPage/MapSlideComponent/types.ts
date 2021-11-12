@@ -6,6 +6,9 @@ export interface MapSlideComponentProps {
   submissions: Submission[];
   onNextSlide?: () => void;
   onPreviousSlide?: () => void;
+  getHasSubmission: (id: number) => Submission | undefined;
+  closestToDoAssignment?: Assignment;
+  mapUrl: string | undefined;
 }
 
 export interface Coordinates {

@@ -8,6 +8,7 @@ import {
   Assignment,
   Unit,
   Submission,
+  AssignmentSubmissionPair,
 } from './types';
 
 export function convertResponseDataToUser(data: any): User {
@@ -22,10 +23,6 @@ export function convertResponseDataToUser(data: any): User {
     createdAt: new Date(data?.created_at),
     updatedAt: new Date(data?.updated_at),
   };
-
-  // MAKE QUERY FOR COURSES
-
-  const courses = [];
 
   if (user.isTeacher) {
     const teacher: Teacher = {
@@ -171,4 +168,19 @@ export function convertResponseDataToSubmissionArray(data: any): Submission[] {
   );
 
   return submissions;
+}
+
+export function convertResponseDataToAssignmentSubmissionPairArray(
+  data: any
+): AssignmentSubmissionPair[] {
+  const assignmentAndSubmissions: AssignmentSubmissionPair[] = data.map(
+    (datapair: any) => {
+      const pair: AssignmentSubmissionPair = {
+        assignment: convertResponseDataToAssignment(datapair?.assignment),
+        submission: convertResponseDataToSubmissionArray(datapair?.submission),
+      };
+      return pair;
+    }
+  );
+  return assignmentAndSubmissions;
 }

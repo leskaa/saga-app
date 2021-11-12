@@ -1,5 +1,5 @@
-import React, { useCallback, useMemo } from 'react';
-import { Row, Col, Button, Popover, Rate } from 'antd';
+import React, { useCallback, useEffect, useState } from 'react';
+import { Row, Col, Button, Popover, Rate, Typography } from 'antd';
 import { LeftOutlined, RightOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import { MapSlideComponentProps, Coordinates } from './types';
@@ -9,8 +9,17 @@ import './mapslide.css';
 const cols = 24;
 const rows = 20;
 
+const { Text } = Typography;
+
 function MapSlide(props: MapSlideComponentProps): React.ReactElement {
-  const { onNextSlide, onPreviousSlide, assignments, submissions } = props;
+  const {
+    onNextSlide,
+    onPreviousSlide,
+    assignments,
+    closestToDoAssignment,
+    getHasSubmission,
+    mapUrl,
+  } = props;
   const navigate = useNavigate();
 
   const coordinateList: Coordinates[] =
@@ -23,33 +32,6 @@ function MapSlide(props: MapSlideComponentProps): React.ReactElement {
     );
     return isCoordinate;
   };
-
-  const getAssignmentHasSubmission = useCallback(
-    (id: number) => {
-      return submissions.find((submission) => submission.assignmentId === id);
-    },
-    [submissions]
-  );
-
-  const sortedAssignments = useMemo(() => {
-    const tempSortedAssignments = assignments.sort((a, b) => {
-      return a.dueDate.valueOf() - b.dueDate.valueOf();
-    });
-
-    return tempSortedAssignments;
-  }, [assignments]);
-
-  const closestDueAssignment = useMemo(() => {
-    const currentTime = new Date().valueOf();
-
-    const afterDates = sortedAssignments.filter((d) => {
-      return (
-        currentTime <= d.dueDate.valueOf() && !getAssignmentHasSubmission(d.id)
-      );
-    });
-
-    return afterDates?.[0];
-  }, [sortedAssignments]);
 
   const handleOnClick = useCallback(
     (index: number) => {
@@ -86,7 +68,15 @@ function MapSlide(props: MapSlideComponentProps): React.ReactElement {
           />
         )}
       </Col>
-      <Col className="map-slide-container" span={20}>
+      <Col
+        span={20}
+        style={{
+          backgroundImage: `url(${mapUrl})`,
+          backgroundSize: '100% 100%',
+          height: '80vh',
+          width: '100%',
+        }}
+      >
         {[...Array(rows)].map((value, yIndex) => (
           <Row className="inner-grid-row">
             {[...Array(cols)].map((value2, xIndex) => {
@@ -96,28 +86,25 @@ function MapSlide(props: MapSlideComponentProps): React.ReactElement {
               );
 
               const assignment = assignments[assignmentCoordinateIndex];
-              const isNextDue = closestDueAssignment?.id === assignment?.id;
-              const hasSubmission = getAssignmentHasSubmission(assignment?.id);
+              const isNextDue = closestToDoAssignment?.id === assignment?.id;
+              const hasSubmission = getHasSubmission(assignment?.id);
 
               return (
                 <Col span={1} className="inner-grid-col">
                   {assignmentCoordinateIndex >= 0 && (
                     <Popover
                       zIndex={10}
-                      title={
-                        isNextDue
-                          ? `${assignment.name} IS DUE NEXT`
-                          : assignment.name
-                      }
-                      visible={isNextDue ? true : void 0}
+                      title={assignment.name}
                       content={
-                        <Rate
-                          disabled
-                          defaultValue={
-                            hasSubmission ? hasSubmission?.grade : void 0
-                          }
-                          style={{ color: '#FF7875' }}
-                        />
+                        hasSubmission && hasSubmission?.grade ? (
+                          <Rate
+                            disabled
+                            defaultValue={hasSubmission?.grade ?? 0}
+                            style={{ color: '#FF7875' }}
+                          />
+                        ) : (
+                          <Text style={{ color: '#B4B5B7' }}>Ungraded</Text>
+                        )
                       }
                       style={{ width: '20px' }}
                     >
@@ -125,7 +112,7 @@ function MapSlide(props: MapSlideComponentProps): React.ReactElement {
                         shape="circle"
                         type={hasSubmission ? 'primary' : 'default'}
                         size="large"
-                        className="assignment-button"
+                        className={isNextDue ? 'blob' : 'assignment-button'}
                         onClick={() => handleOnClick(assignmentCoordinateIndex)}
                       >
                         {assignmentCoordinateIndex + 1}

@@ -10,17 +10,27 @@ import {
   Progress,
   Statistic,
   Spin,
+  Popover,
 } from 'antd';
 import { StarOutlined } from '@ant-design/icons';
 import MapSlide from './MapSlideComponent/Component';
 import './map.css';
 import { apiEndpoint } from '../../../root/constants';
 import {
-  convertResponseDataToAssignmentArray,
   convertResponseDataToUnitArray,
-  convertResponseDataToSubmissionArray,
+  convertResponseDataToCourse,
+  convertResponseDataToMapArray,
+  convertResponseDataToAssignmentSubmissionPairArray,
 } from '../../../general/utils';
-import { Assignment, Unit, Submission } from '../../../general/types';
+import {
+  Assignment,
+  Unit,
+  Submission,
+  Course,
+  Map,
+  AssignmentSubmissionPair,
+} from '../../../general/types';
+import StudentGradesPage from '../../StudentGradesPage';
 
 const { Title, Text } = Typography;
 
@@ -30,32 +40,59 @@ function MapPage(): React.ReactElement {
   const carouselRef = React.createRef<any>();
   const { courseId } = useParams();
 
+  const [course, setCourse] = useState<Course>();
   const [currentUnitIndex, setCurrentUnitIndex] = useState<number>(0);
   const [units, setUnits] = useState<Unit[]>([]);
   const [assignments, setAssignments] = useState<Assignment[]>([]);
   const [submissions, setSubmissions] = useState<Submission[]>([]);
 
+  const [maps, setMaps] = useState<Map[]>([]);
+  const [mapUrls, setMapUrls] = useState<string[]>([]);
+  const [closestDueToDoAssignment, setClosestDueToDoAssignment] =
+    useState<Assignment>();
+
+  const [userStars, setUserStars] = useState<number>(0);
+
+  const { data: courseData } = useSWR(`${apiEndpoint}/courses/${courseId}`);
+  const { data: mapsData } = useSWR(`${apiEndpoint}/maps`);
   const { data: unitsData } = useSWR(
-    `${apiEndpoint}/courses/${courseId}/units`,
-    {}
+    `${apiEndpoint}/courses/${courseId}/units`
   );
-  const { data: assignmentsData } = useSWR(
-    () => `${apiEndpoint}/unitAssignments/${unitsData[currentUnitIndex].id}`
-  );
-  const { data: submissionsData } = useSWR(
+
+  const { data: assignmentsAndSubmissionsData } = useSWR(
     () =>
-      `${apiEndpoint}/unitStudentSubmissions/${unitsData[currentUnitIndex].id}`
+      `${apiEndpoint}/unitStudentSubmissions/${unitsData[currentUnitIndex]?.id}`
   );
 
   const goNextSlide = useCallback(() => {
     carouselRef.current.next();
+
     setCurrentUnitIndex(currentUnitIndex + 1);
   }, [carouselRef, currentUnitIndex]);
 
   const goPreviousSlide = useCallback(() => {
     carouselRef.current.prev();
     setCurrentUnitIndex(currentUnitIndex - 1);
-  }, [carouselRef, currentUnitIndex]);
+  }, [carouselRef, setCurrentUnitIndex, currentUnitIndex]);
+
+  const getAssignmentHasSubmission = useCallback(
+    (id: number) => {
+      return submissions.find((submission) => submission.assignmentId === id);
+    },
+    [submissions]
+  );
+
+  useEffect(() => {
+    if (mapsData !== undefined) {
+      setMaps(convertResponseDataToMapArray(mapsData));
+    }
+  }, [mapsData]);
+
+  useEffect(() => {
+    if (courseData !== undefined) {
+      setCourse(convertResponseDataToCourse(courseData));
+    }
+  }, [courseData]);
 
   useEffect(() => {
     if (unitsData !== undefined)
@@ -63,19 +100,69 @@ function MapPage(): React.ReactElement {
   }, [unitsData]);
 
   useEffect(() => {
-    if (assignmentsData !== undefined)
-      setAssignments(convertResponseDataToAssignmentArray(assignmentsData));
-  }, [assignmentsData]);
+    if (units && maps) {
+      setMapUrls(
+        units.map(
+          (unit: Unit) =>
+            maps.find((map: Map) => map.id === unit?.map)?.url ?? ''
+        )
+      );
+    }
+  }, [maps, units]);
 
   useEffect(() => {
-    if (submissionsData !== undefined)
-      setSubmissions(convertResponseDataToSubmissionArray(submissionsData));
-  }, [submissionsData]);
+    if (assignmentsAndSubmissionsData !== undefined) {
+      const tempAssignments: Assignment[] = [];
+      const tempSubmissions: Submission[] = [];
+      const assignmentSubmissionPairs =
+        convertResponseDataToAssignmentSubmissionPairArray(
+          assignmentsAndSubmissionsData
+        );
+
+      assignmentSubmissionPairs.forEach((pair: AssignmentSubmissionPair) => {
+        tempAssignments.push(pair.assignment);
+        const length = pair?.submission?.length || 0;
+        if (length > 0) {
+          tempSubmissions.push(pair.submission[length - 1]);
+        }
+      });
+      setAssignments(tempAssignments);
+      setSubmissions(tempSubmissions);
+    }
+  }, [assignmentsAndSubmissionsData]);
+
+  useEffect(() => {
+    const closestToDo = assignments.find((d) => {
+      const currentTime = new Date().valueOf();
+      return (
+        currentTime <= d.dueDate.valueOf() && !getAssignmentHasSubmission(d.id)
+      );
+    });
+
+    setClosestDueToDoAssignment(closestToDo);
+  }, [
+    submissions,
+    assignments,
+    assignmentsAndSubmissionsData,
+    closestDueToDoAssignment,
+  ]);
+
+  useEffect(() => {
+    let tempCount = 0;
+    submissions.forEach((submission) => {
+      if (submission?.grade) {
+        tempCount += submission.grade;
+      }
+      setUserStars(tempCount);
+    });
+  }, [submissions]);
 
   if (
     unitsData === undefined ||
-    assignmentsData === undefined ||
-    submissionsData === undefined
+    assignmentsAndSubmissionsData === undefined ||
+    units.length === 0 ||
+    assignments.length === 0 ||
+    mapUrls.length === 0
   ) {
     return <Spin />;
   }
@@ -87,12 +174,12 @@ function MapPage(): React.ReactElement {
         <Col span={15}>
           <Title className="title" level={3}>
             <br />
-            Course Name
+            {course?.name}
             <br />
           </Title>
           <Text>
-            <b>{units?.[currentUnitIndex].name}</b> -
-            {units?.[currentUnitIndex].description} <br />
+            <b>{units?.[currentUnitIndex]?.name}</b> {' - '}
+            {units?.[currentUnitIndex]?.description} <br />
             <br />
           </Text>
         </Col>
@@ -102,30 +189,41 @@ function MapPage(): React.ReactElement {
             <Col span={8}>
               <Statistic
                 title="My Stars"
-                value={56}
+                value={userStars}
                 prefix={<StarOutlined />}
               />
             </Col>
             <Col span={8}>
               <Statistic
                 title="Class Stars"
-                value={986}
+                value={course?.totalStars}
                 prefix={<StarOutlined />}
               />
             </Col>
             <Col span={8}>
-              <Statistic
-                title="Class Goal"
-                value={1500}
-                prefix={<StarOutlined />}
-              />
+              {course?.prize && (
+                <Statistic
+                  title="Class Goal"
+                  value={course?.starGoal}
+                  prefix={<StarOutlined />}
+                />
+              )}
             </Col>
           </Row>
           <Row style={{ paddingRight: '5%' }}>
-            <Progress
-              strokeColor={{ '0%': '#FFF1B8', '100%': '#FF7875' }}
-              percent={65.7}
-            />
+            {course?.prize && (
+              <Popover
+                zIndex={10}
+                title={course.prize}
+                style={{ width: '20px' }}
+              >
+                <Progress
+                  strokeColor={{ '0%': '#FFF1B8', '100%': '#FF7875' }}
+                  percent={course.totalStars / course?.starGoal}
+                  trailColor="#b4b5b7"
+                />
+              </Popover>
+            )}
           </Row>
         </Col>
         <Col span={1} />
@@ -138,18 +236,24 @@ function MapPage(): React.ReactElement {
             infinite={false}
             style={{ height: '100vh' }}
           >
-            {units.map((unit: Unit, index: number) => {
+            {units.map((unit: Unit, index) => {
               return (
                 <MapSlide
+                  key={unit.id}
                   unit={unit}
                   assignments={assignments}
                   submissions={submissions}
+                  mapUrl={mapUrls[currentUnitIndex]}
                   onPreviousSlide={
-                    index !== 0 ? () => goPreviousSlide() : void 0
+                    currentUnitIndex > 0 ? () => goPreviousSlide() : void 0
                   }
                   onNextSlide={
-                    index !== units.length - 1 ? () => goNextSlide() : void 0
+                    currentUnitIndex <= units.length - 2
+                      ? () => goNextSlide()
+                      : void 0
                   }
+                  closestToDoAssignment={closestDueToDoAssignment}
+                  getHasSubmission={getAssignmentHasSubmission}
                 />
               );
             })}

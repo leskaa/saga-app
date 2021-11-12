@@ -84,3 +84,8 @@ export interface Message {
   read: boolean;
   createdAt: Date;
 }
+
+export interface AssignmentSubmissionPair {
+  assignment: Assignment;
+  submission: Submission[];
+}
