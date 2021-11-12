@@ -28,8 +28,7 @@ function AuthPageLayout(props: PageLayoutProps): React.ReactElement {
           {isSupportModalVisible && (
             <SupportModal
               visible={isSupportModalVisible}
-              onOk={handleHideSupportModal}
-              onCancel={handleHideSupportModal}
+              onHide={handleHideSupportModal}
             />
           )}
         </Content>
