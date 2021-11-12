@@ -27,21 +27,17 @@ function MyCalendarPage(): React.ReactElement {
   const [selectedDate, setSelectedDate] = useState<Moment>(moment());
   const [currentAssignments, setCurrentAssignments] = useState<any[]>(data);
 
-  const handleSelectedDate = useCallback(
-    (value: Moment) => {
-      setSelectedDate(value);
-      console.log(value);
-      const assignments = data.filter((element: any) => {
-        const elementDate = element.due_date.split('T')[0];
-        if (selectedDate.format().split('T')[0] === elementDate) {
-          return true;
-        }
-        return false;
-      });
-      setCurrentAssignments(assignments);
-    },
-    [selectedDate]
-  );
+  const handleSelectedDate = (value: Moment) => {
+    setSelectedDate(value);
+    const assignments = data.filter((element: any) => {
+      const elementDate = element.due_date.split('T')[0];
+      if (selectedDate.format().split('T')[0] === elementDate) {
+        return true;
+      }
+      return false;
+    });
+    setCurrentAssignments(assignments);
+  };
 
   if (data === undefined) {
     return <Spin size="default" />;
