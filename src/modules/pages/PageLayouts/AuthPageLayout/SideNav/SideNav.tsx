@@ -9,6 +9,7 @@ import Icon, {
   ImportOutlined,
   HomeOutlined,
   QuestionCircleOutlined,
+  DollarOutlined,
 } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import { ReactComponent as LogoSvg } from '../../../../../Logos/SagaBlack3Svg.svg';
@@ -121,6 +122,9 @@ function SideNav(props: SideNavProps): React.ReactElement {
         </Menu.Item>
         <Menu.Item key="_mailbox" icon={<MailOutlined />}>
           Letters
+        </Menu.Item>
+        <Menu.Item key="_shop" icon={<DollarOutlined />}>
+          Shop
         </Menu.Item>
         <Menu.Item key="_character" icon={<UserOutlined />}>
           My Character

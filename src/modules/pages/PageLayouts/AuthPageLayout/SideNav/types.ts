@@ -9,4 +9,5 @@ export const SIDENAV_PATH_MAP = new Map([
   ['_character', '/character'],
   ['_questboard', '/questboard'],
   ['_mailbox', '/mailbox'],
+  ['_shop', '/shop'],
 ]);

@@ -26,17 +26,10 @@ function StudentsList(props: StudentsListProps): React.ReactElement {
       ),
     },
     {
-      title: 'First Name',
+      title: 'Name',
       width: 5,
       dataIndex: 'name',
-      sorter: (a: any, b: any) => a.firstname.length - b.firstname.length,
-    },
-    {
-      title: 'Last Name',
-      width: 5,
-      dataIndex: 'name',
-      defaultSortOrder: 'descend',
-      sorter: (a: any, b: any) => a.lastname.length - b.lastname.length,
+      sorter: (a: any, b: any) => a.name.length - b.name.length,
     },
     {
       title: 'Pronouns',
@@ -46,15 +39,9 @@ function StudentsList(props: StudentsListProps): React.ReactElement {
     },
     {
       title: 'Email',
-      width: 7,
+      width: 9,
       dataIndex: 'email',
       sorter: (a: any, b: any) => a.email.length - b.email.length,
-    },
-    {
-      title: 'Invite Status',
-      width: 4,
-      dataIndex: 'status',
-      sorter: (a: any, b: any) => a.status.length - b.status.length,
     },
   ];
 
@@ -86,7 +73,7 @@ function StudentsList(props: StudentsListProps): React.ReactElement {
       {isModalVisible && (
         <InviteStudentModal
           user={user}
-          courseId={5}
+          courseId={course.id}
           visible={isModalVisible}
           setVisible={setIsModalVisible}
           onOk={() => setIsModalVisible(false)}

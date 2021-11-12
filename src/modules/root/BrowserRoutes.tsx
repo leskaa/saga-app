@@ -19,6 +19,7 @@ import NewMessagePage from '../pages/NewMessagePage';
 import TeacherAssignmentPage from '../pages/TeacherAssignmentPage';
 import StudentAssignmentPage from '../pages/StudentAssignmentPage';
 import InboxPage from '../pages/InboxPage';
+import ShopPage from '../pages/ShopPage';
 
 // Render Layout with Sidenav and stuff because user is authenticated
 function renderAuthRoute(children: React.ReactElement): React.ReactElement {
@@ -42,6 +43,7 @@ function AuthenticatedUserRoutes(
       />
       <Route path="/adventures" element={renderAuthRoute(<MyCoursesPage />)} />
       <Route path="questboard" element={renderAuthRoute(<MyCalendarPage />)} />
+      <Route path="/shop" element={renderAuthRoute(<ShopPage />)} />
       <Route path="/adventure">
         <Route
           path=":courseId"

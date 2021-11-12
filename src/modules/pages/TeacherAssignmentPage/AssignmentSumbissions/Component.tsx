@@ -1,6 +1,15 @@
 import React, { useState, useCallback } from 'react';
 import ReactQuill from 'react-quill';
-import { Button, InputNumber, Row, Col, Typography, List, Form } from 'antd';
+import {
+  Button,
+  InputNumber,
+  Row,
+  Col,
+  Typography,
+  List,
+  Form,
+  Avatar,
+} from 'antd';
 import { AssignmentProps } from './types';
 import 'react-quill/dist/quill.snow.css';
 import './assignmentsubmissions.css';
@@ -51,8 +60,15 @@ function AssignmentSubmissions(props: AssignmentProps): React.ReactElement {
         <Col span={14}>
           <Form form={form} layout="vertical" requiredMark={false}>
             <Row className="assignment">
+              <Col span={2}>
+                <Avatar
+                  alt="profile avatar"
+                  src="https://drive.google.com/uc?export=view&id=1351Sn0NN6refchUXVrMx6AXL-oyR5lMT"
+                  style={{ width: '3em' }}
+                />
+              </Col>
               <Col span={4}>Student Name</Col>
-              <Col span={10} />
+              <Col span={8} />
               <Col span={2}>
                 <Text>Stars:</Text>
               </Col>

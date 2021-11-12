@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { Table, Button, List, Row, Col } from 'antd';
+import { Table, Button, List, Row, Col, Avatar } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import { InboxTableProps } from './types';
 import { Message } from '../../../general/types';
@@ -64,6 +64,11 @@ function InboxTable(props: InboxTableProps): React.ReactElement {
           onClick={() => handleRowClick(record)}
         >
           <div className="inboxtext">
+            <Avatar
+              alt="profile avatar"
+              src="https://drive.google.com/uc?export=view&id=1351Sn0NN6refchUXVrMx6AXL-oyR5lMT"
+              style={{ width: '3em' }}
+            />
             <b>{record.sender}</b> - {record.subject}
           </div>
         </List.Item>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, Typography, Layout, Row, Col, Divider } from 'antd';
+import { Card, Typography, Layout, Row, Col, Divider, Avatar } from 'antd';
 import { InboxMessageContentProps } from './types';
 import { dateOptions } from '../../../root/constants';
 
@@ -40,6 +40,11 @@ function InboxMessageContent(
         </Col>
         <Col span={16}>
           <Text>{message.sender}</Text>
+          <Avatar
+            alt="profile avatar"
+            src="https://drive.google.com/uc?export=view&id=1351Sn0NN6refchUXVrMx6AXL-oyR5lMT"
+            style={{ width: '3em' }}
+          />
         </Col>
         <Col span={5}>
           <Text>{message.createdAt.toString()}</Text>
