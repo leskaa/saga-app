@@ -49,12 +49,12 @@ function MyCoursesPage(): React.ReactElement {
         </Row>
         <Row style={{ height: '100%', overflow: 'scroll', padding: '4em' }}>
           {data.length === 0 && user.isTeacher && (
-            <Title className="title" disabled>
+            <Title className="title" style={{ color: '#B4B5B7' }}>
               You have yet to plan an adventure!
             </Title>
           )}
           {data.length === 0 && !user.isTeacher && (
-            <Title className="title" disabled>
+            <Title className="title" style={{ color: '#B4B5B7' }}>
               You don<span>&#39;</span>t have any adventures to go on yet...
             </Title>
           )}
