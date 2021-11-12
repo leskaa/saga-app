@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ReactQuill from 'react-quill';
 import { useNavigate } from 'react-router';
 import {
@@ -10,11 +10,14 @@ import {
   List,
   Form,
   message,
+  Spin,
 } from 'antd';
+import useSWR from 'swr';
 import { AssignmentProps } from './types';
 import 'react-quill/dist/quill.snow.css';
 import './studentassignmentsubmissions.css';
 import { apiEndpoint } from '../../../root/constants';
+import { Submission } from '../../../general/types';
 
 const { Text } = Typography;
 
@@ -23,7 +26,32 @@ function AssignmentSubmissions(props: AssignmentProps): React.ReactElement {
 
   const [form] = Form.useForm();
   const navigate = useNavigate();
+
+  const { data: submissions } = useSWR(
+    `${apiEndpoint}/assignments/${assignment.id}/submissions`
+  );
+
   const [quillContent, setQuillContent] = useState('');
+
+  useEffect(() => {
+    if (submissions !== undefined && submissions[0] !== undefined) {
+      setQuillContent(submissions[0].content);
+    }
+  }, [submissions]);
+
+  if (submissions === undefined) {
+    return <Spin size="large" />;
+  }
+
+  submissions.sort((first: Submission, second: Submission) => {
+    if (first.updatedAt >= second.updatedAt) {
+      return -1;
+    }
+    if (first.updatedAt < second.updatedAt) {
+      return 1;
+    }
+    return 0;
+  });
 
   const modules = {
     toolbar: [
@@ -115,8 +143,8 @@ function AssignmentSubmissions(props: AssignmentProps): React.ReactElement {
               </Col>
             </Row>
             <Row className="text">
-              <div className="text-editor" style={{ width: '100%' }}>
-                <Form.Item name="submission">
+              <Form.Item name="submission" style={{ width: '100%' }}>
+                <div className="text-editor">
                   <ReactQuill
                     theme="snow"
                     value={quillContent}
@@ -125,8 +153,8 @@ function AssignmentSubmissions(props: AssignmentProps): React.ReactElement {
                     formats={formats}
                     style={{ height: '55vh' }}
                   />
-                </Form.Item>
-              </div>
+                </div>
+              </Form.Item>
             </Row>
           </Form>
         </Col>
