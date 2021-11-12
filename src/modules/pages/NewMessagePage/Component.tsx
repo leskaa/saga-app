@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import {
   Layout,
   Row,
@@ -10,35 +10,41 @@ import {
   Form,
   Input,
   Button,
+  Spin,
 } from 'antd';
+import useSWR from 'swr';
 import ReactQuill from 'react-quill';
+import { GlobalContext } from '../../root/GlobalStore';
+import { dummyStudent } from '../../general/dummyData';
+import { apiEndpoint } from '../../root/constants';
+import { Course, Student, Unit } from '../../general/types';
 
 const { Content } = Layout;
 const { Title, Text } = Typography;
 const { Option } = Select;
 
-const plainOptions = [
-  'FirstName1 LastName1',
-  'FirstName2 LastName2',
-  'FirstName3 LastName3',
-  'FirstName4 LastName4',
-  'FirstName5 LastName5',
-  'FirstName6 LastName6',
-  'FirstName7 LastName7',
-  'FirstName8 LastName8',
-  'FirstName9 LastName9',
-  'FirstName10 LastName10',
-  'FirstName11 LastName11',
-  'FirstName12 LastName12',
-  'FirstName13 LastName13',
-  'FirstName14 LastName14',
-  'FirstName15 LastName15',
-  'FirstName16 LastName16',
-  'FirstName17 LastName17',
-  'FirstName18 LastName18',
-  'FirstName19 LastName19',
-  'FirstName20 LastName20',
-];
+// const plainOptions = [
+//   'FirstName1 LastName1',
+//   'FirstName2 LastName2',
+//   'FirstName3 LastName3',
+//   'FirstName4 LastName4',
+//   'FirstName5 LastName5',
+//   'FirstName6 LastName6',
+//   'FirstName7 LastName7',
+//   'FirstName8 LastName8',
+//   'FirstName9 LastName9',
+//   'FirstName10 LastName10',
+//   'FirstName11 LastName11',
+//   'FirstName12 LastName12',
+//   'FirstName13 LastName13',
+//   'FirstName14 LastName14',
+//   'FirstName15 LastName15',
+//   'FirstName16 LastName16',
+//   'FirstName17 LastName17',
+//   'FirstName18 LastName18',
+//   'FirstName19 LastName19',
+//   'FirstName20 LastName20',
+// ];
 const defaultCheckedList = ['Apple', 'Orange'];
 
 function NewMessagePage(): React.ReactElement {
@@ -46,19 +52,45 @@ function NewMessagePage(): React.ReactElement {
   const [indeterminate, setIndeterminate] = React.useState(true);
   const [checkAll, setCheckAll] = React.useState(false);
 
+  const { globalState } = useContext(GlobalContext);
+  const user = globalState.loggedInUser ?? dummyStudent;
+  const [form] = Form.useForm();
+
+  const { data: courses } = useSWR(`${apiEndpoint}/courses`);
+
+  const [selectedCourse, setSelectedCourse] = useState<Course>();
+
+  useEffect(() => {
+    if (courses !== undefined) {
+      setSelectedCourse(courses[0]);
+    }
+  }, [courses]);
+
+  const { data: students } = useSWR(
+    () => `${apiEndpoint}/enrolledStudents/${selectedCourse?.id}`
+  );
+
+  const studentList: Student[] = students !== undefined ? students : [];
+
+  const newStudentList: string[] = studentList.map(
+    (student: Student) => student.name
+  );
+
+  if (courses === undefined) {
+    return <Spin size="large" />;
+  }
+
   const onChange = (list: any) => {
     setCheckedList(list);
-    setIndeterminate(!!list.length && list.length < plainOptions.length);
-    setCheckAll(list.length === plainOptions.length);
+    setIndeterminate(!!list.length && list.length < newStudentList.length);
+    setCheckAll(list.length === newStudentList.length);
   };
 
   const onCheckAllChange = (e: any) => {
-    setCheckedList(e.target.checked ? plainOptions : []);
+    setCheckedList(e.target.checked ? newStudentList : []);
     setIndeterminate(false);
     setCheckAll(e.target.checked);
   };
-
-  const [form] = Form.useForm();
 
   const modules = {
     toolbar: [
@@ -115,12 +147,12 @@ function NewMessagePage(): React.ReactElement {
             <Row>
               <Col span={6}>
                 <Select
-                  defaultValue="course1"
+                  defaultValue={0}
                   style={{ width: '100%', marginBottom: '10%' }}
                 >
-                  <Option value="course1">Adventure 1</Option>
-                  <Option value="course2">Adventure 2</Option>
-                  <Option value="course3">Adventure 3</Option>
+                  {courses.map((course: Course, index: number) => (
+                    <Option value={index}>{course.name}</Option>
+                  ))}
                 </Select>
 
                 <Checkbox
@@ -136,9 +168,9 @@ function NewMessagePage(): React.ReactElement {
                   onChange={onChange}
                   style={{ width: '100%', height: '48vh', overflow: 'scroll' }}
                 >
-                  {plainOptions.map((option) => (
+                  {newStudentList.map((student: string) => (
                     <Row>
-                      <Checkbox value={option}>{option}</Checkbox>
+                      <Checkbox value={student}>{student}</Checkbox>
                     </Row>
                   ))}
                 </Checkbox.Group>
