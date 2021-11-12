@@ -33,6 +33,11 @@ const plainOptions = [
   'FirstName13 LastName13',
   'FirstName14 LastName14',
   'FirstName15 LastName15',
+  'FirstName16 LastName16',
+  'FirstName17 LastName17',
+  'FirstName18 LastName18',
+  'FirstName19 LastName19',
+  'FirstName20 LastName20',
 ];
 const defaultCheckedList = ['Apple', 'Orange'];
 
@@ -97,10 +102,9 @@ function NewMessagePage(): React.ReactElement {
   ];
 
   return (
-    <Content>
+    <Content className="container">
       <Row>
-        <Title className="title" style={{ margin: 'auto' }}>
-          <br />
+        <Title className="title" style={{ margin: 'auto', padding: '3%' }}>
           New Message
         </Title>
       </Row>
@@ -110,7 +114,10 @@ function NewMessagePage(): React.ReactElement {
           <Form form={form} layout="vertical" requiredMark={false}>
             <Row>
               <Col span={6}>
-                <Select defaultValue="course1" style={{ width: '100%' }}>
+                <Select
+                  defaultValue="course1"
+                  style={{ width: '100%', marginBottom: '10%' }}
+                >
                   <Option value="course1">Adventure 1</Option>
                   <Option value="course2">Adventure 2</Option>
                   <Option value="course3">Adventure 3</Option>
@@ -121,13 +128,13 @@ function NewMessagePage(): React.ReactElement {
                   onChange={onCheckAllChange}
                   checked={checkAll}
                 >
-                  Check all
+                  Select all
                 </Checkbox>
                 <Divider />
                 <Checkbox.Group
                   value={checkedList}
                   onChange={onChange}
-                  style={{ height: '70%', overflow: 'scroll' }}
+                  style={{ width: '100%', height: '48vh', overflow: 'scroll' }}
                 >
                   {plainOptions.map((option) => (
                     <Row>
@@ -135,37 +142,45 @@ function NewMessagePage(): React.ReactElement {
                     </Row>
                   ))}
                 </Checkbox.Group>
+
+                <Form.Item>
+                  <Button className="buttons" type="primary" htmlType="submit">
+                    Send Message
+                  </Button>
+                </Form.Item>
               </Col>
               <Col span={2} />
               <Col span={16}>
-                <Form.Item
-                  name="subject"
-                  rules={[
-                    {
-                      required: true,
-                      message: 'Please give your message a subject!',
-                    },
-                  ]}
-                >
-                  <Input placeholder="Subject" />
-                </Form.Item>
-                <Form.Item name="message">
-                  <div className="text-editor" style={{ background: 'white' }}>
-                    <ReactQuill
-                      theme="snow"
-                      modules={modules}
-                      formats={formats}
-                    />
-                  </div>
-                </Form.Item>
+                <Row>
+                  <Form.Item
+                    name="subject"
+                    rules={[
+                      {
+                        required: true,
+                        message: 'Please give your message a subject!',
+                      },
+                    ]}
+                    style={{ width: '100%' }}
+                  >
+                    <Input placeholder="Subject" />
+                  </Form.Item>
+                </Row>
+                <Row style={{ background: 'white' }}>
+                  <Form.Item name="message" style={{ width: '100%' }}>
+                    <div
+                      className="text-editor"
+                      style={{ width: '100%', height: '61vh' }}
+                    >
+                      <ReactQuill
+                        theme="snow"
+                        modules={modules}
+                        formats={formats}
+                        style={{ height: '100%' }}
+                      />
+                    </div>
+                  </Form.Item>
+                </Row>
               </Col>
-            </Row>
-            <Row>
-              <Form.Item>
-                <Button className="buttons" type="primary" htmlType="submit">
-                  Send Message
-                </Button>
-              </Form.Item>
             </Row>
           </Form>
         </Col>

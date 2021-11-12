@@ -41,7 +41,6 @@ function AuthenticatedUserRoutes(
         path="/character"
         element={renderAuthRoute(<CharacterContentPage />)}
       />
-      <Route path="/stars" element={renderAuthRoute(<StudentGradesPage />)} />
       <Route path="/adventures" element={renderAuthRoute(<MyCoursesPage />)} />
       <Route path="questboard" element={renderAuthRoute(<MyCalendarPage />)} />
       <Route path="/adventure">
