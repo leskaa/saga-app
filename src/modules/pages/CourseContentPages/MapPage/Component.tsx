@@ -66,7 +66,7 @@ function MapPage(): React.ReactElement {
   );
 
   return (
-    <Content>
+    <Content className="container" style={{ height: '116%' }}>
       <Row>
         <Col span={1} />
         <Col span={15}>

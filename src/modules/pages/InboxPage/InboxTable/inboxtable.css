@@ -1,5 +1,17 @@
 .inbox-table-container {
-  /*height: 100%;*/
-  width: 90%;
+  height: 100%;
+  width: 100%;
   margin: 0 auto;
+}
+
+.inboxtext {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+#hoverable:hover {
+  border-style: solid;
+  border-width: 1px;
+  border-color: #ff7875;
 }

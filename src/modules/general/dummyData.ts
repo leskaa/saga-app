@@ -87,7 +87,8 @@ export const dummySubmission: Submission = {
 export const dummyMessages: Message[] = [
   {
     id: 0,
-    subject: 'Bakes',
+    subject:
+      'Bakes. Making a really long message in order to tesst over floooooooooooow',
     content: "I don't like your cake",
     sender: 'Paul Hollywood',
     read: false,
