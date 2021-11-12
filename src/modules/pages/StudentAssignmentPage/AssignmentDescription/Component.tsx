@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactQuill from 'react-quill';
+import ReactHtmlParser from 'react-html-parser';
 import useSWR from 'swr';
 import { Rate, Row, Col, Typography } from 'antd';
 import moment from 'moment';
@@ -18,7 +19,7 @@ function AssignmentDescription(props: AssignmentProps): React.ReactElement {
       <Row>
         <Col span={3} />
         <Col span={13} className="description">
-          <div>{assignment.content}</div>
+          <div>{ReactHtmlParser(assignment.content)}</div>
         </Col>
         <Col span={1} />
         <Col span={4} className="sidebar">

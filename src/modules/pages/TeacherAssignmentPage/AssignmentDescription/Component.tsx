@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactQuill from 'react-quill';
+import useSWR from 'swr';
 import {
   Form,
   Input,
@@ -11,18 +12,28 @@ import {
   Row,
   Col,
   Typography,
+  Spin,
 } from 'antd';
 import moment from 'moment';
 import { AssignmentProps } from './types';
 import 'react-quill/dist/quill.snow.css';
 import './assignmentdescription.css';
+import { apiEndpoint } from '../../../root/constants';
+import { Unit } from '../../../general/types';
 
 const { Text } = Typography;
 
 function AssignmentDescription(props: AssignmentProps): React.ReactElement {
-  const { user } = props;
+  const { user, course, assignment } = props;
 
   const [form] = Form.useForm();
+  const { data: submissions } = useSWR(
+    `${apiEndpoint}/assignments/${assignment.id}/submissions`
+  );
+  const { data: students } = useSWR(
+    `${apiEndpoint}/enrolledStudents/${course.id}`
+  );
+  const { data: units } = useSWR(`${apiEndpoint}/courses/${course.id}/units`);
 
   const format = 'HH:mm';
 
@@ -69,15 +80,27 @@ function AssignmentDescription(props: AssignmentProps): React.ReactElement {
 
   const { Option } = Select;
 
+  const onFinish = (values: any) => {
+    console.log(values);
+  };
+
+  if (
+    submissions === undefined ||
+    students === undefined ||
+    units === undefined
+  ) {
+    return <Spin size="large" />;
+  }
+
   return (
     <>
-      <Form>
+      <Form onFinish={onFinish}>
         <Row>
           <Col span={3} />
           <Col span={13} style={{ background: 'white' }}>
             <Row style={{ paddingBottom: '1%' }}>
               <Col span={18}>
-                <Input value="Quest Name" />
+                <Input defaultValue={assignment.name} />
               </Col>
               <Col span={6}>
                 <Button
@@ -99,6 +122,7 @@ function AssignmentDescription(props: AssignmentProps): React.ReactElement {
                   modules={modules}
                   formats={formats}
                   style={{ height: '100%' }}
+                  defaultValue={assignment.content}
                 />
               </div>
             </Row>
@@ -106,14 +130,21 @@ function AssignmentDescription(props: AssignmentProps): React.ReactElement {
           <Col span={1} />
           <Col span={4} className="sidebar">
             <Row style={{ height: '10%' }}>
-              <Statistic title="Submissions" value={45} suffix="/ 59" />
+              <Statistic
+                title="Submissions"
+                value={submissions.length}
+                suffix={`/ ${students.length}`}
+              />
             </Row>
             <Row style={{ height: '10%' }} />
             <Row style={{ height: '20%' }}>
               <Text>Expiration:</Text>
-              <DatePicker style={{ width: '100%' }} />
+              <DatePicker
+                defaultValue={moment(assignment.dueDate)}
+                style={{ width: '100%' }}
+              />
               <TimePicker
-                defaultValue={moment('12:08', format)}
+                defaultValue={moment(assignment.dueDate)}
                 format={format}
                 style={{ width: '100%' }}
               />
@@ -121,9 +152,12 @@ function AssignmentDescription(props: AssignmentProps): React.ReactElement {
             <Row style={{ height: '10%' }} />
             <Row style={{ height: '20%' }}>
               <Text>Available:</Text>
-              <DatePicker style={{ width: '100%' }} />
+              <DatePicker
+                defaultValue={moment(assignment.createdAt)}
+                style={{ width: '100%' }}
+              />
               <TimePicker
-                defaultValue={moment('12:08', format)}
+                defaultValue={moment(assignment.createdAt)}
                 format={format}
                 style={{ width: '100%' }}
               />
@@ -131,10 +165,13 @@ function AssignmentDescription(props: AssignmentProps): React.ReactElement {
             <Row style={{ height: '10%' }} />
             <Row style={{ height: '20%' }}>
               <Text>Chapter:</Text>
-              <Select defaultValue="unit1" style={{ width: '100%' }}>
-                <Option value="unit1">Unit 1</Option>
-                <Option value="unit2">Unit 2</Option>
-                <Option value="unit3">Unit 3</Option>
+              <Select
+                defaultValue={assignment.unitId}
+                style={{ width: '100%' }}
+              >
+                {units.map((unit: Unit) => (
+                  <Option value={unit.id}>{unit.name}</Option>
+                ))}
               </Select>
             </Row>
           </Col>

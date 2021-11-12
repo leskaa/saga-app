@@ -56,10 +56,14 @@ function AuthenticatedUserRoutes(
           element={renderAuthRoute(<TeacherCourseInfoPage />)}
         />
       </Route>
-      <Route
-        path="viewquest"
-        element={renderAuthRoute(<TeacherAssignmentPage />)}
-      />
+      <Route path="viewquest">
+        <Route path=":courseId">
+          <Route
+            path=":assignmentId"
+            element={renderAuthRoute(<TeacherAssignmentPage />)}
+          />
+        </Route>
+      </Route>
       <Route path="quest">
         <Route
           path=":questId"

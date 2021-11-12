@@ -20,7 +20,7 @@ const { Text } = Typography;
 const students = [dummyStudent];
 
 function AssignmentSubmissions(props: AssignmentProps): React.ReactElement {
-  const { user } = props;
+  const { user, assignment } = props;
 
   const [selectedUser, setSelectedUser] = useState<User>(students[0]);
 
