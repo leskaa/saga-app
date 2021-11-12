@@ -14,7 +14,7 @@ import { PresetStatusColorType } from 'antd/lib/_util/colors.d';
 import Item from 'antd/lib/list/Item';
 import useSWR from 'swr';
 import { GlobalContext } from '../../root/GlobalStore';
-import { User } from '../../general/types';
+import { Assignment, User } from '../../general/types';
 import './mycalendarpage.css';
 import { apiEndpoint } from '../../root/constants';
 
@@ -25,17 +25,18 @@ function MyCalendarPage(): React.ReactElement {
   const { data, error } = useSWR(`${apiEndpoint}/relatedAssignments`);
   const user = globalState.loggedInUser as User;
   const [selectedDate, setSelectedDate] = useState<Moment>(moment());
-  const [currentAssignments, setCurrentAssignments] = useState<any[]>(data);
+  const [currentAssignments, setCurrentAssignments] =
+    useState<Assignment[]>(data);
 
   const handleSelectedDate = (value: Moment) => {
-    setSelectedDate(value);
     const assignments = data.filter((element: any) => {
       const elementDate = element.due_date.split('T')[0];
-      if (selectedDate.format().split('T')[0] === elementDate) {
+      if (value.format().split('T')[0] === elementDate) {
         return true;
       }
       return false;
     });
+    setSelectedDate(value);
     setCurrentAssignments(assignments);
   };
 
