@@ -1,5 +1,5 @@
-import { Message } from '../../../general/types';
+import { Message, User } from '../../../general/types';
 
 export interface InboxMessageContentProps {
-  message: Message;
+  message: any;
 }

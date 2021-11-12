@@ -1,9 +1,11 @@
-import React from 'react';
-import { Card, Typography, Layout, Row, Col, Divider, Avatar } from 'antd';
+import React, { useState } from 'react';
+import { Typography, Layout, Row, Col, Divider, Avatar, Spin } from 'antd';
+import moment from 'moment';
 import { InboxMessageContentProps } from './types';
 import { dateOptions } from '../../../root/constants';
 
 import './inboxmessagecontent.css';
+import { User } from '../../../general/types';
 
 const { Content } = Layout;
 const { Text } = Typography;
@@ -11,6 +13,10 @@ function InboxMessageContent(
   props: InboxMessageContentProps
 ): React.ReactElement {
   const { message } = props;
+
+  if (!message) {
+    return <Spin size="default" />;
+  }
 
   return (
     // <Card
@@ -33,6 +39,7 @@ function InboxMessageContent(
     //     <Text>{message ? message.content : 'No message selected'}</Text>
     //   </Typography>
     // </Card>
+
     <Content className="inbox-message-container">
       <Row>
         <Col span={22}>
@@ -41,10 +48,12 @@ function InboxMessageContent(
               <Text>From:</Text>
             </Col>
             <Col span={16}>
-              <Text>{message.sender}</Text>
+              <Text>{message.sender.name}</Text>
             </Col>
             <Col span={5}>
-              <Text>{message.createdAt.toString()}</Text>
+              <Text>
+                {moment.parseZone(message.message.created_at).format('L')}
+              </Text>
             </Col>
           </Row>
           <Row style={{ paddingTop: '2%' }}>
@@ -52,21 +61,21 @@ function InboxMessageContent(
               <Text>Subject:</Text>
             </Col>
             <Col span={21}>
-              <Text>{message.subject}</Text>
+              <Text>{message.message.subject}</Text>
             </Col>
           </Row>
         </Col>
         <Col span={2}>
           <Avatar
             alt="profile avatar"
-            src="https://drive.google.com/uc?export=view&id=1ncNCMDOFzx1MH4HyBStHfHJoqYOfxngq"
+            src={message.sender.selected_avatar_url}
             style={{ width: '4em', height: '4em' }}
           />
         </Col>
       </Row>
       <Row>
         <Divider />
-        <Text>{message ? message.content : 'No message selected'}</Text>
+        <Text>{message ? message.message.content : 'No message selected'}</Text>
       </Row>
     </Content>
   );

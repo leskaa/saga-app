@@ -1,8 +1,16 @@
-import React, { useContext, useState, useCallback } from 'react';
-import { Layout, Row, Col, Typography, AutoComplete } from 'antd';
+import React, { useContext, useState, useCallback, useEffect } from 'react';
+import {
+  Layout,
+  Row,
+  Col,
+  Typography,
+  AutoComplete,
+  message,
+  Spin,
+} from 'antd';
 import { GlobalContext } from '../../root/GlobalStore';
-import { Message } from '../../general/types';
-import { dummyStudent, dummyMessages } from '../../general/dummyData';
+import { Message, User } from '../../general/types';
+import { dummyStudent } from '../../general/dummyData';
 import InboxTable from './InboxTable';
 import InboxMessageContent from './InboxMessageContent';
 import './inboxpage.css';
@@ -16,17 +24,50 @@ function InboxPage(): React.ReactElement {
 
   // TODO: change to get user's list of messages
   // const userMessages: Message[] = dummyMessages;
-  const [userMessages, setUserMessages] = useState<Message[]>(dummyMessages);
-  const [selectedMessage, setSelectedMessage] = useState<Message>(
-    userMessages[0]
-  );
+  const [userMessages, setUserMessages] = useState<any[]>([]);
+  const [selectedMessage, setSelectedMessage] = useState<any>(userMessages[0]);
+  const [loading, setLoading] = useState<boolean>(true);
 
-  const deleteMessage = useCallback(
-    (message: Message) => {
-      console.log('This would delete message');
-    },
-    [userMessages]
-  );
+  async function getMessages() {
+    await fetch('https://saga-learn.herokuapp.com/messages', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
+    })
+      .then((res) => {
+        if (!res.ok) {
+          message.error('Something went wrong.', 10);
+          throw Error(res.statusText);
+        }
+        return res.json();
+      })
+      .then((response) => {
+        setUserMessages(response);
+      })
+      .then(() => {
+        setLoading(false);
+      })
+      .catch((err) => console.error(err));
+  }
+
+  // const findSender = (msg: Message) => {
+  //   console.log(senderList);
+  //   const sender = senderList.filter((element) => {
+  //     return element.id.toString() === msg.sender;
+  //   })[0];
+
+  //   return sender;
+  // };
+
+  useEffect(() => {
+    getMessages();
+  }, []);
+
+  if (loading) {
+    return <Spin size="default" />;
+  }
 
   return (
     <Content className="inbox-page-container">
@@ -42,10 +83,11 @@ function InboxPage(): React.ReactElement {
           style={{ background: 'white', height: '100%', overflow: 'scroll' }}
         >
           <InboxTable
-            messages={userMessages}
             selectedMessage={selectedMessage}
-            handleDeleteClick={deleteMessage}
-            handleRowClick={(message) => setSelectedMessage(message)}
+            handleRowClick={(msg) => {
+              setSelectedMessage(msg);
+            }}
+            messages={userMessages}
           />
         </Col>
         <Col span={1} />

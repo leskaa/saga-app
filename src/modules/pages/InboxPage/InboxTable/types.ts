@@ -1,8 +1,7 @@
-import { Message } from '../../../general/types';
+import { Message, User } from '../../../general/types';
 
 export interface InboxTableProps {
-  messages: Message[];
+  messages: any[];
   selectedMessage: Message;
   handleRowClick: (message: Message) => void;
-  handleDeleteClick: (message: Message) => void;
 }

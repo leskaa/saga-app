@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { Table, Button, List, Row, Col, Avatar } from 'antd';
+import { Table, Button, List, Row, Col, Avatar, message } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import { InboxTableProps } from './types';
 import { Message } from '../../../general/types';
@@ -30,8 +30,7 @@ const messageColumns: ColumnsType<Message> = [
 ];
 
 function InboxTable(props: InboxTableProps): React.ReactElement {
-  const { messages, selectedMessage, handleDeleteClick, handleRowClick } =
-    props;
+  const { messages, selectedMessage, handleRowClick } = props;
 
   // const getSelectedMessages = useMemo(() => {
   //   return [selectedMessage.id];
@@ -57,7 +56,7 @@ function InboxTable(props: InboxTableProps): React.ReactElement {
         <List.Item
           id="hoverable"
           style={
-            selectedMessage === record
+            selectedMessage === record.message
               ? { background: '#FF7875', color: 'white' }
               : {}
           }
@@ -66,10 +65,10 @@ function InboxTable(props: InboxTableProps): React.ReactElement {
           <div className="inboxtext">
             <Avatar
               alt="profile avatar"
-              src="https://drive.google.com/uc?export=view&id=1ncNCMDOFzx1MH4HyBStHfHJoqYOfxngq"
-              style={{ marginRight: '6px' }}
+              src={record.sender.selected_avatar_url}
+              style={{ width: '2em', height: '2em' }}
             />
-            <b>{record.sender}</b> - {record.subject}
+            <b> {record.sender.name}</b> - {record.message.subject}
           </div>
         </List.Item>
       )}
