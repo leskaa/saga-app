@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Layout, Card, Typography, Row, Col, Spin } from 'antd';
 import useSWR from 'swr';
 import { ChooseAvatarProps } from './types';
 import './chooseavatar.css';
 import { apiEndpoint } from '../../../root/constants';
 import { Avatar } from '../../../general/types';
+import { GlobalContext } from '../../../root/GlobalStore';
+import { convertResponseDataToUser } from '../../../general/utils';
 
 const { Content } = Layout;
 const { Meta } = Card;
@@ -13,6 +15,7 @@ const { Title } = Typography;
 function ChooseAvatar(props: ChooseAvatarProps): React.ReactElement {
   const { user, ...rest } = props;
   const { data, error } = useSWR(`${apiEndpoint}/ownedAvatars`);
+  const { dispatch } = useContext(GlobalContext);
 
   const changeAvatar = (avatarUrl: string) => {
     fetch('https://saga-learn.herokuapp.com/changeAvatar', {
@@ -26,7 +29,16 @@ function ChooseAvatar(props: ChooseAvatarProps): React.ReactElement {
       credentials: 'include',
     })
       .then((res) => {
-        console.log('Success');
+        if (!res.ok) {
+          throw Error(res.statusText);
+        }
+        return res.json();
+      })
+      .then((response) => {
+        dispatch({
+          type: 'SET_USER',
+          payload: convertResponseDataToUser(response),
+        });
       })
       .catch((err) => console.error(err));
   };

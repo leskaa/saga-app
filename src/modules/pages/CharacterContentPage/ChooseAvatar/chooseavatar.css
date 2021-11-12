@@ -11,6 +11,7 @@
   border: 2px solid #dddddd;
   border-radius: 5px;
   background: white;
+  box-shadow: 0 1em 2em 0 rgba(0, 0, 0, 0.2);
 }
 
 .avatar-card-selected {
@@ -23,10 +24,10 @@
   -ms-transition: all 0.3s ease-in-out;
   -o-transition: all 0.3s ease-in-out;
   outline: none;
-  box-shadow: 0 0 5px rgba(81, 203, 238, 1);
   border: 2px solid rgba(81, 203, 238, 1);
   border-radius: 5px;
   background: white;
+  box-shadow: 0 1em 2em 0 rgba(0, 0, 0, 0.2);
 }
 
 .choose-avatar-container {
