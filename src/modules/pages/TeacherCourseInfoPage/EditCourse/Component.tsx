@@ -22,9 +22,9 @@ import { apiEndpoint } from '../../../root/constants';
 function EditCourse(props: EditCourseProps): React.ReactElement {
   const { user, course } = props;
 
-  const [inputValue, setInputValue] = useState(course.starGoal);
+  const [inputValue, setInputValue] = useState(course?.starGoal);
 
-  const { data: units } = useSWR(`${apiEndpoint}/courses/${course.id}/units/`);
+  const { data: units } = useSWR(`${apiEndpoint}/courses/${course?.id}/units/`);
 
   const [form] = Form.useForm();
 
@@ -81,7 +81,7 @@ function EditCourse(props: EditCourseProps): React.ReactElement {
     console.log(value);
   };
 
-  if (units === undefined) {
+  if (units === undefined && course !== undefined) {
     return <Spin size="large" />;
   }
 
@@ -104,7 +104,7 @@ function EditCourse(props: EditCourseProps): React.ReactElement {
             <Form.Item
               name="coursename"
               label="Adventure Name"
-              initialValue={course.name}
+              initialValue={course?.name}
               rules={[
                 {
                   required: true,
@@ -212,7 +212,7 @@ function EditCourse(props: EditCourseProps): React.ReactElement {
                 <Form.Item
                   name="prize description"
                   label="Prize Description"
-                  initialValue={course.prize}
+                  initialValue={course?.prize}
                 >
                   <Input placeholder="Description" />
                 </Form.Item>
