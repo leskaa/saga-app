@@ -1,0 +1,16 @@
+.ant-slider-track {
+  background-color: #ffa09e;
+  border-radius: 2px;
+}
+
+.ant-slider:hover .ant-slider-track {
+  background-color: #ff7875;
+}
+
+.ant-slider-handle {
+  background-color: #ffa09e;
+}
+
+.ant-slider:hover .ant-slider-handle {
+  background-color: #ff7875;
+}

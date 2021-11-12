@@ -94,7 +94,7 @@ function AssignmentList(props: AssignmentListProps): React.ReactElement {
             dataSource={convertResponseDataToAssignmentArray(assignments).map(
               (assignment: Assignment) => ({
                 name: getLink(assignment),
-                content: ReactHtmlParser(assignment.content),
+                content: assignment.content.replace(/<[^>]+>/g, ''),
                 due_date: assignment.dueDate.toLocaleString(),
               })
             )}

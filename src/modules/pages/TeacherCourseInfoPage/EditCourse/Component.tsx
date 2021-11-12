@@ -19,6 +19,7 @@ import useSWR from 'swr';
 import { EditCourseProps } from './types';
 import { apiEndpoint } from '../../../root/constants';
 import { Map } from '../../../general/types';
+import './editcourse.css';
 
 const { Option } = Select;
 
