@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Layout, Card, Typography, Row, Col, Spin } from 'antd';
+import { Layout, Card, Typography, Row, Col, Spin, message } from 'antd';
 import useSWR from 'swr';
 import { ChooseAvatarProps } from './types';
 import './chooseavatar.css';
@@ -30,6 +30,7 @@ function ChooseAvatar(props: ChooseAvatarProps): React.ReactElement {
     })
       .then((res) => {
         if (!res.ok) {
+          message.error('Something went wrong.', 10);
           throw Error(res.statusText);
         }
         return res.json();

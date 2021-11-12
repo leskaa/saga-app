@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Modal, Form, Input, Button, Select } from 'antd';
+import { Modal, Form, Input, Button, Select, message } from 'antd';
 import { EditCharacterModalProps } from './types';
 import './editcharactermodal.css';
 import { convertResponseDataToUser } from '../../../../general/utils';
@@ -51,6 +51,7 @@ function EditCharacterModal(
     })
       .then((res) => {
         if (!res.ok) {
+          message.error('Something went wrong.', 10);
           throw Error(res.statusText);
         }
         return res.json();
