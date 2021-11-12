@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ReactQuill from 'react-quill';
 import useSWR from 'swr';
 import {
@@ -13,6 +13,7 @@ import {
   Col,
   Typography,
   Spin,
+  message,
 } from 'antd';
 import moment from 'moment';
 import { AssignmentProps } from './types';
@@ -27,6 +28,9 @@ function AssignmentDescription(props: AssignmentProps): React.ReactElement {
   const { user, course, assignment } = props;
 
   const [form] = Form.useForm();
+  const [selectedChapter, setSelectedChapter] = useState(assignment.unitId);
+  const [quillContent, setQuillContent] = useState(assignment.content);
+
   const { data: submissions } = useSWR(
     `${apiEndpoint}/assignments/${assignment.id}/submissions`
   );
@@ -81,7 +85,32 @@ function AssignmentDescription(props: AssignmentProps): React.ReactElement {
   const { Option } = Select;
 
   const onFinish = (values: any) => {
-    console.log(values);
+    fetch(
+      `${apiEndpoint}/courses/${course.id}/units/${assignment.unitId}/assignments/${assignment.id}`,
+      {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: values.assignmentname,
+          content: quillContent,
+          dueDate: `${values.duedate.format(
+            'YYYY-MM-DD'
+          )} ${values.duetime.format('HH:mm:ss')}`,
+          unitId: selectedChapter,
+        }),
+        credentials: 'include',
+      }
+    )
+      .then((res) => {
+        if (!res.ok) {
+          message.error('There was an issue updating the quest.', 10);
+          throw Error(res.statusText);
+        }
+        message.success('Quest updated!', 10);
+      })
+      .catch((err) => console.error(err));
   };
 
   if (
@@ -94,7 +123,17 @@ function AssignmentDescription(props: AssignmentProps): React.ReactElement {
 
   return (
     <>
-      <Form onFinish={onFinish}>
+      <Form
+        onFinish={onFinish}
+        initialValues={{
+          assignmentname: assignment.name,
+          description: assignment.content,
+          duedate: moment(assignment.dueDate),
+          duetime: moment(assignment.dueDate),
+          availabledate: moment(assignment.createdAt),
+          availabletime: moment(assignment.createdAt),
+        }}
+      >
         <Row>
           <Col span={3} />
           <Col span={13} style={{ background: 'white' }}>
@@ -106,7 +145,7 @@ function AssignmentDescription(props: AssignmentProps): React.ReactElement {
                     { required: true, message: 'Please name your quest!' },
                   ]}
                 >
-                  <Input defaultValue={assignment.name} />
+                  <Input />
                 </Form.Item>
               </Col>
               <Col span={6}>
@@ -128,11 +167,12 @@ function AssignmentDescription(props: AssignmentProps): React.ReactElement {
                   style={{ width: '100%', height: '58vh' }}
                 >
                   <ReactQuill
+                    value={quillContent}
+                    onChange={setQuillContent}
                     theme="snow"
                     modules={modules}
                     formats={formats}
                     style={{ height: '100%' }}
-                    defaultValue={assignment.content}
                   />
                 </div>
               </Form.Item>
@@ -160,10 +200,7 @@ function AssignmentDescription(props: AssignmentProps): React.ReactElement {
                 ]}
                 style={{ width: '100%' }}
               >
-                <DatePicker
-                  defaultValue={moment(assignment.dueDate)}
-                  style={{ width: '100%' }}
-                />
+                <DatePicker style={{ width: '100%' }} />
               </Form.Item>
               <Form.Item
                 name="duetime"
@@ -175,11 +212,7 @@ function AssignmentDescription(props: AssignmentProps): React.ReactElement {
                 ]}
                 style={{ width: '100%' }}
               >
-                <TimePicker
-                  defaultValue={moment(assignment.dueDate)}
-                  format={format}
-                  style={{ width: '100%' }}
-                />
+                <TimePicker format={format} style={{ width: '100%' }} />
               </Form.Item>
             </Row>
             <Row style={{ height: '10%' }} />
@@ -195,10 +228,7 @@ function AssignmentDescription(props: AssignmentProps): React.ReactElement {
                 ]}
                 style={{ width: '100%' }}
               >
-                <DatePicker
-                  defaultValue={moment(assignment.createdAt)}
-                  style={{ width: '100%' }}
-                />
+                <DatePicker style={{ width: '100%' }} />
               </Form.Item>
               <Form.Item
                 name="availabletime"
@@ -210,28 +240,16 @@ function AssignmentDescription(props: AssignmentProps): React.ReactElement {
                 ]}
                 style={{ width: '100%' }}
               >
-                <TimePicker
-                  defaultValue={moment(assignment.createdAt)}
-                  format={format}
-                  style={{ width: '100%' }}
-                />
+                <TimePicker format={format} style={{ width: '100%' }} />
               </Form.Item>
             </Row>
             <Row style={{ height: '10%' }} />
             <Row style={{ height: '20%' }}>
-              <Form.Item
-                name="unit"
-                rules={[
-                  {
-                    required: true,
-                    message: 'Please assign it to a Chapter!',
-                  },
-                ]}
-                style={{ width: '100%' }}
-              >
+              <Form.Item name="unit" style={{ width: '100%' }}>
                 <Text>Chapter:</Text>
                 <Select
-                  defaultValue={assignment.unitId}
+                  value={selectedChapter}
+                  onChange={setSelectedChapter}
                   style={{ width: '100%' }}
                 >
                   {units.map((unit: Unit) => (

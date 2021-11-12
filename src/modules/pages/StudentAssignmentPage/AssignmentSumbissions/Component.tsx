@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ReactQuill from 'react-quill';
 import { useNavigate } from 'react-router';
 import {
@@ -23,6 +23,7 @@ function AssignmentSubmissions(props: AssignmentProps): React.ReactElement {
 
   const [form] = Form.useForm();
   const navigate = useNavigate();
+  const [quillContent, setQuillContent] = useState('');
 
   const modules = {
     toolbar: [
@@ -72,7 +73,8 @@ function AssignmentSubmissions(props: AssignmentProps): React.ReactElement {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        content: values.submission,
+        content: quillContent,
+        assignment_id: assignment.id,
       }),
       credentials: 'include',
     })
@@ -117,6 +119,8 @@ function AssignmentSubmissions(props: AssignmentProps): React.ReactElement {
                 <Form.Item name="submission">
                   <ReactQuill
                     theme="snow"
+                    value={quillContent}
+                    onChange={setQuillContent}
                     modules={modules}
                     formats={formats}
                     style={{ height: '55vh' }}
