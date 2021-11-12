@@ -196,13 +196,17 @@ function AddAssignment(props: CourseInfoProps): React.ReactElement {
               </Col>
             </Row>
             <Form.Item name="description" label="Description">
-              <div className="text-editor" style={{ background: 'white' }}>
+              <div
+                className="text-editor"
+                style={{ background: 'white', height: '30vh' }}
+              >
                 <ReactQuill
                   theme="snow"
                   modules={modules}
                   formats={formats}
                   value={quillText}
                   onChange={setQuillText}
+                  style={{ height: '80%' }}
                 />
               </div>
             </Form.Item>
