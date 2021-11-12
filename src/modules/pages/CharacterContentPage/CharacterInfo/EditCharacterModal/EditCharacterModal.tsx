@@ -25,7 +25,7 @@ const layout = {
 function EditCharacterModal(
   props: EditCharacterModalProps
 ): React.ReactElement {
-  const { user, ...rest } = props;
+  const { user, setVisible, ...rest } = props;
   const { dispatch } = useContext(GlobalContext);
 
   const updateUser = (values: any) => {
@@ -61,6 +61,7 @@ function EditCharacterModal(
           payload: convertResponseDataToUser(response),
         });
         console.log(response);
+        setVisible(false);
       })
       .catch((err) => console.error(err));
   };

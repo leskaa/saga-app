@@ -42,6 +42,7 @@ function CharacterInfo(props: CharacterInfoProps): React.ReactElement {
         <EditCharacterModal
           user={user}
           visible={isModalVisible}
+          setVisible={setIsModalVisible}
           onOk={() => setIsModalVisible(false)}
           onCancel={() => setIsModalVisible(false)}
         />
