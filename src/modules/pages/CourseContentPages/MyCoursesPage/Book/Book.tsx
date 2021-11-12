@@ -27,6 +27,7 @@ function Book(props: BookProps): React.ReactElement {
   const handleOnClick = () => {
     navigate(`/adventure/${course.id}`);
   };
+
   return (
     <Content className="book" onClick={handleOnClick}>
       <Content className="back" style={{ background: colors[colorIndex] }} />

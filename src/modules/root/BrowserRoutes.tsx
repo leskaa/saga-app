@@ -52,10 +52,12 @@ function AuthenticatedUserRoutes(
         path="viewquest"
         element={renderAuthRoute(<TeacherAssignmentPage />)}
       />
-      <Route
-        path="quest"
-        element={renderAuthRoute(<StudentAssignmentPage />)}
-      />
+      <Route path="quest">
+        <Route
+          path=":questId"
+          element={renderAuthRoute(<StudentAssignmentPage />)}
+        />
+      </Route>
       <Route path="newletter" element={renderAuthRoute(<NewMessagePage />)} />
       <Route path="newmessage" element={renderAuthRoute(<NewMessagePage />)} />
       <Route path="/mailbox" element={renderAuthRoute(<InboxPage />)} />
