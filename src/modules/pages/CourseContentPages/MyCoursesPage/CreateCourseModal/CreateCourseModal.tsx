@@ -102,10 +102,7 @@ function CreateCourseModal(props: CreateCourseModalProps): React.ReactElement {
               layout="vertical"
               requiredMark={false}
               initialValues={{
-                chapters: [
-                  { name: 'name1', map: 'AutumnRoad', description: 'abc' },
-                  { name: 'name2', map: 'Liquid', description: 'xyz' },
-                ],
+                map: 1,
               }}
             >
               <Form.Item
@@ -134,7 +131,7 @@ function CreateCourseModal(props: CreateCourseModalProps): React.ReactElement {
                 </Col>
                 <Col span={4}>
                   <Form.Item name="map">
-                    <Select defaultValue={1}>
+                    <Select>
                       {maps.map((map: Map) => (
                         <Option value={map.id}>{map.name}</Option>
                       ))}
