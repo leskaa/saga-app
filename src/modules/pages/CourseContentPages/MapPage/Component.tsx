@@ -161,7 +161,6 @@ function MapPage(): React.ReactElement {
     unitsData === undefined ||
     assignmentsAndSubmissionsData === undefined ||
     units.length === 0 ||
-    assignments.length === 0 ||
     mapUrls.length === 0
   ) {
     return <Spin />;

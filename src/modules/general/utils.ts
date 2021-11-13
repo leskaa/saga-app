@@ -144,7 +144,7 @@ export function convertResponseDataToMap(data: any): Map {
 }
 
 export function convertResponseDataToMapArray(data: any): Map[] {
-  const maps: Map[] = data.map((map: any) => convertResponseDataToAvatar(map));
+  const maps: Map[] = data.map((map: any) => convertResponseDataToMap(map));
 
   return maps;
 }
