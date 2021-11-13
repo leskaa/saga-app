@@ -218,7 +218,9 @@ function MapPage(): React.ReactElement {
               >
                 <Progress
                   strokeColor={{ '0%': '#FFF1B8', '100%': '#FF7875' }}
-                  percent={course.totalStars / course?.starGoal}
+                  percent={Number(
+                    (course.totalStars / course?.starGoal).toFixed(2)
+                  )}
                   trailColor="#b4b5b7"
                 />
               </Popover>
